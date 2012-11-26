@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block page_title %}Bazaarboy Exchange{% endblock %}</title>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	{% block page_script %}{% endblock %}
+	<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/reset.css" />
+	<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/layout.css" />
+	{% block page_css %}{% endblock %}
+</head>
+<body>
+{% include 'facebook.html' %}
+<div id="wrapper_frame">
+	<div id="wrapper_top">
+		<div id="wrapper_logo">
+		</div>
+		<div id="wrapper_user">
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div id="wrapper_main">
+		{% block main %}{% endblock %}
+	</div>
+	<div id="wrapper_foot">
+		&copy; Bazaarboy 2012
+	</div>
+</div>
+</body>
+</html>

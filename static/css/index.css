@@ -1,0 +1,20 @@
+/* Index */
+
+div#wrapper_control {
+	width:900px;
+	height:350px;
+	background:#AAA;
+}
+
+div#wrapper_post {
+	width:450px;
+	height:350px;
+	float:left;
+}
+
+div#wrapper_search {
+	width:450px;
+	height:350px;
+	float:left;
+	background:#00C;
+}

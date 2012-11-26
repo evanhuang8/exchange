@@ -1,0 +1,20 @@
+<div id="wrapper_control">
+	<div id="wrapper_post">
+		<form>
+			{% csrf_token %}
+			<textarea name="want"></textarea>
+			<textarea name="offer"></textarea>
+		</form>
+	</div>
+	<div id="wrapper_search">
+		<form>
+			{% csrf_token %}
+			<input type="text" name="want" />
+		</form>
+		<form>
+			{% csrf_token %}
+			<input type="text" name="offer" />
+		</form>
+	</div>
+	<div class="clear"></div>
+</div>

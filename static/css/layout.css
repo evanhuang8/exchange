@@ -1,0 +1,43 @@
+/* Layout */
+
+* {
+	font-family:Helvetica, Arial, sans-serif;
+}
+
+div.clear {
+	clear:both;
+	width:0;
+	height:0;
+}
+
+div#wrapper_frame {
+	width:900px;
+	margin:0 auto;
+}
+
+div#wrapper_top {
+	width:900px;
+	height:100px;
+	background:#CCC;
+}
+
+div#wrapper_logo {
+	width:300px;
+	height:100px;
+	float:left;
+}
+
+div#wrapper_user {
+	width:600px;
+	height:100px;
+	float:left;
+	background:#BBB;
+}
+
+div#wrapper_foot {
+	width:900px;
+	height:20px;
+	padding-top:6px;
+	text-align:center;
+	font-size:14px;
+}
