@@ -4,12 +4,14 @@ class User(models.Model):
 
 	fb_id = models.CharField(max_length = 30, unique = True)
 	access_token = models.CharField(max_length = 160)
+	name = models.CharField(max_length = 50)
+	email = models.CharField(max_length = 50)
 	active = models.BooleanField(default = True)
 	created_time = models.DateTimeField(auto_now_add = True)
 
 class Post(models.Model):
 	
-	owner = models.ForeignKey('User')
+	owner = models.ForeignKey('User', related_name = '+')
 	claimer = models.ForeignKey('User', null = True, blank = True)
 	want = models.CharField(max_length = 150)
 	approved = models.BooleanField()
@@ -31,6 +33,8 @@ class Message(models.Model):
 	
 	email = models.CharField(max_length = 50)
 	note = models.CharField(max_length = 50)
+	checked = models.BooleanField()
+	created_time = models.DateTimeField(auto_now_add = True)
 
 	class Meta:
 		abstract = True

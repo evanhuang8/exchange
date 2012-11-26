@@ -1,0 +1,25 @@
+<div id="wrapper_login">
+	<a href="javascript:;">Login With Facebook</a>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('div#wrapper_login a').click(function() {
+				var fbPermissions = 'read_friendlists,create_event,rsvp_event,email';
+				FB.login(function(response) {
+					if (response.authResponse) {
+						var fbAccessToken = response.authResponse.accessToken;
+						console.log(fbAccessToken);
+						$.post(rootUrl + 'login', {accessToken:fbAccessToken, csrfmiddlewaretoken:csrfToken}, function(fbAuthResponse) {
+							console.log(fbAuthResponse);
+							fbAuthResponse = jQuery.parseJSON(fbAuthResponse);
+							if (fbAuthResponse.status == 'OK') {
+								document.location.reload(true);
+							} else {
+								alert('FAIL: ' + fbAuthResponse.error);
+							}
+						});
+					}
+				}, {scope:fbPermissions});
+			});
+		});
+	</script>
+</div>

@@ -2,6 +2,10 @@
 <html>
 <head>
 	<title>{% block page_title %}Bazaarboy Exchange{% endblock %}</title>
+	<script type="text/javascript">
+		var rootUrl = '{{ STATIC_URL }}../';
+		var csrfToken = '{{ csrf_token }}';
+	</script>
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	{% block page_script %}{% endblock %}
 	<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/reset.css" />

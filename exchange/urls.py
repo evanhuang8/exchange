@@ -10,8 +10,11 @@ urlpatterns = patterns('',
 	# Static Files
 	url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root':os.path.join(os.path.dirname(__file__), '../static'),}),
 	
-	# Index
+	# Front End
 	url(r'^$', 'exchange.controllers.IndexController.index', name = 'exchange-home'),
+
+	# Back End
+	url(r'^login$', 'exchange.controllers.IndexController.login', name = 'exchange-login'),
 
     # Examples:
     # url(r'^$', 'exchange.views.home', name='home'),
