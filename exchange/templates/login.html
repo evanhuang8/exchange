@@ -1,5 +1,30 @@
 <div id="wrapper_login">
-	<a href="javascript:;">Login With Facebook</a>
+	<div id="wrapper_landing">
+		<div id="landing_button">
+			<a class="facebookButton" href="javascript:;"><span class='facebookLogo'>&nbsp;</span>Login With Facebook</a>
+		</div>
+	</div>
+	<div id="wrapper_search">
+		<div id="search_top">
+			What is Bazaarboy Exchange?
+		</div>
+		<div id="search_intro">
+			<div id="intro_text">
+				<p>Bazaarboy Exchange is an online trading post that's localized for every single user. As a teaser of the uncoming Bazaarboy Online Platform, the Exchange enables you to exchange favors easily within your community, such as your school or neighborhood. If you like us, invite your friends!</p>
+			</div>
+			<div id="intro_social">
+				<div class="left">Follow us on: </div>
+				<div class="right">
+					<ul>
+						<li><a href="#"><img src="{{ STATIC_URL }}images/facebook-icon.png" /></a></li>
+						<li><a href="#"><img src="{{ STATIC_URL }}images/twitter-icon.png" /></a></li>
+						<li><a href="#"><img src="{{ STATIC_URL }}images/wordpress-icon.png" /></a></li>
+					</ul>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('div#wrapper_login a').click(function() {

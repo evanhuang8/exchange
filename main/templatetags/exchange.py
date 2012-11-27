@@ -11,3 +11,12 @@ def offer(post):
 	except Exception:
 		offerVal = post.post_other.offer
 	return offerVal
+
+@register.filter
+def isMoneyPost(post):
+	try:
+		moneyPost = post.post_money
+	except Exception:
+		return False
+	else:
+		return True

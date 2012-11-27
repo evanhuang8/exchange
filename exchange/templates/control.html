@@ -66,7 +66,8 @@
 				}).blur(function() {
 					if (moneyBlank) {
 						$(this).val('5.00');
-						if (!otherBlank) {
+						var typeVal = $('form#form_post input[name=offer]:checked').val();
+						if (!otherBlank && typeVal == 'other') {
 							$('form#form_post input[name=offer_other]').addClass('on').addClass('valid');
 						}
 					} else {
@@ -92,7 +93,8 @@
 				}).blur(function() {
 					if (otherBlank) {
 						$(this).val('a vintage necklace');
-						if (!moneyBlank) {
+						var typeVal = $('form#form_post input[name=offer]:checked').val();
+						if (!moneyBlank && typeVal == 'money') {
 							$('form#form_post input[name=offer_money]').addClass('on').addClass('valid');
 						}
 					} else {
@@ -131,7 +133,7 @@
 					if (typeVal == 'money') {
 						offerVal = $(form).find('input[name=offer_money]').val();
 					}
-					if (((typeVal == 'money' && !moneyBlank && isNumber(offerVal)) || (typeVal == 'other' && !otherBlank && offerVal.length > 0 && offerVal.length <= 150)) && wantVal.length > 0 && wantVal.length <= 150) {
+					if (((typeVal == 'money' && !moneyBlank && isNumber(offerVal)) || (typeVal == 'other' && !otherBlank && offerVal.length > 0 && offerVal.length <= 150)) && !wantBlank && wantVal.length > 0 && wantVal.length <= 150) {
 						var postInfo = 'csrfmiddlewaretoken=' + csrfToken;
 						postInfo += '&want=' + encodeURIComponent(wantVal);
 						postInfo += '&offer=' + encodeURIComponent(offerVal);
@@ -150,23 +152,60 @@
 		</script>
 	</div>
 	<div id="wrapper_search">
-		<form id="form_search_want">
-			{% csrf_token %}
-			<input type="text" name="want" />
-		</form>
-		<form id="form_search_offer">
-			{% csrf_token %}
-			<input type="text" name="offer" />	
-		</form>
+		<div id="search_top">
+			What is Bazaarboy Exchange?
+		</div>
+		<div id="search_intro">
+			<div id="intro_text">
+				<p>Bazaarboy Exchange is an online trading post that's localized for every single user. As a teaser of the uncoming Bazaarboy Online Platform, the Exchange enables you to exchange favors easily within your community, such as your school or neighborhood. If you like us, invite your friends!</p>
+			</div>
+			<div id="intro_social">
+				<div class="left">Follow us on: </div>
+				<div class="right">
+					<ul>
+						<li><a href="#"><img src="{{ STATIC_URL }}images/facebook-icon.png" /></a></li>
+						<li><a href="#"><img src="{{ STATIC_URL }}images/twitter-icon.png" /></a></li>
+						<li><a href="#"><img src="{{ STATIC_URL }}images/wordpress-icon.png" /></a></li>
+					</ul>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div id="search_box">
+			<div id="search_option">
+				<div class="left">I want</div>
+				<div class="right"><a href="javascript:;"><img src="{{ STATIC_URL }}images/drop-arrow.png" /></a></div>
+				<div class="clear"></div>
+			</div>
+			<div id="search_bar">
+				<form id="form_search">
+					<input type="text" name="keyword" value="Type in keywords" />
+				</form>
+			</div>
+			<div id="search_button">
+				<a href="javascript:;"></a>
+			</div>
+			<div class="clear"></div>
+		</div>
 		<script type="text/javascript">
+			var searchBlank = true;
 			$(document).ready(function() {
-				$('form#form_search_want').submit(function() {
-					console.log($(this).serialize());
-					return false;
-				});
-				$('form#form_search_offer').submit(function() {
-					console.log($(this).serialize());
-					return false;
+				$('form#form_search input').focus(function() {
+					if (searchBlank) {
+						$(this).val('');
+					}
+				}).blur(function() {
+					if (searchBlank) {
+						$(this).val('Type in keywords');
+					}
+				}).change(function() {
+					if ($(this).val() == '') {
+						searchBlank = true;
+						$(this).removeClass('on');
+					} else {
+						searchBlank = false;
+						$(this).addClass('on');
+					}
 				});
 			});
 		</script>
