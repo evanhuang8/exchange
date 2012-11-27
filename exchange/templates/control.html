@@ -1,20 +1,177 @@
 <div id="wrapper_control">
 	<div id="wrapper_post">
-		<form>
+		<div id="post_top">
+			<h4>New Post</h4>
+		</div>
+		<form id="form_post">
 			{% csrf_token %}
-			<textarea name="want"></textarea>
-			<textarea name="offer"></textarea>
+			<div id="post_frame">
+				<div id="post_want">
+					<div class="left">I want</div>
+					<div class="right"><input type="text" name="want" value="a ride to the airport" /></div>
+					<div class="clear"></div>
+				</div>
+				<div id="post_offer">
+					<div class="left">I can offer</div>
+					<div class="right">
+						<input type="radio" id="offer_money" name="offer" value="money" /><span><b>$</b></span><label for="offer_money"><input type="text" name="offer_money" value="5.00" /></label>
+					</div>
+					<div class="clear"></div>
+					<div class="mid">or</div>
+					<div class="bottom">
+						<input type="radio" id="offer_other" name="offer" value="other" checked /><label for="offer_other"><input type="text" name="offer_other" value="a vintage necklace" /></label>
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+			<div id="post_submit">
+				<a href="javascript:;" class="button">POST TO COMMUNITY</a>
+			</div>
 		</form>
+		<script type="text/javascript">
+			var wantBlank = true;
+			var moneyBlank = true;
+			var otherBlank = true;
+			$(document).ready(function() {
+				$('form#form_post input[name=want]').focus(function() {
+					if (wantBlank) {
+						$(this).val('');
+					} else {
+						$(this).addClass('valid');
+					}
+				}).blur(function() {
+					if (wantBlank) {
+						$(this).val('a ride to the airport');
+					} else {
+						$(this).addClass('valid');
+					}
+				}).change(function() {
+					if ($(this).val() == '') {
+						wantBlank = true;
+						$(this).removeClass('on');
+						$(this).removeClass('valid');
+					} else {
+						wantBlank = false;
+						$(this).addClass('on');
+						$(this).addClass('valid');
+					}
+				});
+				$('form#form_post input[name=offer_money]').focus(function() {
+					if (moneyBlank) {
+						$(this).val('');
+					} else {
+						$(this).addClass('valid');
+						$('form#form_post input[name=offer_other]').removeClass('on').removeClass('valid');
+					}
+				}).blur(function() {
+					if (moneyBlank) {
+						$(this).val('5.00');
+						if (!otherBlank) {
+							$('form#form_post input[name=offer_other]').addClass('on').addClass('valid');
+						}
+					} else {
+						$(this).addClass('valid');
+					}
+				}).change(function() {
+					if ($(this).val() == '') {
+						moneyBlank = true;
+						$(this).removeClass('on');
+						$(this).removeClass('valid');
+					} else {
+						moneyBlank = false;
+						$(this).addClass('on');
+					}
+				});
+				$('form#form_post input[name=offer_other]').focus(function() {
+					if (otherBlank) {
+						$(this).val('');
+					} else {
+						$(this).addClass('valid');
+						$('form#form_post input[name=offer_money]').removeClass('on').removeClass('valid');
+					}
+				}).blur(function() {
+					if (otherBlank) {
+						$(this).val('a vintage necklace');
+						if (!moneyBlank) {
+							$('form#form_post input[name=offer_money]').addClass('on').addClass('valid');
+						}
+					} else {
+						$(this).addClass('valid');
+					}
+				}).change(function() {
+					if ($(this).val() == '') {
+						otherBlank = true;
+						$(this).removeClass('on');
+						$(this).removeClass('valid');
+					} else {
+						otherBlank = false;
+						$(this).addClass('on');
+						$(this).addClass('valid');
+					}
+				});
+				$('form#form_post input[name=offer]').change(function() {
+					var typeVal = $('form#form_post input[name=offer]:checked').val();
+					if (typeVal == 'money') {
+						if (!moneyBlank) {
+							$('form#form_post input[name=offer_money]').addClass('on').addClass('valid');
+						}
+						$('form#form_post input[name=offer_other]').removeClass('on').removeClass('valid');
+					} else if (typeVal == 'other') {
+						if (!otherBlank) {
+							$('form#form_post input[name=offer_other]').addClass('on').addClass('valid');
+						}
+						$('form#form_post input[name=offer_money]').removeClass('on').removeClass('valid');
+					}
+				});
+				$('div#post_submit a').click(function() {
+					var form = $('form#form_post');
+					var wantVal = $(form).find('input[name=want]').val();
+					var typeVal = $(form).find('input[name=offer]:checked').val();
+					var offerVal = $(form).find('input[name=offer_other]').val();
+					if (typeVal == 'money') {
+						offerVal = $(form).find('input[name=offer_money]').val();
+					}
+					if (((typeVal == 'money' && isNumber(offerVal)) || (typeVal == 'other' && offerVal.length > 0 && offerVal.length <= 150)) && wantVal.length > 0 && wantVal.length <= 150) {
+						var postInfo = 'csrfmiddlewaretoken=' + csrfToken;
+						postInfo += '&want=' + encodeURIComponent(wantVal);
+						postInfo += '&offer=' + encodeURIComponent(offerVal);
+						postInfo += '&type=' + typeVal;
+						$.post('{{ STATIC_URL }}../post', postInfo, function(response) {
+							response = jQuery.parseJSON(response);
+							if (response.status == 'OK') {
+								alert('Done');
+							} else {
+								alert(response.error);
+							}
+						});
+					}
+				});
+			});
+		</script>
 	</div>
 	<div id="wrapper_search">
-		<form>
+		<form id="form_search_want">
 			{% csrf_token %}
 			<input type="text" name="want" />
+			<input type="submit" value="Search" />
 		</form>
-		<form>
+		<form id="form_search_offer">
 			{% csrf_token %}
 			<input type="text" name="offer" />
+			<input type="submit" value="Search" />
 		</form>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('form#form_search_want').submit(function() {
+					console.log($(this).serialize());
+					return false;
+				});
+				$('form#form_search_offer').submit(function() {
+					console.log($(this).serialize());
+					return false;
+				});
+			});
+		</script>
 	</div>
 	<div class="clear"></div>
 </div>

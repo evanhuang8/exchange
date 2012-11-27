@@ -14,12 +14,9 @@ class Post(models.Model):
 	owner = models.ForeignKey('User', related_name = '+')
 	claimer = models.ForeignKey('User', null = True, blank = True)
 	want = models.CharField(max_length = 150)
-	approved = models.BooleanField()
+	approved = models.BooleanField(default = False)
 	created_time = models.DateTimeField(auto_now_add = True)
 	claimed_time = models.DateTimeField(null = True, blank = True)
-
-	class Meta:
-		abstract = True
 
 class Post_money(Post):
 	

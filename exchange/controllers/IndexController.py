@@ -1,13 +1,20 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from exchange.libraries.helpers.url import UrlHelper
+from exchange.libraries.post import PostManager
 from main.models import *
 import facebook
 import json
 
+import pdb
+
 def index(request):
 	userFbID = request.session.get('userFbID', False)
-	posts = [1]
+	user = None
+	posts = []
+	if userFbID:
+		user = User.objects.get(fb_id = userFbID)
+		posts = PostManager.fetch()
 	return render(request, 'index.html', locals())
 
 def login(request):
@@ -15,9 +22,9 @@ def login(request):
 		'status':'FAIL',
 		'error':'ACCESS_FORBIDDEN'
 	}
-	if request.GET:
+	if request.POST:
 		urlHelper = UrlHelper()
-		params = urlHelper.validate(request.GET, {'accessToken'})
+		params = urlHelper.validate(request.POST, {'accessToken'})
 		if params == False:
 			response = {
 				'status':'FAIL',
@@ -57,6 +64,7 @@ def login(request):
 								name = fbUserProfile['name'],
 								email = '',
 							)
+							user.save()
 							request.session['userFbID'] = user.fb_id
 							response = {
 								'status':'OK'
@@ -67,3 +75,46 @@ def logout(request):
 	for sessKey in request.session.keys():
 		del request.session[sessKey]
 	return redirect('exchange-home')
+
+def post(request):
+	response = {
+		'status':'FAIL',
+		'error':'ACCESS_FORBIDDEN'
+	}
+	userFbID = request.session.get('userFbID', False)
+	if request.POST and userFbID:
+		urlHelper = UrlHelper()
+		params = urlHelper.validate(request.POST, {'want', 'offer', 'type'})
+		if params == False:
+			response = {
+				'status':'FAIL',
+				'error':'BAD_REQUEST'
+			}
+		elif len(params['want']) > 150 or params['want'] == '' or not ((params['type'] == 'money' and params['offer'] != '' and float(params['offer']) > 0) or (params['type'] == 'other' and len(params['offer']) <= 150 and params['offer'] != '')):
+			response = {
+				'status':'FAIL',
+				'error':'FORMAT_INCORRECT'
+			}
+		else:
+			user = User.objects.get(fb_id = userFbID)
+			post = None
+			if params['type'] == 'money':
+				post = Post_money(
+					owner = user,
+					want = params['want'],
+					offer = float(params['offer'])
+				)
+				post.save()
+			elif params['type'] == 'other':
+				post = Post_other(
+					owner = user,
+					want = params['want'],
+					offer = params['offer']
+				)
+				post.save()
+			response = {
+				'status':'OK',
+				'post_type':params['type'],
+				'post_id':post.id
+			}
+	return HttpResponse(json.dumps(response))

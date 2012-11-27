@@ -1,0 +1,14 @@
+{% if user %}
+	<div id="wrapper_user">
+		<div id="user_logout">
+			<a href="{{ STATIC_URL }}../logout">Log Out</a>
+		</div>
+		<div id="user_name">
+			{{ user.name }}
+		</div>
+		<div id="user_profile">
+			<img src="https://graph.facebook.com/{{ user.fb_id }}/picture" />
+		</div>
+		<div class="clear"></div>
+	</div>
+{% endif %}

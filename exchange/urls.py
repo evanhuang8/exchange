@@ -15,6 +15,8 @@ urlpatterns = patterns('',
 
 	# Back End
 	url(r'^login$', 'exchange.controllers.IndexController.login', name = 'exchange-login'),
+	url(r'^logout$', 'exchange.controllers.IndexController.logout', name = 'exchange-logout'),
+	url(r'^post$', 'exchange.controllers.IndexController.post', name = 'exchange-post'),
 
     # Examples:
     # url(r'^$', 'exchange.views.home', name='home'),

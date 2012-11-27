@@ -1,5 +1,7 @@
 {% extends 'layout.html' %}
 
+{% load exchange %}
+
 {% block page_css %}
 	
 	<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/index.css" />
@@ -8,7 +10,7 @@
 
 {% block main %}
 
-	{% if userFbID %}
+	{% if user %}
 		{% include 'control.html' %}
 	{% else %}
 		{% include 'login.html' %}
@@ -17,10 +19,14 @@
 	<div id="wrapper_listing">
 		{% for post in posts %}
 			<div class="post">
-				<div class="post_want">Want</div>
-				<div class="post_offer">Offer</div>
+				<div class="post_want">{{ post.want }}</div>
+				<div class="post_offer">{{ post|offer }}</div>
+				<div class="post_time">{{ post.created_time }}</div>
 			</div>
+		{% empty %}
+			No posts yet. Be the first one!
 		{% endfor %}
+		<div class="clear"></div>
 	</div>
 
 {% endblock %}
