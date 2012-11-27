@@ -131,7 +131,7 @@
 					if (typeVal == 'money') {
 						offerVal = $(form).find('input[name=offer_money]').val();
 					}
-					if (((typeVal == 'money' && isNumber(offerVal)) || (typeVal == 'other' && offerVal.length > 0 && offerVal.length <= 150)) && wantVal.length > 0 && wantVal.length <= 150) {
+					if (((typeVal == 'money' && !moneyBlank && isNumber(offerVal)) || (typeVal == 'other' && !otherBlank && offerVal.length > 0 && offerVal.length <= 150)) && wantVal.length > 0 && wantVal.length <= 150) {
 						var postInfo = 'csrfmiddlewaretoken=' + csrfToken;
 						postInfo += '&want=' + encodeURIComponent(wantVal);
 						postInfo += '&offer=' + encodeURIComponent(offerVal);
@@ -153,12 +153,10 @@
 		<form id="form_search_want">
 			{% csrf_token %}
 			<input type="text" name="want" />
-			<input type="submit" value="Search" />
 		</form>
 		<form id="form_search_offer">
 			{% csrf_token %}
-			<input type="text" name="offer" />
-			<input type="submit" value="Search" />
+			<input type="text" name="offer" />	
 		</form>
 		<script type="text/javascript">
 			$(document).ready(function() {
