@@ -231,7 +231,6 @@ div#post_offer div.bottom {
 div#post_offer div.bottom input[type=text] {
 	width:210px;
 	margin-left:5px;
-	color:#CCC;
 }
 
 div#post_offer div.bottom input[type=text]:focus {
@@ -367,8 +366,9 @@ div#intro_text {
 }
 
 div#intro_text p {
-	font-family:"Times New Roman",Times,serif;
+	font-family:'Helvetica Neue', Arial, Helvetica, sans-serif;;
 	text-indent:40px;
+	font-size:15px;
 	line-height:20px;
 }
 
@@ -396,6 +396,12 @@ div#intro_social div.right ul li {
 	margin-right:20px;
 	display:block;
 	float:left;
+	opacity:0.7;
+	-webkit-transition:opacity .2s;
+}
+
+div#intro_social div.right ul li:hover {
+	opacity:1;
 }
 
 div#wrapper_listing {

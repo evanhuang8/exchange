@@ -25,12 +25,18 @@
 					</div>
 					<div class="post_name">{{ post.owner.name }}</div>
 					<div class="post_claim">
-						<a href="javascript:;" class="button">Exchange</a>
+						{% if user %}
+							{% if user|isPostOwner:post %}
+								<a href="javascript:;" class="button red">Remove</a>
+							{% else %}
+								<a href="javascript:;" class="button green">I'll do it!</a>
+							{% endif %}
+						{% endif %}
 					</div>
 				</div>
 				<div class="post_want"><span class="grey">I want</span> <span>{{ post.want }}</span></div>
 				<div class="post_offer"><span class="grey">I can offer</span> <span>{% if post|isMoneyPost %}$ {% endif %}{{ post|offer }}</span></div>
-				<div class="post_time hidden">{{ post.created_time }}</div>
+				<div class="post_time hidden"><span class="created_time">{{ post.created_time }}</span><span class="id">{{ post.id }}</span><span class="type">{% if post|isMoneyPost %}money{% else %}other{% endif %}</span></div>
 			</div>
 		{% empty %}
 			<div id="listing_blank">
@@ -38,6 +44,22 @@
 			</div>
 		{% endfor %}
 		<div class="clear"></div>
+		<div id="listing_hidden" class="hidden">
+			<div id="post_template">
+				<div class="post_top">
+					<div class="post_profile">
+						<img src="https://graph.facebook.com/{{ post.owner.fb_id }}/picture" />
+					</div>
+					<div class="post_name"></div>
+					<div class="post_claim">
+						<a href="javascript:;" class="button"></a>
+					</div>
+				</div>
+				<div class="post_want"><span class="grey">I want</span> <span class="want"></span></div>
+				<div class="post_offer"><span class="grey">I can offer</span class="offer"> <span></span></div>
+				<div class="post_time hidden"><span class="created_time"></span><span class="id"></span><span class="type"></span></div>
+			</div>
+		</div>
 	</div>
 
 {% endblock %}

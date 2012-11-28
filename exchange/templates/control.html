@@ -141,6 +141,7 @@
 						$.post('{{ STATIC_URL }}../post', postInfo, function(response) {
 							response = jQuery.parseJSON(response);
 							if (response.status == 'OK') {
+								clearForm();
 								alert('Done');
 							} else {
 								alert(response.error);
@@ -149,6 +150,23 @@
 					}
 				});
 			});
+			function clearForm() {
+				wantBlank = true;
+				moneyBlank = true;
+				otherBlank = true;
+				var form = $('form#form_post');
+				$(form).find('input:radio[value=other]').removeAttr('checked');
+				$(form).find('input:radio[value=money]').attr('checked', true);
+				$('form#form_post input[name=want]').val('a ride to the airport');
+				$('form#form_post input[name=want]').removeClass('on').removeClass('valid');
+				$('form#form_post input[name=offer_money]').val('5.00');
+				$('form#form_post input[name=offer_money]').removeClass('on').removeClass('valid');
+				$('form#form_post input[name=offer_other]').val('a vintage necklace');
+				$('form#form_post input[name=offer_other]').removeClass('on').removeClass('valid');
+			}
+			function insertPost(post) {
+				var newPost = $('div#post_template').clone();
+			}
 		</script>
 	</div>
 	<div id="wrapper_search">

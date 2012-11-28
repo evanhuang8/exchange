@@ -30,6 +30,18 @@
 	text-decoration:none;
 }
 
+.button.red {
+	background:url(../images/btn_overlay.png) repeat-x 0 50% !important;
+	background-color:#E31230 !important;
+	color:#FFF !important;
+	border:1px solid #FFF !important;
+}
+
+.button.green {
+	background-color:#50AF4B !important;
+	border:1px solid #FFF !important;
+}
+
 .button:hover{
 	opacity: 0.8;
 	text-decoration: none !important;

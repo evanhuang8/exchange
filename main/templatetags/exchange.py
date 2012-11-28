@@ -20,3 +20,7 @@ def isMoneyPost(post):
 		return False
 	else:
 		return True
+
+@register.filter
+def isPostOwner(user, post):
+	return post.owner.fb_id == user.fb_id
