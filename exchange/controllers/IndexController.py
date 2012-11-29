@@ -114,7 +114,15 @@ def post(request):
 				post.save()
 			response = {
 				'status':'OK',
-				'post_type':params['type'],
-				'post_id':post.id
+				'post':{
+					'id':post.id,
+					'owner':{
+						'fb_id':post.owner.fb_id,
+						'name':post.owner.name
+					},
+					'want':post.want,
+					'offer':params['offer'],
+					'created_time':post.created_time.strftime('%Y-%m-%d %X')
+				}
 			}
 	return HttpResponse(json.dumps(response))

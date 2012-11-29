@@ -142,7 +142,7 @@
 							response = jQuery.parseJSON(response);
 							if (response.status == 'OK') {
 								clearForm();
-								alert('Done');
+								insertPost(response.post, true);
 							} else {
 								alert(response.error);
 							}
@@ -155,8 +155,8 @@
 				moneyBlank = true;
 				otherBlank = true;
 				var form = $('form#form_post');
-				$(form).find('input:radio[value=other]').removeAttr('checked');
-				$(form).find('input:radio[value=money]').attr('checked', true);
+				$(form).find('input:radio[value=money]').removeAttr('checked');
+				$(form).find('input:radio[value=other]').attr('checked', true);
 				$('form#form_post input[name=want]').val('a ride to the airport');
 				$('form#form_post input[name=want]').removeClass('on').removeClass('valid');
 				$('form#form_post input[name=offer_money]').val('5.00');
@@ -164,8 +164,27 @@
 				$('form#form_post input[name=offer_other]').val('a vintage necklace');
 				$('form#form_post input[name=offer_other]').removeClass('on').removeClass('valid');
 			}
-			function insertPost(post) {
+			function insertPost(post, owner) {
 				var newPost = $('div#post_template').clone();
+				$(newPost).removeAttr('id');
+				$(newPost).addClass('post');
+				$(newPost).css('opacity', '0');
+				$(newPost).find('div.post_profile img').attr('src', 'https://graph.facebook.com/' + post.owner.fb_id + '/picture');
+				$(newPost).find('div.post_name').html(post.owner.name);
+				var bClass = 'green';
+				var bText = 'I\'ll do it';
+				if (owner) {
+					bClass = 'red';
+					bText = 'Remove';
+				}
+				$(newPost).find('div.post_claim a').addClass(bClass).html(bText);
+				$(newPost).find('span.want').html(post.want);
+				$(newPost).find('span.offer').html(post.offer);
+				$(newPost).find('span.created_time').html(post.created_time);
+				$(newPost).find('span.id').html(post.id);
+				$(newPost).find('span.type').html(post.type);
+				$(newPost).prependTo($('div#wrapper_listing'));
+				$(newPost).animate({opacity:1}, 500, function() {});
 			}
 		</script>
 	</div>

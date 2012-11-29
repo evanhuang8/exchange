@@ -34,8 +34,8 @@
 						{% endif %}
 					</div>
 				</div>
-				<div class="post_want"><span class="grey">I want</span> <span>{{ post.want }}</span></div>
-				<div class="post_offer"><span class="grey">I can offer</span> <span>{% if post|isMoneyPost %}$ {% endif %}{{ post|offer }}</span></div>
+				<div class="post_want"><span class="grey">I want</span> <span class="want">{{ post.want }}</span></div>
+				<div class="post_offer"><span class="grey">I can offer</span> <span class="offer">{% if post|isMoneyPost %}$ {% endif %}{{ post|offer }}</span></div>
 				<div class="post_time hidden"><span class="created_time">{{ post.created_time }}</span><span class="id">{{ post.id }}</span><span class="type">{% if post|isMoneyPost %}money{% else %}other{% endif %}</span></div>
 			</div>
 		{% empty %}
@@ -48,7 +48,7 @@
 			<div id="post_template">
 				<div class="post_top">
 					<div class="post_profile">
-						<img src="https://graph.facebook.com/{{ post.owner.fb_id }}/picture" />
+						<img src="" />
 					</div>
 					<div class="post_name"></div>
 					<div class="post_claim">
@@ -56,7 +56,7 @@
 					</div>
 				</div>
 				<div class="post_want"><span class="grey">I want</span> <span class="want"></span></div>
-				<div class="post_offer"><span class="grey">I can offer</span class="offer"> <span></span></div>
+				<div class="post_offer"><span class="grey">I can offer</span> <span class="offer"></span></div>
 				<div class="post_time hidden"><span class="created_time"></span><span class="id"></span><span class="type"></span></div>
 			</div>
 		</div>
