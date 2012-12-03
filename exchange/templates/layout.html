@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>{% block page_title %}Bazaarboy Exchange{% endblock %}</title>
+	<title>{% block page_title %}Bazaarboy Swap{% endblock %}</title>
 	<script type="text/javascript">
 		var rootUrl = '{{ STATIC_URL }}../';
 		var csrfToken = '{{ csrf_token }}';
@@ -10,9 +10,11 @@
 		}
 	</script>
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}ColorBox/jquery.colorbox-min.js"></script>
 	{% block page_script %}{% endblock %}
 	<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/reset.css" />
 	<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/layout.css" />
+	<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}ColorBox/colorbox.css" />
 	{% block page_css %}{% endblock %}
 </head>
 <body>
@@ -30,7 +32,7 @@
 		{% block main %}{% endblock %}
 	</div>
 	<div id="wrapper_foot">
-		&copy; Bazaarboy 2012
+		&copy; Bazaarboy Swap 2012
 	</div>
 </div>
 </body>

@@ -12,6 +12,8 @@ urlpatterns = patterns('',
 	
 	# Front End
 	url(r'^$', 'exchange.controllers.IndexController.index', name = 'exchange-home'),
+	url(r'^(?P<page>\d+)$', 'exchange.controllers.IndexController.index', name = 'exchange-home-paging'),
+	url(r'^registration$', 'exchange.controllers.IndexController.registration', name = 'exchange-registration'),
 
 	# Back End
 	url(r'^login$', 'exchange.controllers.IndexController.login', name = 'exchange-login'),

@@ -2,6 +2,12 @@
 
 {% load exchange %}
 
+{% block page_script %}
+		
+	<script type="text/javascript" src="{{ STATIC_URL }}js/index.js"></script>
+
+{% endblock %}
+
 {% block page_css %}
 	
 	<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/index.css" />
@@ -31,11 +37,19 @@
 							{% else %}
 								<a href="javascript:;" class="button green">I'll do it!</a>
 							{% endif %}
+						{% else %}	
+							<a href="javascript:;" class="button grey">I'll do it!</a>
 						{% endif %}
 					</div>
 				</div>
-				<div class="post_want"><span class="grey">I want</span> <span class="want">{{ post.want }}</span></div>
-				<div class="post_offer"><span class="grey">I can offer</span> <span class="offer">{% if post|isMoneyPost %}$ {% endif %}{{ post|offer }}</span></div>
+				<div class="post_middle">
+					<div class="post_icon {% if post|isMoneyPost %}money{% else %}other{% endif %}"></div>
+					<div class="post_info">
+						<div class="post_want"><span class="grey">I want</span> <span class="want">{{ post.want }}</span></div>
+						<div class="post_offer"><span class="grey">I can offer</span> <span class="offer">{% if post|isMoneyPost %}$ {% endif %}{{ post|offer }}</span></div>
+					</div>
+					<div class="clear"></div>
+				</div>
 				<div class="post_time hidden"><span class="created_time">{{ post.created_time }}</span><span class="id">{{ post.id }}</span><span class="type">{% if post|isMoneyPost %}money{% else %}other{% endif %}</span></div>
 			</div>
 		{% empty %}
@@ -55,11 +69,42 @@
 						<a href="javascript:;" class="button"></a>
 					</div>
 				</div>
-				<div class="post_want"><span class="grey">I want</span> <span class="want"></span></div>
-				<div class="post_offer"><span class="grey">I can offer</span> <span class="offer"></span></div>
+				<div class="post_middle">
+					<div class="post_icon"></div>
+					<div class="post_info">
+						<div class="post_want"><span class="grey">I want</span> <span class="want"></span></div>
+						<div class="post_offer"><span class="grey">I can offer</span> <span class="offer"></span></div>
+					</div>
+					<div class="clear"></div>
+				</div>
 				<div class="post_time hidden"><span class="created_time"></span><span class="id"></span><span class="type"></span></div>
 			</div>
 		</div>
+		{% if user %}
+			<div id="colorbox_hidden" class="hidden">
+				<div class="colorbox_remove_frame hidden">
+					<div class="top">
+						Delete Post
+					</div>
+					<div class="mid">
+						Are you sure you want to delete the post?
+					</div>
+					<div class="bottom">
+						<a href="javascript:;" class="button grey">Cancel</a>
+						<a href="javascript:;" class="button red">Delete</a>
+					</div>
+				</div>
+			</div>
+		{% endif %}
 	</div>
+	{% if not paging|isEmpty %}
+	<div id="wrapper_paging">
+		<span><a href="{% url exchange-home %}{{ prevPage }}">&lt;</a></span>&nbsp;
+		{% for p in paging %}
+			<span>{% if p != page %}<a href="{% url exchange-home %}{{ p }}">{% endif %}{{ p }}{% if p != page %}</a>{% endif %}</span>&nbsp;
+		{% endfor %}
+		<span><a href="{% url exchange-home %}{{ nextPage }}">&gt;</a></span>
+	</div>
+	{% endif %}
 
 {% endblock %}

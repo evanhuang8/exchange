@@ -38,13 +38,27 @@
 }
 
 .button.green {
+	background:url(../images/btn_overlay.png) repeat-x 0 50% !important;
 	background-color:#50AF4B !important;
+	color:#FFF !important;
+	border:1px solid #FFF !important;
+}
+
+.button.grey {
+	background:url(../images/btn_overlay.png) repeat-x 0 50% !important;
+	background-color:#CCC !important;
+	color:#FFF !important;
 	border:1px solid #FFF !important;
 }
 
 .button:hover{
-	opacity: 0.8;
-	text-decoration: none !important;
+	opacity:0.8;
+	text-decoration:none !important;
+}
+
+.button.grey:hover {
+	opacity:1;
+	text-decoration:none !important;
 }
 
 div.clear {

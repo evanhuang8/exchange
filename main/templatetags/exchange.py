@@ -4,6 +4,10 @@ from main.models import *
 register = template.Library()
 
 @register.filter
+def isEmpty(collection):
+	return len(collection) == 0
+
+@register.filter
 def offer(post):
 	offerVal = ''
 	try:
@@ -23,4 +27,4 @@ def isMoneyPost(post):
 
 @register.filter
 def isPostOwner(user, post):
-	return post.owner.fb_id == user.fb_id
+	return post.owner.fb_id == user.fb_id and user

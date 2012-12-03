@@ -5,16 +5,27 @@ from exchange.libraries.post import PostManager
 from main.models import *
 import facebook
 import json
+import re
 
 import pdb
 
-def index(request):
+def index(request, page = 1):
 	userFbID = request.session.get('userFbID', False)
 	user = None
 	posts = []
+	paging = []
+	page = int(page)
+	pageCount = PostManager.countPage()
+	prevPage = page - 1 if page - 1 >= 1 else 1
+	nextPage = page + 1 if page + 1 <= pageCount else pageCount
+	posts = PostManager.fetch(page)
+	paging = PostManager.paging(page)
+	if posts == None:
+		return redirect('exchange-home')
 	if userFbID:
 		user = User.objects.get(fb_id = userFbID)
-		posts = PostManager.fetch()
+		if user.notification == '':
+			return redirect('exchange-registration')
 	return render(request, 'index.html', locals())
 
 def login(request):
@@ -76,6 +87,28 @@ def logout(request):
 		del request.session[sessKey]
 	return redirect('exchange-home')
 
+def registration(request):
+	userFbID = request.session.get('userFbID', False)
+	if userFbID:
+		user = User.objects.get(fb_id = userFbID)
+		if user.notification == '':
+			if request.POST:
+				urlHelper = UrlHelper()
+				params = urlHelper.validate(request.POST, {'notify_type', 'notify_value'})
+				if params != False and (params['notify_type'] != 'text' or re.search(r'^[0-9]{10}$', params['notify_value'])) and (params['notify_type'] != 'email' or re.search(r'^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(([0-9]{1,3})|([a-zA-Z]{2,3})|(aero|coop|info|museum|name))$', params['notify_value'])):
+					if params['notify_type'] == 'text':
+						user.notification = 'T'
+						user.phone = params['notify_value']
+					elif params['notify_type'] == 'email':
+						user.notification = 'M'
+						user.email = params['notify_value']
+					else:
+						user.notification = 'N'
+					user.save()
+			else:
+				return render(request, 'registration.html', locals())
+	return redirect('exchange-home')
+
 def post(request):
 	response = {
 		'status':'FAIL',
@@ -116,6 +149,7 @@ def post(request):
 				'status':'OK',
 				'post':{
 					'id':post.id,
+					'type':params['type'],
 					'owner':{
 						'fb_id':post.owner.fb_id,
 						'name':post.owner.name

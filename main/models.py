@@ -6,6 +6,13 @@ class User(models.Model):
 	access_token = models.CharField(max_length = 160)
 	name = models.CharField(max_length = 50)
 	email = models.CharField(max_length = 50)
+	phone = models.CharField(max_length = 10)
+	NOTIFICATION_OPTIONS = (
+		('M', 'Email'),
+		('T', 'Text'),
+		('N', 'None'),
+	)
+	notification = models.CharField(max_length = 1, choices = NOTIFICATION_OPTIONS)
 	active = models.BooleanField(default = True)
 	created_time = models.DateTimeField(auto_now_add = True)
 
