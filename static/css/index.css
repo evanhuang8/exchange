@@ -568,6 +568,8 @@ div.colorbox_remove_frame div.top {
 	font-size:18px;
 	font-weight:bold;
 	color:#FFF;
+	border-top-left-radius:2px;
+	border-top-right-radius:2px;
 	background:#3B5998;
 }
 
@@ -594,5 +596,51 @@ div.colorbox_remove_frame div.bottom a {
 }
 
 div.colorbox_remove_frame div.bottom a.grey {
+	color:#444 !important;
+}
+
+div.colorbox_claim_frame {
+	width:440px;
+	height:150px;
+	background:#FFF;
+	border-radius:8px;
+	overflow:hidden;
+}
+
+div.colorbox_claim_frame div.top {
+	width:420px;
+	height:18px;
+	padding:6px 10px;
+	font-size:18px;
+	font-weight:bold;
+	color:#FFF;
+	border-top-left-radius:2px;
+	border-top-right-radius:2px;
+	background:#3B5998;
+}
+
+div.colorbox_claim_frame div.mid {
+	width:420px;
+	height:66px;
+	padding:6px 10px;
+	border-bottom:2px solid #AAA;
+	box-shadow:0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+div.colorbox_claim_frame div.bottom {
+	padding:5px;
+}
+
+div.colorbox_claim_frame div.bottom a {
+	width:80px;
+	height:26px;
+	padding:0 10px;
+	font-size:14px;
+	line-height:25px;
+	font-weight:bold;
+	float:right;
+}
+
+div.colorbox_claim_frame div.bottom a.grey {
 	color:#444 !important;
 }

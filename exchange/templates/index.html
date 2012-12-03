@@ -3,7 +3,13 @@
 {% load exchange %}
 
 {% block page_script %}
-		
+	
+	<script type="text/javascript">
+		var pageNumber = {{ page }};
+		{% if user %}
+		var userFbID = '{{ user.fb_id }}';
+		{% endif %}
+	</script>	
 	<script type="text/javascript" src="{{ STATIC_URL }}js/index.js"></script>
 
 {% endblock %}
@@ -23,6 +29,7 @@
 	{% endif %}
 
 	<div id="wrapper_listing">
+		<div id="listing_posts">
 		{% for post in posts %}
 			<div class="post">
 				<div class="post_top">
@@ -57,7 +64,8 @@
 				No active posts at this point. Be the first one to post!
 			</div>
 		{% endfor %}
-		<div class="clear"></div>
+			<div class="clear"></div>
+		</div>
 		<div id="listing_hidden" class="hidden">
 			<div id="post_template">
 				<div class="post_top">
@@ -92,6 +100,27 @@
 					<div class="bottom">
 						<a href="javascript:;" class="button grey">Cancel</a>
 						<a href="javascript:;" class="button red">Delete</a>
+					</div>
+				</div>
+				<div class="colorbox_claim_frame hidden">
+					<div class="top">
+						I'll do it!
+					</div>
+					<div class="mid">
+						<div class="text">
+							Put in your phone number or email so that the post owner can contact you
+						</div>
+						<div class="input">
+							<input type="text" name="number1" maxlength="3" /> - 
+							<input type="text" name="number1" maxlength="3" /> - 
+							<input type="text" name="number1" maxlength="4" />
+							or
+							<input type="text" name="email" value="Email" />
+						</div>
+					</div>
+					<div class="bottom">
+						<a href="javascript:;" class="button grey">Cancel</a>
+						<a href="javascript:;" class="button green">Confirm</a>
 					</div>
 				</div>
 			</div>

@@ -213,7 +213,7 @@
 							response = jQuery.parseJSON(response);
 							if (response.status == 'OK') {
 								clearForm();
-								insertPost(response.post, true);
+								insertPost(response.post, true, true);
 							} else {
 								alert(response.error);
 							}
@@ -235,11 +235,13 @@
 				$('form#form_post input[name=offer_other]').val('a vintage necklace');
 				$('form#form_post input[name=offer_other]').removeClass('on').removeClass('valid');
 			}
-			function insertPost(post, owner) {
+			function insertPost(post, owner, animate) {
 				var newPost = $('div#post_template').clone();
 				$(newPost).removeAttr('id');
 				$(newPost).addClass('post');
-				$(newPost).css('opacity', '0');
+				if (animate) {
+					$(newPost).css('opacity', '0');
+				}
 				$(newPost).find('div.post_profile img').attr('src', 'https://graph.facebook.com/' + post.owner.fb_id + '/picture');
 				$(newPost).find('div.post_name').html(post.owner.name);
 				var bClass = 'green';
@@ -255,15 +257,16 @@
 				$(newPost).find('span.created_time').html(post.created_time);
 				$(newPost).find('span.id').html(post.id);
 				$(newPost).find('span.type').html(post.type);
-				$(newPost).prependTo($('div#wrapper_listing'));
-				var postCount = $('div#wrapper_listing div.post').length;
-				console.log(postCount);
+				$(newPost).prependTo($('div#listing_posts'));
+				var postCount = $('div#listing_posts div.post').length;
 				while (postCount > 10) {
-					$('div#wrapper_listing div.post:eq(' + (--postCount) + ')').remove();
+					$('div#listing_posts div.post:eq(' + (--postCount) + ')').remove();
 				}
-				$(newPost).animate({opacity:1}, 500, function() {
-					
-				});
+				if (animate) {
+					$(newPost).animate({opacity:1}, 500, function() {
+						initButtonBehavior();
+					});
+				}
 			}
 		</script>
 	</div>

@@ -18,7 +18,9 @@ urlpatterns = patterns('',
 	# Back End
 	url(r'^login$', 'exchange.controllers.IndexController.login', name = 'exchange-login'),
 	url(r'^logout$', 'exchange.controllers.IndexController.logout', name = 'exchange-logout'),
-	url(r'^post$', 'exchange.controllers.IndexController.post', name = 'exchange-post'),
+	url(r'^page/(?P<page>\d+)$', 'exchange.controllers.PostController.page', name = 'exchange-page'),
+	url(r'^post$', 'exchange.controllers.PostController.post', name = 'exchange-post'),
+	url(r'^delete$', 'exchange.controllers.PostController.delete', name = 'exchange-delete'),
 
     # Examples:
     # url(r'^$', 'exchange.views.home', name='home'),

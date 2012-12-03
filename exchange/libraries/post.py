@@ -3,13 +3,37 @@ from main.models import *
 class PostManager:
 	
 	@staticmethod
-	def fetch(page = 1):
+	def fetch(page = 1, serialized = False):
 		startIndex = (int(page) - 1) * 10
 		posts = []
 		if startIndex >= 0:		
 			posts = Post.objects.filter(claimer = None).order_by('created_time').reverse()[startIndex:startIndex + 10]
 			if posts.count() == 0 and page != 1:
 				posts = None
+			if posts and serialized:
+				serializedPosts = []
+				for p in posts:
+					postType = ''
+					offer = ''
+					try:
+						offer = p.post_money.offer
+						postType = 'money'
+					except Exception:
+						offer = p.post_other.offer
+						postType = 'other'
+					post = {
+						'id':p.id,
+						'type':postType,
+						'owner':{
+							'fb_id':p.owner.fb_id,
+							'name':p.owner.name
+						},
+						'want':p.want,
+						'offer':offer,
+						'created_time':p.created_time.strftime('%Y-%m-%d %X')
+					}
+					serializedPosts.append(post)
+					posts = serializedPosts
 		return posts
 
 	@staticmethod
