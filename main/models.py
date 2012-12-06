@@ -36,8 +36,9 @@ class Post_other(Post):
 class Message(models.Model):
 	
 	email = models.CharField(max_length = 50)
+	text = models.CharField(max_length = 10)
 	note = models.CharField(max_length = 50)
-	checked = models.BooleanField()
+	checked = models.BooleanField(default = False)
 	created_time = models.DateTimeField(auto_now_add = True)
 
 	class Meta:

@@ -1,6 +1,15 @@
 from main.models import *
 
 class PostManager:
+
+	@staticmethod
+	def postType(post):
+		try:
+			offer = p.post_money.offer
+			return Post_money
+		except Exception:
+			offer = p.post_other.offer
+			return Post_other
 	
 	@staticmethod
 	def fetch(page = 1, serialized = False):

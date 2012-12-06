@@ -257,6 +257,9 @@
 				$(newPost).find('span.created_time').html(post.created_time);
 				$(newPost).find('span.id').html(post.id);
 				$(newPost).find('span.type').html(post.type);
+				if ($('div#listing_blank').length != 0) {
+					$('div#listing_blank').remove();
+				}
 				$(newPost).prependTo($('div#listing_posts'));
 				var postCount = $('div#listing_posts div.post').length;
 				while (postCount > 10) {
