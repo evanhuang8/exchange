@@ -5,10 +5,10 @@ class PostManager:
 	@staticmethod
 	def postType(post):
 		try:
-			offer = p.post_money.offer
+			offer = post.post_money.offer
 			return Post_money
 		except Exception:
-			offer = p.post_other.offer
+			offer = post.post_other.offer
 			return Post_other
 	
 	@staticmethod
@@ -79,3 +79,10 @@ class PostManager:
 				if pageCount != 1:
 					paging.append(pageCount)
 		return paging
+
+	@staticmethod
+	def fetchMessages(user):
+		moneyMessages = Message_money.objects.filter(to = user)
+		otherMessages = Message_other.objects.filter(to = user)
+		messages = list(moneyMessages) + list(otherMessages)
+		return sorted(messages, key = lambda k: k.created_time, reverse = True)

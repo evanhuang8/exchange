@@ -108,3 +108,12 @@ def registration(request):
 			else:
 				return render(request, 'registration.html', locals())
 	return redirect('exchange-home')
+
+def dashboard(request):
+	userFbID = request.session.get('userFbID', False)
+	if userFbID:
+		user = User.objects.get(fb_id = userFbID)
+		if user.notification == '':
+			return redirect('exchange-registration')
+		messages = PostManager.fetchMessages(user)
+	return render(request, 'dashboard.html', locals())

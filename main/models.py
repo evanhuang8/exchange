@@ -35,6 +35,7 @@ class Post_other(Post):
 	
 class Message(models.Model):
 	
+	to = models.ForeignKey('User')
 	email = models.CharField(max_length = 50)
 	text = models.CharField(max_length = 10)
 	note = models.CharField(max_length = 50)

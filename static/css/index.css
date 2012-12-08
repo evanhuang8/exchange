@@ -600,7 +600,7 @@ div.colorbox_remove_frame div.bottom a.grey {
 }
 
 div.colorbox_claim_frame {
-	width:100px;
-	height:100px;
-	background:#CCC;
+	width:400px;
+	height:400px;
+	background:#FFF;
 }

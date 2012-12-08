@@ -32,6 +32,39 @@ function initButtonBehavior() {
 			}
 		});
 	});
+	$('div.post_claim a.button.green').unbind().click(function() {
+		var post = $(this).parent().parent().parent();
+		var postID = $(post).find('span.id').html();
+		var boxContent = $('div#colorbox_hidden div.colorbox_claim_frame').clone();
+		$(boxContent).removeClass('hidden');
+		$.colorbox({
+			open:false,
+			top:'20%',
+			fixed:true,
+			html:boxContent,
+			onLoad:function() {
+				$('#cboxClose').remove();
+				$(boxContent).find('a.red').click(function() {
+					var phoneVal = $(boxContent).find('input[name=number]').val();
+					var emailVal = $(boxContent).find('input[name=email]').val();
+					var noteVal = $(boxContent).find('input[name=note]').val();
+					var claimDetails = 'csrfmiddlewaretoken=' + csrfToken + '&phone=' + encodeURIComponent(phoneVal) + '&email=' + encodeURIComponent(emailVal) + '&note=' + encodeURIComponent(noteVal) + '&id=' + postID;
+					console.log(claimDetails);
+					$.post(rootUrl + 'claim', claimDetails, function(response) {
+						response = jQuery.parseJSON(response);
+						if (response.status == 'OK') {
+							$.colorbox.close();
+						} else {
+							console.log(response.error);
+						}
+					});
+				});
+				$(boxContent).find('a.grey').click(function() {
+					$.colorbox.close();
+				});
+			}
+		});
+	});
 }
 
 function loadPage(page, owner_fb_id) {

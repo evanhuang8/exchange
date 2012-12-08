@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from exchange.libraries.helpers.url import UrlHelper
 from exchange.libraries.post import PostManager
+from exchange.libraries.notification import NotificationManager
 from main.models import *
 from datetime import datetime
 import facebook
@@ -122,9 +123,9 @@ def claim(request):
 		'error':'ACCESS_FORBIDDEN'
 	}
 	userFbID = request.session.get('userFbID', False)
-	if request.POST and userFbID:
+	if request.REQUEST and userFbID:
 		urlHelper = UrlHelper()
-		params = urlHelper.validate(request.POST, {'id', 'phone', 'email', 'note'})
+		params = urlHelper.validate(request.REQUEST, {'id', 'phone', 'email', 'note'})
 		if params == False:
 			response = {
 				'status':'FAIL',
@@ -132,36 +133,43 @@ def claim(request):
 			}
 		else:
 			user = User.objects.get(fb_id = userFbID)
-			post = Post.objects.get(id = params['id'], claimer = None)
-			if post and post.owner.fb_id != user.fb_id:
+			post = Post.objects.filter(id = params['id'], claimer = None)
+			if post.count() > 0 and post[0].owner.fb_id != user.fb_id:
+				post = post[0]
 				postType = PostManager.postType(post)
 				message = None
 				if postType == Post_money:
 					message = Message_money(
+						to = post.owner,
 						email = '',
 						text = '',
 						note = params['note'],
-						about = post
+						about = post.post_money
 					)
 				else:
 					message = Message_other(
+						to = post.owner,
 						email = '',
 						text = '',
 						note = params['note'],
-						about = post
+						about = post.post_other
 					)
 				contact = False
 				if re.search(r'^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(([0-9]{1,3})|([a-zA-Z]{2,3})|(aero|coop|info|museum|name))$', params['email']):
 					message.email = params['email']
 					contact = True
 				if re.search(r'^[0-9]{10}$', params['phone']):
-					message.phone = params['phone']
+					message.text = params['phone']
 					contact = True
 				if contact:
 					post.claimer = user
 					post.claimed_time = datetime.now() 
 					post.save()
 					message.save()
+					if post.owner.notification == 'T':
+						NotificationManager.text('Bazaarboy Swap- Someone responded to your post! Check it back on Bazaarboy Swap dashboard', [post.owner.phone])
+					elif post.owner.notification == 'M':
+						NotificationManager.email('Notification', 'Bazaarboy - Someone responds to your post! Check it back on Bazaarboy Swap dashboard', [post.owner.email])
 					response = {
 						'status':'OK'
 					}
