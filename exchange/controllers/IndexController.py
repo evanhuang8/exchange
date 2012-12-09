@@ -117,3 +117,6 @@ def dashboard(request):
 			return redirect('exchange-registration')
 		messages = PostManager.fetchMessages(user)
 	return render(request, 'dashboard.html', locals())
+
+def search(request):
+	pass
