@@ -355,7 +355,7 @@ function loadPage(page, owner_fb_id, user) {
 					$('div#wrapper_listing').animate({opacity:0}, 300, function() {
 						$(this).children().remove();
 						$('div#wrapper_paging').remove();
-						$('<div id="listing_blank">No active posts at this point. Be the first one to post!</div>').appendTo($(this));
+						$('<div id="listing_blank"></div>').appendTo($(this));
 						$('<div class="clear"></div>').appendTo($(this));
 						initPaging([1], 1, 1);
 						$(this).animate({opacity:1}, 300, function() {});

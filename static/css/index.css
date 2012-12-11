@@ -20,6 +20,8 @@ div#wrapper_login a {
 	width:256px;
 	height:50px;
 	margin-top:147px;
+	background-image:url(../images/fb-login.png);
+	background-size:250px 50px;
 }
 
 div#wrapper_control input {
@@ -114,19 +116,25 @@ div#wrapper_search {
 }
 
 div#search_option {
-	width:150px;
-	height:44px;
+	width:128px;
+	height:22px;
+	padding:11px;
+	padding-top:8px;
+	font-size:22px;
+	font-weight:bold;
+	color:#2A7F72;
+    	text-shadow:1px 1px 0px #D6EFE3;
 	float:left;
 }
 
 div#search_input {
-	width:666px;
+	width:644px;
 	height:46px;
 	float:left;
 }
 
 div#search_input input {
-	width:646px;
+	width:624px;
 	height:18px;
 	padding:4px 0;
 	margin:0 10px;
@@ -138,7 +146,15 @@ div#search_input input {
 
 div#search_submit {
 	width:100px;
-	height:44px;
+	height:22px;
+	padding:11px;
+	padding-top:8px;
+	text-align:center;
+	font-size:22px;
+	font-weight:bold;
+	color:#2A7F72;
+    	text-shadow:1px 1px 0px #D6EFE3;
+	cursor:pointer;
 	float:left;
 }
 

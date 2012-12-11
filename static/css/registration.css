@@ -1,0 +1,43 @@
+/* Registration */
+
+div#wrapper_register {
+	width:878px;
+	padding:20px;
+	border:1px solid #DDBD9A;
+	box-shadow:0px 0px 3px #DDBD9A;
+}
+
+div#register_title {
+	width:798px;
+	height:25px;
+	padding:20px 40px;
+	border-bottom:1px solid #DDBD9A;
+	color:#68421A;
+	font-size:25px;
+	font-weight:bold;
+	text-align:center;
+}
+
+div#register_content {
+	width:878px;
+	margin-top:20px;
+}
+
+div#register_notify {
+	width:300px;
+	margin-left:125px;
+	margin-right:28px;
+	float:left;
+}
+
+div#notify_title {
+	width:300px;
+	height:22px;
+	padding:10px 0;
+	font-size:22px;
+}
+
+div#register_disclaimer {
+	width:300px;
+	float:left;
+}

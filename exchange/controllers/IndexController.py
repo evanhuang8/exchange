@@ -17,7 +17,7 @@ def index(request, page = 1):
 	page = int(page)
 	pageCount = PostManager.countPage()
 	prevPage = max(1, page - 1)
-	nextPage = min(pageCount, page + 1)
+	nextPage = min(max(pageCount, 1), page + 1)
 	posts = PostManager.fetch(page)
 	paging = PostManager.paging(page)
 	if posts == None:

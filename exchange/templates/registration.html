@@ -2,314 +2,67 @@
 
 {% load exchange %}
 
-{% block page_css %}
-
-<style type="text/css" rel="stylesheet">
-
-div#wrapper_registration {
-	width:860px;
-}
-
-div#registration_top {
-	width:818px;
-	height:20px;
-	padding:20px;
-	background-color:#F6F6F6;
-	border:1px solid #DDD;
-	border-radius:4px;
-	font-size:20px;
-	font-weight:bold;
-}
-
-div#registration_info {
-	width:818px;
-	margin-top:20px;
-	padding:20px;
-	background-color:#F6F6F6;
-	border:1px solid #DDD;
-	border-radius:4px;
-}
-
-div#notify_top {
-	width:818px;
-	font-size:18px;
-	font-weight:bold;
-}
-
-div#notify_frame {
-	width:778px;
-	margin-top:20px;
-	padding:15px;
-	border:5px #CCC dashed; 
-	border-radius:5px;
-}
-
-div#notify_frame > div > div.left {
-	margin-right:10px;
-	padding-top:3px;
-	float:left;
-}
-
-div#notify_frame > div > div.right {
-	float:left;
-}
-
-div#notify_frame input[type=text] {
-	height:30px;
-	font-size:18px;
-	padding:4px 10px;
-	-webkit-border-radius:4px;
-	border-radius:4px;
-	border:#DDD thin solid;
-	color:#999;
-}
-
-div#notify_frame input[type=text].on {
-	color:#000;
-}
-
-div#notify_disclaimer {
-	width:778px;
-	padding-bottom:15px;
-	text-indent:40px;
-	font-size:16px;
-	font-weight:400;
-	line-height:23px;
-	border-bottom:1px solid #DDD;
-}
-
-div#notify_text {
-	width:778px;
-	height:40px;
-	margin-top:20px;
-	font-size:18px;
-}
-
-div#notify_text input[name=number1], div#notify_text input[name=number2] {
-	width:35px;
-}
-
-div#notify_text input[name=number3] {
-	width:45px;
-}
-
-div#notify_email {
-	width:778px;
-	height:40px;
-	margin-top:20px;
-	font-size:18px;
-}
-
-div#notify_email input[type=text] {
-	width:244px;
-}
-
-div#notify_none {
-	width:778px;
-	height:40px;
-	margin-top:20px;
-	font-size:18px;
-}
-
-div#notify_none div.right {
-	cursor:pointer;
-	padding-top:8px;
-}
-
-div#info_submit {
-	position:relative;
-	width:818px;
-	height:40px;
-	margin-top:20px;
-	margin-bottom:10px;
-	text-align:center;
-}
-
-div#info_agreement {
-	position:absolute;
-	top:15px;
-	left:470px;
-}
-
-input.valid {
-	box-shadow:0 0 5px rgba(50, 205, 50, 1);
-	-webkit-box-shadow:0 0 5px rgba(50, 205, 50, 1); 
-	-moz-box-shadow:0 0 5px rgba(50, 205, 50, 1);
-	border:1px solid rgba(50, 205, 50, 0.8);
-}
-
-input.invalid {
-	box-shadow:0 0 5px rgba(255, 0, 0, 1);
-	-webkit-box-shadow:0 0 5px rgba(255, 0, 0, 1); 
-	-moz-box-shadow:0 0 5px rgba(255, 0, 0, 1);
-	border:1px solid rgba(255, 0, 0, 0.8);
-}
-
-</style>
-
-{% endblock %}
-
 {% block page_script %}
-
-<script type="text/javascript">
-var isAgreed = true;
-$(document).ready(function() {
-	$('div#notify_text input[type=text]').focus(function() {
-		$(this).removeClass('valid').removeClass('invalid');
-		$('div#notify_email input[type=text]').removeClass('valid').removeClass('invalid').removeClass('on');
-		$('div#notify_frame input:radio[value=text]').attr('checked', true);
-		var fieldName = $(this).attr('name');
-		$('div#notify_text input[type=text]').addClass('on').each(function() {
-			if ($(this).attr('name') != fieldName) {
-				var fieldValid = false;
-				if ($(this).attr('name') == 'number3') {
-					fieldValid = /^[0-9]{4}$/.test($(this).val());
-				} else {
-					fieldValid = /^[0-9]{3}$/.test($(this).val());
-				}
-				if (fieldValid) {
-					$(this).removeClass('invalid').addClass('valid');
-				} else {
-					$(this).removeClass('valid').addClass('invalid');
-				}
-			}
-		});
-	}).blur(function() {
-		var typeVal = $('div#notify_frame input[name=notify]:checked').val();
-		if (typeVal == 'text') {
-			$('div#notify_text input[type=text]').each(function() {
-				var fieldValid = false;
-				if ($(this).attr('name') == 'number3') {
-					fieldValid = /^[0-9]{4}$/.test($(this).val());
-				} else {
-					fieldValid = /^[0-9]{3}$/.test($(this).val());
-				}
-				if (fieldValid) {
-					$(this).removeClass('invalid').addClass('valid');
-				} else {
-					$(this).removeClass('valid').addClass('invalid');
-				}
-			});
-		}
-	}).keyup(function() {
-		var target = false;
-		if ($(this).attr('name') == 'number1') {
-			if ($(this).val().length == 3) {
-				target = true;
-				$(this).blur();
-				$('div#notify_text input[name=number2]').focus().select();
-			}
-		} else if ($(this).attr('name') == 'number2') {
-			if (!target && $(this).val().length == 3) {
-				target = true;
-				$(this).blur();
-				$('div#notify_text input[name=number3]').focus().select();
-			}
-		} else {
-			if (!target && $(this).val().length == 4) {
-				$(this).blur();
-			}
-		}
-	});
-	$('div#notify_email input[type=text]').focus(function() {
-		$('div#notify_text input[type=text]').removeClass('valid').removeClass('invalid').removeClass('on');
-		$(this).removeClass('valid').removeClass('invalid').addClass('on');
-		$('div#notify_frame input:radio[value=email]').attr('checked', true);
-	}).blur(function() {
-		var typeVal = $('div#notify_frame input[name=notify]:checked').val();
-		if (typeVal == 'email') {
-			var re = /^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(([0-9]{1,3})|([a-zA-Z]{2,3})|(aero|coop|info|museum|name))$/;
-			if (re.test($(this).val())) {
-				$(this).removeClass('invalid').addClass('valid');
-			} else {
-				$(this).removeClass('valid').addClass('invalid');
-			}
-		}
-	});
-	$('div#notify_none div.right').click(function() {
-		$('div#notify_frame input[type=text]').removeClass('valid').removeClass('invalid').removeClass('on');
-		$('div#notify_frame input:radio[value=none]').attr('checked', true);
-	});
-	$('div#info_submit input[type=checkbox]').change(function() {
-		if ($(this).is(':checked')) {
-			$('div#info_submit a.button').removeClass('grey');
-			isAgreed = true;
-		} else {
-			$('div#info_submit a.button').addClass('grey');
-			isAgreed = false;
-		}
-	});
-	$('div#info_submit > a.button').click(function() {
-		if (isAgreed) {
-			var typeVal = $('div#notify_frame input[name=notify]:checked').val();
-			var notifyVal = '';
-			var fieldValid = true;
-			if (typeVal == 'text') {
-				notifyVal = $('div#notify_frame input[name=number1]').val() + $('div#notify_frame input[name=number2]').val() + $('div#notify_frame input[name=number3]').val();
-				fieldValid = /^[0-9]{10}$/.test(notifyVal);
-			} else if (typeVal == 'email') {
-				notifyVal = $('div#notify_frame input[name=email]').val();
-				var re = /^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(([0-9]{1,3})|([a-zA-Z]{2,3})|(aero|coop|info|museum|name))$/;
-				fieldValid = re.test(notifyVal);
-			}
-			if (fieldValid) {
-				$('form#form_reg input[name=notify_type]').val(typeVal);
-				$('form#form_reg input[name=notify_value]').val(notifyVal);
-				$('form#form_reg').submit();
-			}
-		}
-	});
-});
-</script>
+	
+<script type="text/javascript" src="{{ STATIC_URL }}js/registration.js"></script>
 
 {% endblock %}
 
-{% block main %}
+{% block page_css %}
+	
+<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/registration.css" />
 
-<div id="wrapper_registration">
-	<div id="registration_top">
-		Registration - We're almost there!
+{% endblock %}
+
+{% block frame %}
+
+<div id="wrapper_register" class="tile">
+	<div id="register_title">REGISTRATION &middot; We're almost there!</div>
+	<div id="register_content">
+		<div id="register_notify">
+			<div id="notify_title">
+				NOTIFICATION SETTINGS
+			</div>
+			<div id="notify_phone">
+				<div class="left">
+					<input type="radio" name="notify" value="T" />
+				</div>
+				<div class="right">
+					<input type="text" name="phone" value="Phone Number" />
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div id="notify_email">
+				<div class="left">
+					<input type="radio" name="notify" value="M" />
+				</div>
+				<div class="right">
+					<input type="text" name="email" value="Email" />
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div id="notify_none">
+				<div class="left">
+					<input type="radio" name="notify" value="N" />
+				</div>
+				<div class="right">
+					I do not want to receive notifications (not recommended)
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div id="register_disclaimer">
+		</div>
+		<div class="clear"></div>
 	</div>
-	<div id="registration_info">
-		<div id="info_intro">
-			
+	<div id="register_submit">
+		<div class="left">
+			<input type="checkbox" name="agreement" value="Yes" /> I have read Bazaarboy's <a href="#">terms & conditions</a>
 		</div>
-		<div id="info_notification">
-			<div id="notify_top">
-				Notification Settings
-			</div>
-			<div id="notify_frame">
-				<div id="notify_disclaimer">
-				The sole purpose of these notifications is for your convenience - we'll only notify you when someone is trying to swap with you. Also, your email or phone number is never exposed to other users without your permission. So take it easy, your privacy is well protected!
-				</div>
-				<div id="notify_text">
-					<div class="left"><input type="radio" name="notify" value="text" checked /></div>
-					<div class="right">&nbsp;I would like notifications to be sent to this number: <input type="text" name="number1" maxlength="3" /> - <input type="text" name="number2" maxlength="3" /> - <input type="text" name="number3" maxlength="4" /></div>
-					<div class="clear"></div>
-				</div>
-				<div id="notify_email">
-					<div class="left"><input type="radio" name="notify" value="email" /></div>
-					<div class="right">&nbsp;I would like notifications to be sent to this email: <input type="text" name="email" /></div>
-					<div class="clear"></div>
-				</div>
-				<div id="notify_none">
-					<div class="left"><input type="radio" name="notify" value="none" /></div>
-					<div class="right">&nbsp;I don't need instant notifications (Not recommended)</div>
-					<div class="clear"></div>
-				</div>
-			</div>
+		<div class="right">
+			<a href="javascript:;" class="blue button">Register</a>
 		</div>
-		<div id="info_submit">
-			<a href="javascript:;" class="button">Done</a>
-			<div id="info_agreement">
-				<input type="checkbox" id="agreement" name="agreement" value="yes" checked /><label for="agreement"> I agree with the <a href="#">Bazaarboy End User Agreement</a></label>
-			</div>
-		</div>
-		<form id="form_reg" action="{% url exchange-registration %}" method="POST">
-			{% csrf_token %}
-			<input type="hidden" name="notify_type" />
-			<input type="hidden" name="notify_value" />
-		</form>
+		<div class="clear"></div>
 	</div>
 </div>
 
