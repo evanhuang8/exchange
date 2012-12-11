@@ -66,7 +66,8 @@ class PostManager:
 			paging.append(1)
 			for i in range(max(2, page - 2), min(pageCount - 1, page + 2)):
 				paging.append(i)
-			paging.append(pageCount)
+			if page != pageCount:
+				paging.append(pageCount)
 		return paging
 
 	@staticmethod
