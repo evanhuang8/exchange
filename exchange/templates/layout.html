@@ -8,6 +8,14 @@
 		function isNumber(n) {
 			return !isNaN(parseFloat(n)) && isFinite(n);
 		}
+		function shortenName(name) {
+			var sName = name;
+			var parts = name.split(' ');
+			if (parts.length > 1) {
+				sName = parts[0] + ' ' + parts[parts.length - 1].substring(0, 1) + '.';
+			}
+			return sName;
+		}
 	</script>
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<script type="text/javascript" src="{{ STATIC_URL }}jQueryUI/js/jquery.ui.min.js"></script>

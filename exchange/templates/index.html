@@ -72,6 +72,9 @@
 <div id="wrapper_listing">
 	{% for post in posts %}
 	<div class="post tile {% if user %}{% if user|isPostOwner:post %}owner{% endif %}{% endif %}">
+		<div class="post_info hidden">
+			<span class="id">{{ post.id }}</span><span class="type">{% if post|isMoneyPost %}money{% else %}other{% endif %}</span>
+		</div>
 		<div class="post_top">
 			<div class="post_icon {% if post|isMoneyPost %}money{% else %}other{% endif %}"></div>
 			<div class="post_owner">
@@ -157,21 +160,56 @@
 			<div class="clear"></div>
 		</div>
 	</div>
+	<div id="post_frame" class="post tile">
+		<div class="post_info hidden">
+			<span class="id"></span><span class="type"></span>
+		</div>
+		<div class="post_top">
+			<div class="post_icon"></div>
+			<div class="post_owner">
+				<div class="post_owner_name"></div>
+				<div class="post_owner_profile">
+					<img src="" />
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="post_content">
+			<div class="post_want">
+				<span><b>I WANT</b></span>&nbsp;<span class="want"></span>
+			</div>
+			<div class="post_offer">
+				<span><b>I CAN OFFER</b></span>&nbsp;<span class="offer"></span> 
+			</div>
+		</div>
+		<div class="post_action">
+			<a href="javascript:;" class="button"></a>
+		</div>
+	</div>
 </div>
 <div id="wrapper_paging">
 	<div id="paging_top" class="tile">
-		<div id="paging_prev">
-			<a href="#"><span class="small"><<&nbsp;</span>PREV</a>
+		<div id="paging_prev" {% if page == prevPage %}class="hidden"{% endif %}>
+			<a href="{% url exchange-home %}{{ prevPage }}"><span class="small"><<&nbsp;</span>PREV</a>
 		</div>
-		<div id="paging_next">
-			<a href="#">NEXT&nbsp;<span class="small">>></span></a>
+		<div id="paging_next" {% if page == nextPage %}class="hidden"{% endif %}>
+			<a href="{% url exchange-home %}{{ nextPage }}">NEXT&nbsp;<span class="small">>></span></a>
 		</div>
 		<div class="clear"></div>
 	</div>
 	<div id="paging_bottom">
-		<div id="paging_view"></div>
+		<div id="paging_view"><b>VIEW</b></div>
 		<div id="paging_list">
+			<ul>
+				{% for p in paging %}
+				<li {% if p == page %}class="on"{% endif %}>{% if p != page %}<a href="{% url exchange-home %}{{ p }}">{% endif %}{{ p }}{% if p != page %}</a>{% endif %}</li>
+				{% endfor %}
+				<li class="clear"></li>
+			</ul>
 		</div>
+		<div id="paging_label"><b>PAGE</b></div>
+		<div class="clear"></div>
 	</div>
 </div>
 

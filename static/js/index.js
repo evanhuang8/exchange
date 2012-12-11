@@ -39,6 +39,9 @@ function initButtons() {
 				$(post).find('div.post_cancel a').click(function() {
 					$(post).removeClass('blue_border').revertFlip();
 				});
+				$(post).find('div.post_confirm a').click(function() {
+
+				});
 				initButtons();
 			}
 		});
@@ -54,6 +57,9 @@ function initButtons() {
 				$(post).removeAttr('style').addClass('red_border');
 				$(post).find('div.post_cancel a').click(function() {
 					$(post).removeClass('red_border').revertFlip();
+				});
+				$(post).find('div.post_confirm a').click(function() {
+
 				});
 				initButtons();
 			}
@@ -71,7 +77,7 @@ function getFlip(post, claim) {
 		$('div#post_claim div.post_contact').clone().appendTo($(flip));
 		$('div#post_claim div.post_control').clone().appendTo($(flip));
 	} else {
-		$(flip).find('div.post_icon').after($('div#post_remove div.post_title').clone());
+		$(flip).find('div.post_icon').addClass('selected').after($('div#post_remove div.post_title').clone());
 		$('div#post_remove div.post_control').clone().appendTo($(flip));
 	}
 	return flip;
@@ -154,93 +160,89 @@ function initPostForm() {
 			$(this).addClass('invalid');
 		}
 	});
-}
-
-function initButtonBehavior() {
-	$('div.post_claim a.button.red').unbind().click(function() {
-		var post = $(this).parent().parent().parent();
-		var postID = $(post).find('span.id').html();
-		var boxContent = $('div#colorbox_hidden div.colorbox_remove_frame').clone();
-		$(boxContent).removeClass('hidden');
-		$.colorbox({
-			open:false,
-			top:'20%',
-			fixed:true,
-			html:boxContent,
-			onLoad:function() {
-				$('#cboxClose').remove();
-				$(boxContent).find('a.red').click(function() {
-					$.post(rootUrl + 'delete', {csrfmiddlewaretoken:csrfToken, id:postID}, function(response) {
-						response = jQuery.parseJSON(response);
-						if (response.status == 'OK') {
-							$.colorbox.close();
-							loadPage(pageNumber, userFbID);
-						} else {
-							alert(response.error);
-						}
-					});
-				});
-				$(boxContent).find('a.grey').click(function() {
-					$.colorbox.close();
-				});
-			}
-		});
-	});
-	$('div.post_claim a.button.green').unbind().click(function() {
-		var post = $(this).parent().parent().parent();
-		var postID = $(post).find('span.id').html();
-		var boxContent = $('div#colorbox_hidden div.colorbox_claim_frame').clone();
-		$(boxContent).removeClass('hidden');
-		$.colorbox({
-			open:false,
-			top:'20%',
-			fixed:true,
-			html:boxContent,
-			onLoad:function() {
-				$('#cboxClose').remove();
-				$(boxContent).find('a.red').click(function() {
-					var phoneVal = $(boxContent).find('input[name=number]').val();
-					var emailVal = $(boxContent).find('input[name=email]').val();
-					var noteVal = $(boxContent).find('input[name=note]').val();
-					var claimDetails = 'csrfmiddlewaretoken=' + csrfToken + '&phone=' + encodeURIComponent(phoneVal) + '&email=' + encodeURIComponent(emailVal) + '&note=' + encodeURIComponent(noteVal) + '&id=' + postID;
-					console.log(claimDetails);
-					$.post(rootUrl + 'claim', claimDetails, function(response) {
-						response = jQuery.parseJSON(response);
-						if (response.status == 'OK') {
-							$.colorbox.close();
-						} else {
-							console.log(response.error);
-						}
-					});
-				});
-				$(boxContent).find('a.grey').click(function() {
-					$.colorbox.close();
-				});
-			}
-		});
+	$('div#control_submit a').click(function() {
+		var wantVal = $('div#want_input input').val();
+		var typeVal = $('div#control_radios input[name=offer]:checked').val();
+		var offerVal = $('div#offer_input_money input').val();
+		if (typeVal == 'other') {
+			offerVal = $('div#offer_input_other input').val();
+		}
+		if (((typeVal == 'money' && !moneyBlank && isNumber(offerVal)) || (typeVal == 'other' && !otherBlank && offerVal.length > 0)) && !wantBlank) {
+			var postInfo = 'csrfmiddlewaretoken=' + csrfToken;
+			postInfo += '&type=' + typeVal;
+			postInfo += '&want=' + encodeURIComponent(wantVal);
+			postInfo += '&offer=' + encodeURIComponent(offerVal);
+			$.post(rootUrl + 'post', postInfo, function(response) {
+				response = jQuery.parseJSON(response);
+				if (response.status == 'OK') {
+					clearPostForm();
+					loadPage(1, userFbID, true);
+				} else {
+					alert(response.error);
+				}
+			});
+		}
 	});
 }
 
-function loadPage(page, owner_fb_id) {
+function clearPostForm() {
+	$('div#want_input input').val('').trigger('blur');
+	$('div#offer_input_money input').val('').trigger('blur');
+	$('div#offer_input_other input').val('').trigger('blur');
+	$('div#control_radios input[value=other]').removeAttr('checked');
+	$('div#control_radios input[value=money]').attr('checked', true);
+}
+
+function insertPost(post, owner, user) {
+	var target = $('div#post_frame').clone();
+	$(target).removeAttr('id');
+	if (owner) {
+		$(target).addClass('owner');
+	}
+	$(target).find('span.id').html(post.id);
+	$(target).find('span.type').html(post.type);
+	$(target).find('div.post_icon').addClass(post.type);
+	$(target).find('div.post_owner_name').html(shortenName(post.owner.name));
+	$(target).find('div.post_owner_profile img').attr('src', 'https://graph.facebook.com/' + post.owner.fb_id + '/picture');
+	$(target).find('span.want').html(post.want);
+	$(target).find('span.offer').html(post.offer);
+	if (post.type == 'money') {
+		$(target).find('span.offer').before('$');
+	}
+	var actionClass = 'blue';
+	var actionText = 'Do it.';
+	if (owner) {
+		actionClass = 'red';
+		actionText = 'Remove Post';
+	}
+	if (!user) {
+		actionClass = 'tan';
+		actionText = 'Do it.';
+	}
+	$(target).find('div.post_action a').addClass(actionClass).html(actionText);
+	$(target).prependTo($('div#wrapper_listing'));
+} 
+
+function loadPage(page, owner_fb_id, user) {
 	if (page > 0) {
 		$.get(rootUrl + 'page/' + page, function(response) {
 			response = jQuery.parseJSON(response);
 			if (response.status == 'OK') {
-				initPaging(response.paging, response.previous_page, response.next_page);
-				$('div#listing_posts').animate({opacity:0}, 300, function() {
+				$('div#wrapper_listing').animate({opacity:0}, 300, function() {
 					$(this).children().remove();
 					for (var i = response.posts.length - 1;i >= 0;i--) {
 						var p = response.posts[i];
-						insertPost(p, p.owner.fb_id == owner_fb_id, false);
+						insertPost(p, p.owner.fb_id == owner_fb_id, user);
 					}
 					$(this).append($('<div class="clear"></div>'));
 					$(this).animate({opacity:1}, 300, function() {
-						initButtonBehavior();
+						initButtons();
 					});
 				});
+				initPaging(response);
 			} else {
 				if (pageNumber == 1) {
-					$('div#listing_posts').animate({opacity:0}, 300, function() {
+					$('div#wrapper_listing').animate({opacity:0}, 300, function() {
 						$(this).children().remove();
 						$('div#wrapper_paging').remove();
 						$('<div id="listing_blank">No active posts at this point. Be the first one to post!</div>').appendTo($(this));
@@ -256,22 +258,6 @@ function loadPage(page, owner_fb_id) {
 	}
 }
 
-function initPaging(paging, prevPage, nextPage) {
-	$('div#wrapper_paging').animate({opacity:0}, 300, function() {
-		$(this).children().remove();
-		var pagingHtml = '<span><a href="' + rootUrl + prevPage + '">&lt;</a></span>&nbsp;';
-		for (var i = 0;i < paging.length;i++) {
-			pagingHtml += '<span>';
-			if (paging[i] == pageNumber) {
-				pagingHtml += paging[i];
-			} else {
-				pagingHtml += '<a href="' + rootUrl + paging[i] + '">' + paging[i] + '</a>';
-			}
-			pagingHtml += '</span>&nbsp;';
-		}
-		pagingHtml += '<span><a href="' + rootUrl + nextPage + '">&gt;</a></span>';
-		$(this).html(pagingHtml);
-		$(this).animate({opacity:1}, 300, function() {
-		});
-	});
+function initPaging(pageInfo) {
+	console.log(pageInfo);
 }

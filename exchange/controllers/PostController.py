@@ -16,8 +16,8 @@ def page(request, page = 1):
 	paging = []
 	page = int(page)
 	pageCount = PostManager.countPage()
-	prevPage = page - 1 if page - 1 >= 1 else 1
-	nextPage = page + 1 if page + 1 <= pageCount else pageCount
+	prevPage = max(1, page - 1)
+	nextPage = min(pageCount, page + 1)
 	paging = PostManager.paging(page)
 	posts = PostManager.fetch(page = page, serialized = True)
 	if posts == None or len(posts) == 0:

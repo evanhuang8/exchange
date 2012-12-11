@@ -178,12 +178,20 @@ div.post.owner div.post_icon.money {
 	background-position:60px 0;
 }
 
+div.post.owner div.post_icon.money.selected {
+	background-position:120px 0;
+}
+
 div.post_icon.other {
 	background-position:0 60px;
 }
 
 div.post.owner div.post_icon.other {
 	background-position:60px 60px;
+}
+
+div.post.owner div.post_icon.other.selected {
+	background-position:120px 60px;
 }
 
 div.post_title {
@@ -371,4 +379,51 @@ div#paging_next {
 
 span.small {
 	font-size:10px;
+}
+
+div#paging_bottom {
+	width:920px;
+	padding-top:12px;
+}
+
+div#paging_view {
+	float:left;
+}
+
+div#paging_list {
+	float:right;
+}
+
+div#paging_list ul li {
+	display:block;
+	width:20px;
+	height:18px;
+	margin:0 8px;
+	margin-top:-2px;
+	padding-top:2px;
+	text-align:center;
+	float:left;
+}
+
+div#paging_list ul li a {
+	color:#000;
+	text-decoration:none;
+}
+
+div#paging_list ul li a:hover {
+	text-decoration:underline;
+}
+
+div#paging_list ul li.on {
+	width:18px;
+	height:16px;
+	padding-top:1px;
+	border:1px solid #24ABA2;
+	color:#FFF;
+	background:#3AA598;
+}
+
+div#paging_label {
+	margin-right:10px;
+	float:right;
 }
