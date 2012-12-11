@@ -1,0 +1,16 @@
+{% if user %}
+<div id="header_account">
+	<div id="account_logout">
+		<a href="{% url exchange-logout %}">Log Out</a>
+	</div>
+	<div id="account_name">
+		<a href="{% url exchange-dashboard %}">{{ user.name }}</a>
+	</div>
+	<div id="account_profile">
+		<img src="https://graph.facebook.com/{{ user.fb_id }}/picture" />
+	</div>
+	<div id="account_notification">
+	</div>
+	<div class="clear"></div>
+</div>
+{% endif %}

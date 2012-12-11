@@ -3,37 +3,37 @@
 <head>
 	<title>{% block page_title %}Bazaarboy Swap{% endblock %}</title>
 	<script type="text/javascript">
-		var rootUrl = '{{ STATIC_URL }}../';
+		var rootUrl = '{% url exchange-home %}';
 		var csrfToken = '{{ csrf_token }}';
 		function isNumber(n) {
 			return !isNaN(parseFloat(n)) && isFinite(n);
 		}
 	</script>
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}ColorBox/jquery.colorbox-min.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}jQueryUI/js/jquery.ui.min.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}Flip/jquery.flip.min.js"></script>
 	{% block page_script %}{% endblock %}
 	<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/reset.css" />
+	<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}jQueryUI/css/smoothness/jquery.ui.min.css" />
 	<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/layout.css" />
-	<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}ColorBox/colorbox.css" />
 	{% block page_css %}{% endblock %}
 </head>
 <body>
 {% include 'facebook.html' %}
-<div id="wrapper_header" />
-<div id="wrapper_frame">
-	<div id="wrapper_top">
-		<div id="wrapper_logo">
-			<img src="{{ STATIC_URL }}images/logo.png" />
+<div id="wrapper_header">
+	<div id="wrapper_header_inner">
+		<div id="header_logo">
+			<img src="{{ STATIC_URL }}images/header-logo.png" />
 		</div>
-		{% include 'user.html' %}
+		{% include 'account.html' %}
 		<div class="clear"></div>
 	</div>
-	<div id="wrapper_main">
-		{% block main %}{% endblock %}
-	</div>
-	<div id="wrapper_foot">
-		&copy; Bazaarboy Swap 2012
-	</div>
+</div>
+<div id="wrapper_frame">
+	{% block frame %}{% endblock %}
+</div>
+<div id="wrapper_foot">
+	&copy; Bazaarboy | Swap 2012
 </div>
 </body>
 </html>

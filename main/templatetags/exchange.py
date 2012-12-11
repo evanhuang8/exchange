@@ -28,3 +28,11 @@ def isMoneyPost(post):
 @register.filter
 def isPostOwner(user, post):
 	return post.owner.fb_id == user.fb_id and user
+
+@register.filter
+def shortenName(name):
+	sName = name
+	parts = name.split(' ')
+	if len(parts) > 1:
+		sName = parts[0] + ' ' + parts[len(parts) - 1][:1] + '.'
+	return sName

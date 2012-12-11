@@ -1,6 +1,160 @@
 $(document).ready(function() {
-	initButtonBehavior();
+	fbLoginDispatch();
+	initButtons();
+	initPostForm();
 });
+
+function fbLoginDispatch() {
+	$('div#wrapper_login a').click(function() {
+		var fbPermissions = '';
+		FB.login(function(response) {
+			if (response.authResponse) {
+				var fbAccessToken = response.authResponse.accessToken;
+				console.log(fbAccessToken);
+				$.post(rootUrl + 'login', {accessToken:fbAccessToken, csrfmiddlewaretoken:csrfToken}, function(fbAuthResponse) {
+					console.log(fbAuthResponse);
+					fbAuthResponse = jQuery.parseJSON(fbAuthResponse);
+					if (fbAuthResponse.status == 'OK') {
+						document.location.reload(true);
+					} else {
+						alert('FAIL: ' + fbAuthResponse.error);
+					}
+				});
+			}
+		}, {scope:fbPermissions});
+	});
+}
+
+function initButtons() {
+	$('div#wrapper_listing div.post div.post_action a').parent().parent().removeClass('red_border').removeClass('blue_border');
+	$('div#wrapper_listing div.post div.post_action a:not(.tan)').unbind().click(function() {
+		var post = $(this).parent().parent();
+		var actionForm = getFlip(post, true);
+		$(post).flip({
+			direction:'rl',
+			speed:200,
+			content:actionForm,
+			onEnd:function() {
+				$(post).removeAttr('style').addClass('blue_border');
+				$(post).find('div.post_cancel a').click(function() {
+					$(post).removeClass('blue_border').revertFlip();
+				});
+				initButtons();
+			}
+		});
+	});
+	$('div#wrapper_listing div.post.owner div.post_action a:not(.tan)').unbind().click(function() {
+		var post = $(this).parent().parent();
+		var actionForm = getFlip(post, false);
+		$(post).flip({
+			direction:'rl',
+			speed:200,
+			content:actionForm,
+			onEnd:function() {
+				$(post).removeAttr('style').addClass('red_border');
+				$(post).find('div.post_cancel a').click(function() {
+					$(post).removeClass('red_border').revertFlip();
+				});
+				initButtons();
+			}
+		});
+	});
+}
+
+function getFlip(post, claim) {
+	var flip = $(post).clone();
+	$(flip).find('div.post_owner').remove();
+	$(flip).find('div.post_action').remove();
+	if (claim) {
+		$(flip).find('div.post_content').remove();
+		$(flip).find('div.post_icon').after($('div#post_claim div.post_title').clone());
+		$('div#post_claim div.post_contact').clone().appendTo($(flip));
+		$('div#post_claim div.post_control').clone().appendTo($(flip));
+	} else {
+		$(flip).find('div.post_icon').after($('div#post_remove div.post_title').clone());
+		$('div#post_remove div.post_control').clone().appendTo($(flip));
+	}
+	return flip;
+}
+
+function initPostForm() {
+	var wantBlank = true;
+	var wantDefault = 'a ride to the airport';
+	var moneyBlank = true;
+	var moneyDefault = '5.00';
+	var otherBlank = true;
+	var otherDefault = 'a vintage necklace';
+	$('div#want_input input').focus(function() {
+		if (wantBlank) {
+			$(this).val('');
+		}
+	}).blur(function() {
+		if ($(this).val() == '') {
+			wantBlank = true;
+			$(this).removeClass('on');
+			$(this).val(wantDefault);
+		} else {
+			wantBlank = false;
+			$(this).addClass('on');
+		}
+	});
+	$('div#offer_input_money input').focus(function() {
+		$('div#control_radios input[value=other]').removeAttr('checked');
+		$('div#control_radios input[value=money]').attr('checked', true);
+		$('div#offer_input_other input').removeClass('on').removeClass('invalid');
+		if (moneyBlank) {
+			$(this).val('');
+		}
+	}).blur(function() {
+		if ($(this).val() == '') {
+			moneyBlank = true;
+			$(this).removeClass('on').removeClass('invalid');
+			$(this).val(moneyDefault);
+			if (!otherBlank) {
+				$('div#control_radios input[value=money]').removeAttr('checked');
+				$('div#control_radios input[value=other]').attr('checked', true);
+				$('div#offer_input_other input').trigger('blur').trigger('keyup');
+			}
+		} else {
+			moneyBlank = false;
+			$(this).addClass('on');
+		}
+	}).keyup(function() {
+		if (!isNumber($(this).val())) {
+			$(this).addClass('invalid');
+		} else {
+			$(this).removeClass('invalid');
+		}
+	});
+	$('div#offer_input_other input').focus(function() {
+		$('div#control_radios input[value=money]').removeAttr('checked');
+		$('div#control_radios input[value=other]').attr('checked', true);
+		$('div#offer_input_money input').removeClass('on').removeClass('invalid');
+		if (otherBlank) {
+			$(this).val('');
+		}
+	}).blur(function() {
+		if ($(this).val() == '') {
+			otherBlank = true;
+			$(this).removeClass('on').removeClass('invalid');
+			$(this).val(otherDefault);
+			if (!moneyBlank) {
+				$('div#control_radios input[value=other]').removeAttr('checked');
+				$('div#control_radios input[value=money]').attr('checked', true);
+				$('div#offer_input_money input').trigger('blur').trigger('keyup');
+			}
+		} else {
+			otherBlank = false;
+			$(this).addClass('on');
+		}
+	}).keyup(function() {
+		if ($(this).val().length > 0 && $(this).val().length < 50) {
+			$(this).removeClass('invalid');
+		} else {
+			$(this).addClass('invalid');
+		}
+	});
+}
 
 function initButtonBehavior() {
 	$('div.post_claim a.button.red').unbind().click(function() {

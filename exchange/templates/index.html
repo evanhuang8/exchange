@@ -4,133 +4,175 @@
 
 {% block page_script %}
 	
-	<script type="text/javascript">
-		var pageNumber = {{ page }};
-		{% if user %}
-		var userFbID = '{{ user.fb_id }}';
-		{% endif %}
-	</script>	
-	<script type="text/javascript" src="{{ STATIC_URL }}js/index.js"></script>
+<script type="text/javascript">
+	var pageNumber = {{ page }};
+	{% if user %}
+	var userFbID = '{{ user.fb_id }}';
+	{% endif %}
+</script>	
+<script type="text/javascript" src="{{ STATIC_URL }}js/index.js"></script>
 
 {% endblock %}
 
 {% block page_css %}
 	
-	<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/index.css" />
+<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/index.css" />
 
 {% endblock %}
 
-{% block main %}
+{% block frame %}
 
-	{% if user %}
-		{% include 'control.html' %}
+<div id="wrapper_top">
+	{% if not user %}
+	<div id="wrapper_login" class="tile">
+		<a href="javascript:;" class="blue_border"></a>
+	</div>
 	{% else %}
-		{% include 'login.html' %}
+	<div id="wrapper_control" class="tile">
+		<div id="control_top">POST A SWAP</div>
+		<div id="control_want">
+			<div id="want_label">I WANT...</div>
+			<div id="want_input">
+				<input type="text" name="want" maxlength="50" value="a ride to the airport" />
+			</div>
+		</div>
+		<div id="control_offer">
+			<div id="offer_label">I CAN OFFER...</div>
+			<div id="offer_input_money">
+				<input type="text" name="offer_money" maxlength="10" value="5.00" />
+			</div>
+			<div id="offer_or">OR</div>
+			<div id="offer_input_other">
+				<input type="text" name="offer_other" maxlength="50" value="a vintage necklace" />
+			</div>
+			<div id="control_radios" class="hidden">
+				<input type="radio" name="offer" value="money" checked />
+				<input type="radio" name="offer" value="other" />
+			</div>
+		</div>
+		<div id="control_submit">
+			<a href="javascript:;" class="blue button">Post</a>
+		</div>
+	</div>
 	{% endif %}
-
-	<div id="wrapper_listing">
-		<div id="listing_posts">
-		{% for post in posts %}
-			<div class="post">
-				<div class="post_top">
-					<div class="post_profile">
-						<img src="https://graph.facebook.com/{{ post.owner.fb_id }}/picture" />
-					</div>
-					<div class="post_name">{{ post.owner.name }}</div>
-					<div class="post_claim">
-						{% if user %}
-							{% if user|isPostOwner:post %}
-								<a href="javascript:;" class="button red">Remove</a>
-							{% else %}
-								<a href="javascript:;" class="button green">I'll do it!</a>
-							{% endif %}
-						{% else %}	
-							<a href="javascript:;" class="button grey">I'll do it!</a>
-						{% endif %}
-					</div>
+	<div id="wrapper_intro">
+	</div>
+	<div class="clear"></div>
+</div>
+<div id="wrapper_search">
+	<div id="search_option" class="blue_border blue_bg">
+	</div>
+	<div id="search_input" class="tile">
+		<input type="text" name="keyword" class="tile" value="a ride to the airport" />
+	</div>
+	<div id="search_submit" class="blue_border blue_bg">
+	</div>
+	<div class="clear"></div>
+</div>
+<div id="wrapper_listing">
+	{% for post in posts %}
+	<div class="post tile {% if user %}{% if user|isPostOwner:post %}owner{% endif %}{% endif %}">
+		<div class="post_top">
+			<div class="post_icon {% if post|isMoneyPost %}money{% else %}other{% endif %}"></div>
+			<div class="post_owner">
+				<div class="post_owner_name">{{ post.owner.name|shortenName }}</div>
+				<div class="post_owner_profile">
+					<img src="https://graph.facebook.com/{{ post.owner.fb_id }}/picture" />
 				</div>
-				<div class="post_middle">
-					<div class="post_icon {% if post|isMoneyPost %}money{% else %}other{% endif %}"></div>
-					<div class="post_info">
-						<div class="post_want"><span class="grey">I want</span> <span class="want">{{ post.want }}</span></div>
-						<div class="post_offer"><span class="grey">I can offer</span> <span class="offer">{% if post|isMoneyPost %}$ {% endif %}{{ post|offer }}</span></div>
-					</div>
-					<div class="clear"></div>
-				</div>
-				<div class="post_time hidden"><span class="created_time">{{ post.created_time }}</span><span class="id">{{ post.id }}</span><span class="type">{% if post|isMoneyPost %}money{% else %}other{% endif %}</span></div>
+				<div class="clear"></div>
 			</div>
-		{% empty %}
-			<div id="listing_blank">
-				No active posts at this point. Be the first one to post!
-			</div>
-		{% endfor %}
 			<div class="clear"></div>
 		</div>
-		<div id="listing_hidden" class="hidden">
-			<div id="post_template">
-				<div class="post_top">
-					<div class="post_profile">
-						<img src="" />
-					</div>
-					<div class="post_name"></div>
-					<div class="post_claim">
-						<a href="javascript:;" class="button"></a>
-					</div>
-				</div>
-				<div class="post_middle">
-					<div class="post_icon"></div>
-					<div class="post_info">
-						<div class="post_want"><span class="grey">I want</span> <span class="want"></span></div>
-						<div class="post_offer"><span class="grey">I can offer</span> <span class="offer"></span></div>
-					</div>
-					<div class="clear"></div>
-				</div>
-				<div class="post_time hidden"><span class="created_time"></span><span class="id"></span><span class="type"></span></div>
+		<div class="post_content">
+			<div class="post_want">
+				<span><b>I WANT</b></span>&nbsp;<span class="want">{{ post.want }}</span>
+			</div>
+			<div class="post_offer">
+				<span><b>I CAN OFFER</b></span>&nbsp;{% if post|isMoneyPost %}$ {% endif %}<span class="offer">{{ post|offer }}</span> 
 			</div>
 		</div>
+		<div class="post_action">
 		{% if user %}
-			<div id="colorbox_hidden" class="hidden">
-				<div class="colorbox_remove_frame hidden">
-					<div class="top">
-						Delete Post
-					</div>
-					<div class="mid">
-						Are you sure you want to delete the post?
-					</div>
-					<div class="bottom">
-						<a href="javascript:;" class="button grey">Cancel</a>
-						<a href="javascript:;" class="button red">Delete</a>
-					</div>
-				</div>
-				<div class="colorbox_claim_frame hidden">
-					<div class="top">
-						Claim Post
-					</div>
-					<div class="mid">
-						Put in your phone number, email, or both, so that the post owner can contact you.
-						<br />
-						<input type="text" name="number" />
-						<br />
-						<input type="text" name="email" />
-						<br />
-						<input type="text" name="note" />
-					</div>
-					<div class="bottom">
-						<a href="javascript:;" class="grey">Cancel</a>
-						<a href="javascript:;" class="red">Confirm</a>
-					</div>
-				</div>
-			</div>
+			{% if user|isPostOwner:post %}
+			<a href="javascript:;" class="red button">Remove Post</a>
+			{% else %}
+			<a href="javascript:;" class="blue button">Do It.</a>
+			{% endif %}
+		{% else %}	
+			<a href="javascript:;" class="tan button">Do It.</a>
 		{% endif %}
+		</div>
 	</div>
-	{% if not paging|isEmpty %}
-	<div id="wrapper_paging">
-		<span><a href="{% url exchange-home %}{{ prevPage }}">&lt;</a></span>&nbsp;
-		{% for p in paging %}
-			<span>{% if p != page %}<a href="{% url exchange-home %}{{ p }}">{% endif %}{{ p }}{% if p != page %}</a>{% endif %}</span>&nbsp;
-		{% endfor %}
-		<span><a href="{% url exchange-home %}{{ nextPage }}">&gt;</a></span>
+	{% empty %}
+	<div id="listing_blank">
 	</div>
-	{% endif %}
+	{% endfor %}
+	<div class="clear"></div>
+</div>
+<div id="wrapper_listing_templates" class="hidden">
+	<div id="post_claim">
+		<div class="post_title">HOW DO YOU WANT<br />TO BE CONTACTED?</div>
+		<div class="post_contact">
+			<div class="post_phone">
+				<div class="left">
+					<input type="checkbox" />
+				</div>
+				<div class="right">
+					<input type="text" name="phone" value="Phone Number" />
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="post_email">
+				<div class="left">
+					<input type="checkbox" />
+				</div>
+				<div class="right">
+					<input type="text" name="email" value="Email" />
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="post_note">
+				<input type="text" name="note" value="Leave an optional note" />
+			</div>
+		</div>
+		<div class="post_control">
+			<div class="post_confirm">
+				<a href="javascript:;" class="blue button small">Looks Good</a>
+			</div>
+			<div class="post_cancel">
+				<a href="javascript:;" class="tan button small">NeverMind</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div id="post_remove">
+		<div class="post_title">DO YOU REALLY WANT<br />TO DELETE THIS POST?</div>
+		<div class="post_control">
+			<div class="post_confirm">
+				<a href="javascript:;" class="red button small">Yes, Delete</a>
+			</div>
+			<div class="post_cancel">
+				<a href="javascript:;" class="tan button small">No, Keep</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>
+<div id="wrapper_paging">
+	<div id="paging_top" class="tile">
+		<div id="paging_prev">
+			<a href="#"><span class="small"><<&nbsp;</span>PREV</a>
+		</div>
+		<div id="paging_next">
+			<a href="#">NEXT&nbsp;<span class="small">>></span></a>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div id="paging_bottom">
+		<div id="paging_view"></div>
+		<div id="paging_list">
+		</div>
+	</div>
+</div>
 
 {% endblock %}
