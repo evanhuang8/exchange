@@ -118,7 +118,7 @@
 		<div class="post_contact">
 			<div class="post_phone">
 				<div class="left">
-					<input type="checkbox" />
+					<input type="checkbox" disabled="disabled" />
 				</div>
 				<div class="right">
 					<input type="text" name="phone" value="Phone Number" />
@@ -127,7 +127,7 @@
 			</div>
 			<div class="post_email">
 				<div class="left">
-					<input type="checkbox" />
+					<input type="checkbox" disabled="disabled" />
 				</div>
 				<div class="right">
 					<input type="text" name="email" value="Email" />
@@ -135,7 +135,7 @@
 				<div class="clear"></div>
 			</div>
 			<div class="post_note">
-				<input type="text" name="note" value="Leave an optional note" />
+				<input type="text" name="note" maxlength="50" value="Leave an optional note" />
 			</div>
 		</div>
 		<div class="post_control">
@@ -204,6 +204,8 @@
 			<ul>
 				{% for p in paging %}
 				<li {% if p == page %}class="on"{% endif %}>{% if p != page %}<a href="{% url exchange-home %}{{ p }}">{% endif %}{{ p }}{% if p != page %}</a>{% endif %}</li>
+				{% empty %}
+				<li class="on">1</li>
 				{% endfor %}
 				<li class="clear"></li>
 			</ul>

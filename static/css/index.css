@@ -253,6 +253,15 @@ div.post_contact input[type=text] {
 	font-size:16px;
 }
 
+div.post_contact input[type=text].on {
+	color:#000;
+	font-style:normal;
+}
+
+div.post_contact input[type=text].invalid {
+	box-shadow:0px 0px 2px #F00;
+}
+
 div.post_contact div.left {
 	width:16px;
 	height:10px;
