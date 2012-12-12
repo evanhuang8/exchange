@@ -25,7 +25,7 @@
 			</div>
 			<div id="notify_phone">
 				<div class="left">
-					<input type="radio" name="notify" value="T" />
+					<input type="radio" name="notify" value="T" checked />
 				</div>
 				<div class="right">
 					<input type="text" name="phone" value="Phone Number" />
@@ -57,12 +57,25 @@
 	</div>
 	<div id="register_submit">
 		<div class="left">
-			<input type="checkbox" name="agreement" value="Yes" /> I have read Bazaarboy's <a href="#">terms & conditions</a>
+			<div class="left">
+				<input type="checkbox" name="agreement" value="Yes" />
+			</div>
+			<div class="right">
+				I agree with Bazaarboy's <b><a href="#">terms & conditions</b></a>
+			</div>
+			<div class="clear"></div>
 		</div>
 		<div class="right">
-			<a href="javascript:;" class="blue button">Register</a>
+			<a id="register" href="javascript:;" class="blue button">Register</a>
 		</div>
 		<div class="clear"></div>
+	</div>
+	<div class="hidden">
+		<form id="form_register" action="{% url exchange-registration %}" method="POST">
+			{% csrf_token %}
+			<input type="hidden" name="notify_type" />
+			<input type="hidden" name="notify_value" />
+		</form>
 	</div>
 </div>
 

@@ -20,7 +20,9 @@ div#register_title {
 
 div#register_content {
 	width:878px;
-	margin-top:20px;
+	margin-top:10px;
+	padding-bottom:20px;
+	border-bottom:1px solid #DDBD9A;
 }
 
 div#register_notify {
@@ -30,6 +32,34 @@ div#register_notify {
 	float:left;
 }
 
+div#register_notify div.left {
+	width:26px;
+	height:16px;
+	padding-top:20px;
+	float:left;
+}
+
+div#register_notify div.right {
+	width:254px;
+	height:36px;
+	padding:10px 0;
+	color:#68421A;
+	float:left;
+}
+
+div#register_notify div.right input[type=text] {
+	width:242px;
+}
+
+div#register_notify div.right input[type=text].invalid {
+	box-shadow:0px 0px 2px #F00;
+}
+
+div#register_notify div.right input[type=text].on {
+	color:#000;
+	font-style:normal;
+}
+
 div#notify_title {
 	width:300px;
 	height:22px;
@@ -37,7 +67,53 @@ div#notify_title {
 	font-size:22px;
 }
 
+div#notify_none div.right {
+	cursor:pointer;
+}
+
 div#register_disclaimer {
 	width:300px;
 	float:left;
+}
+
+div#register_submit {
+	width:628px;
+	margin:10px 125px;
+	margin-top:20px;
+	margin-bottom:0;
+}
+
+div#register_submit > div.left {
+	width:300px;
+	margin-right:28px;
+	float:left;
+}
+
+div#register_submit > div.left > div.left {
+	width:26px;
+	height:16px;
+	padding-top:12px;
+	float:left;	
+}
+
+div#register_submit > div.left > div.right {
+	width:254px;
+	height:36px;
+	padding:10px 0;
+	padding-top:2px;
+	color:#68421A;
+	float:left;
+}
+
+div#register_submit > div.left a {
+	color:#219D90;
+}
+
+div#register_submit > div.right {
+	width:300px;
+	float:left;
+}
+
+div#register_submit > div.right a {
+	width:278px;
 }
