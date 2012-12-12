@@ -185,6 +185,31 @@ def claim(request):
 				}
 	return HttpResponse(json.dumps(response))
 
+def check(request):
+	response = {
+		'status':'FAIL',
+		'error':'ACCESS_FORBIDDEN'
+	}
+	userFbID = request.session.get('userFbID', False)
+	if request.POST and userFbID:
+		urlHelper = UrlHelper()
+		params = urlHelper.validate(request.POST, {'id', 'type'})
+		if params == False or (params['type'] != 'money' and params['type'] != 'other'):
+			response = {
+				'status':'FAIL',
+				'error':'BAD_REQUEST'
+			}
+		else:
+			user = User.objects.get(fb_id = userFbID)
+			message = None
+			if params['type'] == 'money':
+				message = Message_money.objects.get(id = params['id'])
+			else:
+				message = Message_other.objects.get(id = params['id'])
+			message.checked = True
+			message.save()
+	return HttpResponse(json.dumps(response))
+
 def respond(request):
 	response = {
 		'status':'FAIL',
@@ -210,6 +235,7 @@ def respond(request):
 				message.about.approved = True
 				message.about.save()
 				message.approved = True
+				message.checked = True
 				message.save()
 				response = {
 					'status':'OK'
@@ -222,6 +248,7 @@ def respond(request):
 				message.about.claimer = None
 				message.about.save()
 				message.approved = False
+				message.checked = True
 				message.save()
 				response = {
 					'status':'OK'

@@ -26,6 +26,8 @@ def index(request, page = 1):
 		user = User.objects.get(fb_id = userFbID)
 		if user.notification == '':
 			return redirect('exchange-registration')
+		else:
+			msgCount = PostManager.uncheckMessageCount(user)
 	return render(request, 'index.html', locals())
 
 def login(request):
@@ -116,6 +118,7 @@ def dashboard(request):
 		if user.notification == '':
 			return redirect('exchange-registration')
 		bullets = PostManager.fetchBulletin(user)
+		msgCount = PostManager.uncheckMessageCount(user)
 	return render(request, 'dashboard.html', locals())
 
 def search(request):

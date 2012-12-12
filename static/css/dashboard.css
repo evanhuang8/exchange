@@ -231,3 +231,34 @@ div.bullet_action > div {
 	margin-left:10px;
 	float:right;
 }
+
+div.bullet_contact {
+	width:536px;
+	height:27px;
+	margin-top:5px;
+	padding:0 15px;
+	padding-top:10px;
+	color:#68421A;
+	background:#ECF1E5;
+}
+
+div.bullet_contact > div {
+	float:left;
+}
+
+div.contact_label {
+	margin-right:10px;
+}
+
+div.contact_email {
+	margin-right:10px;
+}
+
+div.contact_email a {
+	color:#68421A;
+	text-decoration:none;
+}
+
+div.contact_email a:hover {
+	text-decoration:underline;
+}

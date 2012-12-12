@@ -35,14 +35,14 @@
 			<div id="category_swaps">
 				<a href="javascript:;" class="blue button">Your Swaps</a>
 			</div>
-			<div id="category_offers">
+			<div id="category_offers" class="hidden">
 				<a href="javascript:;" class="tan button">Your Offers</a>
 			</div>
 		</div>
 		<div id="bulletin_listing">
 			{% for bullet in bullets.swaps %}
 			{% if bullet|isMessage %}
-			<div class="tile bullet swap off">
+			<div class="tile bullet swap {% if bullet.checked %}off{% else %}{% if not bullet.approved %}blue_border{% endif %}{% endif %}">
 				<div class="bullet_inner">
 					<div class="bullet_top">
 						<div class="bullet_icon swap {% if bullet.about|isMoneyPost %}money{% else %}other{% endif %}"></div>
@@ -80,16 +80,16 @@
 						<div class="clear"></div>
 					</div>
 					{% else %}
-					<div class="bullet_contact">
-						<div class="contact_label">CONTACT {{ bullet.about.claimer.name|shortenName }} :</div>
+					<div class="bullet_contact red_border">
+						<div class="contact_label"><b>CONTACT {{ bullet.about.claimer.name|shortenName }} AT</b></div>
 						{% if not bullet.email|isEmpty %}
 						<div class="contact_email">
-							{{ bullet.email }}
+							<a href="mailto:{{ bullet.email }}">{{ bullet.email }}</a>
 						</div>
 						{% endif %}
 						{% if not bullet.text|isEmpty %}
 						<div class="contact_phone">
-							{{ bullet.text }}
+							{{ bullet.text|formatPhone }}
 						</div>
 						{% endif %}
 						<div class="clear"></div>
@@ -135,6 +135,16 @@
 		</div>
 	</div>
 	<div class="clear"></div>
+	<div class="hidden">
+		<div id="bullet_contact_frame" class="bullet_contact red_border">
+			<div class="contact_label"><b></b></div>
+			<div class="contact_email hidden">
+				<a href=""></a>
+			</div>
+			<div class="contact_phone hidden"></div>
+			<div class="clear"></div>
+		</div>
+	</div>
 </div>
 
 {% endblock %}

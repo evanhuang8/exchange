@@ -1,5 +1,6 @@
 from django import template
 from main.models import *
+import re
 
 register = template.Library()
 
@@ -52,7 +53,14 @@ def messageType(bullet):
 def actionText(message):
 	aText = ''
 	if message.approved is None:
-		aText = 'wants to swap.'
+		aText = 'wants to swap with you.'
 	elif message.approved is True:
 		aText = 'swapped with you.'
 	return aText
+
+@register.filter
+def formatPhone(phone):
+	fP = phone
+	if re.search(r'^[0-9]{10}$', phone):
+		fP = '(' + phone[0:3] + ')-' + phone[3:6] + '-' + phone[6:9]
+	return fP

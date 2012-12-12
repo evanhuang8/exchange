@@ -10,6 +10,7 @@
 		<img src="https://graph.facebook.com/{{ user.fb_id }}/picture" />
 	</div>
 	<div id="account_notification">
+		<a href="{% url exchange-dashboard %}">{% if msgCount %}{{ msgCount }}{% else %}0{% endif %}</a>
 	</div>
 	<div class="clear"></div>
 </div>

@@ -35,6 +35,9 @@ $(document).ready(function() {
 				}
 			}
 		});
+		var msgID = $(bullet).find('span.id').html();
+		var msgType = $(bullet).find('span.type').html();
+		$.post(rootUrl + 'check', {csrfmiddlewaretoken:csrfToken, id:msgID, type:msgType}, function(response) {});
 	});
 	$('div.bullet_accept a').click(function() {
 		var bullet = $(this).parent().parent().parent().parent();
@@ -43,7 +46,23 @@ $(document).ready(function() {
 		$.post(rootUrl + 'respond', {csrfmiddlewaretoken:csrfToken, id:msgID, type:msgType, action:'accept'}, function(response) {
 			response = jQuery.parseJSON(response);
 			if (response.status == 'OK') {
-				
+				$(bullet).find('div.bullet_action').animate({opacity:0}, 300, function() {
+					$(bullet).find('div.bullet_action').remove();
+					var contactDiv = $('div#bullet_contact_frame').clone();
+					$(contactDiv).removeAttr('id').css('opacity', 0);
+					$(contactDiv).find('div.contact_label b').html('CONTACT ' + $(bullet).find('div.bullet_name').html() + ' AT:');
+					if (response.email != undefined) {
+						$(contactDiv).find('div.contact_email').removeClass('hidden');
+						$(contactDiv).find('div.contact_email a').attr('href', 'mailto:' + response.email);
+						$(contactDiv).find('div.contact_email a').html(response.email);
+					}
+					if (response.phone != undefined) {
+						$(contactDiv).find('div.contact_phone').removeClass('hidden');
+						$(contactDiv).find('div.contact_phone').html(response.phone);
+					}
+					$(bullet).find('div.bullet_content').after(contactDiv);
+					$(contactDiv).animate({opacity:1}, 300, function() {});
+				});
 			} else {
 				alert(response.error);
 			}

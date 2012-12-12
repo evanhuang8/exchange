@@ -71,6 +71,12 @@ class PostManager:
 		return paging
 
 	@staticmethod
+	def uncheckMessageCount(user):
+		moneyMessages = Message_money.objects.filter(to = user, checked = False, approved = None)
+		otherMessages = Message_other.objects.filter(to = user, checked = False, approved = None)
+		return len(list(moneyMessages) + list(otherMessages))
+
+	@staticmethod
 	def fetchBulletin(user):
 		bullets = {
 			'swaps':[],
