@@ -23,6 +23,7 @@ urlpatterns = patterns('',
 	url(r'^post$', 'exchange.controllers.PostController.post', name = 'exchange-post'),
 	url(r'^delete$', 'exchange.controllers.PostController.delete', name = 'exchange-delete'),
 	url(r'^claim$', 'exchange.controllers.PostController.claim', name = 'exchange-claim'),
+	url(r'^respond$', 'exchange.controllers.PostController.respond', name = 'exchange-respond'),
 	url(r'^search$', 'exchange.controllers.IndexController.search', name = 'exchange-search'),
 
     # Examples:

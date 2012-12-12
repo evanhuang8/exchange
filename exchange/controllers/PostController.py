@@ -123,9 +123,9 @@ def claim(request):
 		'error':'ACCESS_FORBIDDEN'
 	}
 	userFbID = request.session.get('userFbID', False)
-	if request.REQUEST and userFbID:
+	if request.POST and userFbID:
 		urlHelper = UrlHelper()
-		params = urlHelper.validate(request.REQUEST, {'id', 'phone', 'email', 'note'})
+		params = urlHelper.validate(request.POST, {'id', 'phone', 'email', 'note'})
 		if params == False:
 			response = {
 				'status':'FAIL',
@@ -182,5 +182,48 @@ def claim(request):
 				response = {
 					'status':'FAIL',
 					'error':'INVALID_POST'
+				}
+	return HttpResponse(json.dumps(response))
+
+def respond(request):
+	response = {
+		'status':'FAIL',
+		'error':'ACCESS_FORBIDDEN'
+	}
+	userFbID = request.session.get('userFbID', False)
+	if request.POST and userFbID:
+		urlHelper = UrlHelper()
+		params = urlHelper.validate(request.POST, {'id', 'type', 'action'})
+		if params == False or (params['action'] != 'accept' and params['action'] != 'decline') or (params['type'] != 'money' and params['type'] != 'other'):
+			response = {
+				'status':'FAIL',
+				'error':'BAD_REQUEST'
+			}
+		else:
+			user = User.objects.get(fb_id = userFbID)
+			message = None
+			if params['type'] == 'money':
+				message = Message_money.objects.get(id = params['id'])
+			else:
+				message = Message_other.objects.get(id = params['id'])
+			if params['action'] == 'accept':
+				message.about.approved = True
+				message.about.save()
+				message.approved = True
+				message.save()
+				response = {
+					'status':'OK'
+				}
+				if message.text != '':
+					response['phone'] = message.text
+				if message.email != '':
+					response['email'] = message.email
+			else:
+				message.about.claimer = None
+				message.about.save()
+				message.approved = False
+				message.save()
+				response = {
+					'status':'OK'
 				}
 	return HttpResponse(json.dumps(response))

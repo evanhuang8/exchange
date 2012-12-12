@@ -71,8 +71,32 @@ class PostManager:
 		return paging
 
 	@staticmethod
-	def fetchMessages(user):
+	def fetchBulletin(user):
+		bullets = {
+			'swaps':[],
+			'offers':[]
+		}
 		moneyMessages = Message_money.objects.filter(to = user)
 		otherMessages = Message_other.objects.filter(to = user)
-		messages = list(moneyMessages) + list(otherMessages)
-		return sorted(messages, key = lambda k: k.created_time, reverse = True)
+		swapMessages = list(moneyMessages) + list(otherMessages)
+		swMe = {
+			'unchecked':{},
+			'checked':{},
+			'through':{}
+		}
+		swapMessages = sorted(swapMessages, key = lambda k: k.created_time, reverse = True)
+		for m in swapMessages:
+			if m.approved is None:
+				if not m.checked:
+					swMe['unchecked'][m.about.id] = m
+				else:
+					swMe['checked'][m.about.id] = m
+			elif m.approved is True:
+				swMe['through'][m.about.id] = m
+		ownSwaps = Post.objects.filter(owner = user).order_by('created_time').reverse()
+		inactiveSwaps = []
+		for s in ownSwaps:
+			if not (swMe['unchecked'].has_key(s.id) or swMe['checked'].has_key(s.id) or swMe['through'].has_key(s.id)):
+				inactiveSwaps.append(s)
+		bullets['swaps'] = [k[1] for k in swMe['unchecked'].items()] + [k[1] for k in swMe['checked'].items()] + [k[1] for k in swMe['through'].items()] + inactiveSwaps
+		return bullets

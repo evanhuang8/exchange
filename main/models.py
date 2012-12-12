@@ -40,6 +40,7 @@ class Message(models.Model):
 	text = models.CharField(max_length = 10)
 	note = models.CharField(max_length = 50)
 	checked = models.BooleanField(default = False)
+	approved = models.NullBooleanField(default = None, null = True, blank = True)
 	created_time = models.DateTimeField(auto_now_add = True)
 
 	class Meta:

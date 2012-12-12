@@ -96,10 +96,10 @@ def registration(request):
 				urlHelper = UrlHelper()
 				params = urlHelper.validate(request.POST, {'notify_type', 'notify_value'})
 				if params != False and (params['notify_type'] != 'text' or re.search(r'^[0-9]{10}$', params['notify_value'])) and (params['notify_type'] != 'email' or re.search(r'^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(([0-9]{1,3})|([a-zA-Z]{2,3})|(aero|coop|info|museum|name))$', params['notify_value'])):
-					if params['notify_type'] == 'text':
+					if params['notify_type'] == 'T':
 						user.notification = 'T'
 						user.phone = params['notify_value']
-					elif params['notify_type'] == 'email':
+					elif params['notify_type'] == 'M':
 						user.notification = 'M'
 						user.email = params['notify_value']
 					else:
@@ -115,7 +115,7 @@ def dashboard(request):
 		user = User.objects.get(fb_id = userFbID)
 		if user.notification == '':
 			return redirect('exchange-registration')
-		messages = PostManager.fetchMessages(user)
+		bullets = PostManager.fetchBulletin(user)
 	return render(request, 'dashboard.html', locals())
 
 def search(request):

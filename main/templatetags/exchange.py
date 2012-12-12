@@ -36,3 +36,23 @@ def shortenName(name):
 	if len(parts) > 1:
 		sName = parts[0] + ' ' + parts[len(parts) - 1][:1] + '.'
 	return sName
+
+@register.filter
+def isMessage(bullet):
+	return isinstance(bullet, Message)
+
+@register.filter
+def messageType(bullet):
+	msgType = 'other'
+	if isMoneyPost(bullet.about):
+		msgType = 'money'
+	return msgType
+
+@register.filter
+def actionText(message):
+	aText = ''
+	if message.approved is None:
+		aText = 'wants to swap.'
+	elif message.approved is True:
+		aText = 'swapped with you.'
+	return aText

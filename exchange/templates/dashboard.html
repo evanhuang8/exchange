@@ -2,54 +2,139 @@
 
 {% load exchange %}
 
-{% block page_css %}
-
-<style type="text/css">
-
-div#wrapper_dashboard {
-	width:860px;
-}
-
-div#dashboard_notification {
-	width:818px;
-	height:300px;
-	padding:20px;
-	background-color:#F6F6F6;
-	border:1px solid #DDD;
-	border-radius:4px;
-}
-
-div#dashboard_posts {
-	width:818px;
-	height:400px;
-	padding:20px;
-	background-color:#F6F6F6;
-	border:1px solid #DDD;
-	border-radius:4px;
-	margin-top:20px;
-}
-
-</style>
-
-{% endblock %}
-
 {% block page_script %}
+	
+<script type="text/javascript" src="{{ STATIC_URL }}js/dashboard.js"></script>
 
 {% endblock %}
 
-{% block main %}
+{% block page_css %}
+	
+<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/dashboard.css" />
+
+{% endblock %}
+
+{% block frame %}
 
 <div id="wrapper_dashboard">
-	<div id="dashboard_notification">
-		{% for m in messages %}
-			{{ m.to.fb_id }}
-		{% empty %}
-			No new messages
-		{% endfor %}
+	<div id="dashboard_sidebar">
+		<div id="sidebar_nav">
+			<div id="nav_title">
+				WELCOME BACK!
+			</div>
+			<div id="nav_swaps">
+				<a href="javascript:;" class="tan button">Swaps</a>
+			</div>
+			<div id="nav_back">
+				<a href="{% url exchange-home %}" class="blue inactive button">Back to Home</a>
+			</div>
+		</div>
 	</div>
-	<div id="dashboard_posts">
-		
+	<div id="dashboard_bulletin">
+		<div id="bulletin_category">
+			<div id="category_swaps">
+				<a href="javascript:;" class="blue button">Your Swaps</a>
+			</div>
+			<div id="category_offers">
+				<a href="javascript:;" class="tan button">Your Offers</a>
+			</div>
+		</div>
+		<div id="bulletin_listing">
+			{% for bullet in bullets.swaps %}
+			{% if bullet|isMessage %}
+			<div class="tile bullet swap off">
+				<div class="bullet_inner">
+					<div class="bullet_top">
+						<div class="bullet_icon swap {% if bullet.about|isMoneyPost %}money{% else %}other{% endif %}"></div>
+						<div class="bullet_profile">
+							<img src="https://graph.facebook.com/{{ bullet.about.claimer.fb_id }}/picture" />
+						</div>
+						<div class="bullet_name">{{ bullet.about.claimer.name|shortenName }}&nbsp;</div>
+						<div class="bullet_behavior">{{ bullet|actionText }}</div>
+						<div class="bullet_control">
+							<a href="javascript:;" class="blue button">
+							</a>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="bullet_content">
+						<div class="bullet_want"><span><b>YOU WANTED</b></span> {{ bullet.about.want }}</div>
+						<div class="bullet_offer"><span><b>AND OFFERED</b></span> {% if bullet.about|isMoneyPost %}${% endif %}{{ bullet.about|offer }}</div>
+						{% if not bullet.note|isEmpty %}
+						<div class="bullet_note">
+							<span><b>{{ bullet.about.claimer.name|shortenName }} ALSO SAID </b></span>&ldquo;{{ bullet.note }}&rdquo;
+						</div>
+						{% endif %}
+					</div>
+					{% if not bullet.approved %}
+					<div class="bullet_action">
+						<div class="bullet_cancel">
+							<a href="javascript:;" class="tan small button">CANCEL</a>
+						</div>
+						<div class="bullet_decline">
+							<a href="javascript:;" class="red small button">DECLINE</a>
+						</div>
+						<div class="bullet_accept">
+							<a href="javascript:;" class="blue small button">ACCEPT</a>
+						</div>
+						<div class="clear"></div>
+					</div>
+					{% else %}
+					<div class="bullet_contact">
+						<div class="contact_label">CONTACT {{ bullet.about.claimer.name|shortenName }} :</div>
+						{% if not bullet.email|isEmpty %}
+						<div class="contact_email">
+							{{ bullet.email }}
+						</div>
+						{% endif %}
+						{% if not bullet.text|isEmpty %}
+						<div class="contact_phone">
+							{{ bullet.text }}
+						</div>
+						{% endif %}
+						<div class="clear"></div>
+					</div>
+					{% endif %}
+					<div class="hidden">
+						<span class="id">{{ bullet.id }}</span><span class="type">{{ bullet|messageType }}</span>
+					</div>
+				</div>
+			</div>
+			{% else %}
+			<div class="tile bullet off">
+				<div class="bullet_inner">
+					<div class="bullet_top">
+						<div class="bullet_icon {% if bullet.about|isMoneyPost %}money{% else %}other{% endif %}"></div>
+						<div class="bullet_behavior"><span><b>YOU WANT</b></span> {{ bullet.want }}</div>
+						<div class="bullet_control">
+							<a href="javascript:;" class="tan button">
+							</a>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="bullet_content">
+						<div class="bullet_offer"><span><b>AND OFFERED</b></span> {% if bullet|isMoneyPost %}${% endif %}{{ bullet|offer }}</div>
+					</div>
+					<div class="bullet_action">
+						<div class="bullet_cancel">
+							<a href="javascript:;" class="tan small button">CANCEL</a>
+						</div>
+						<div class="bullet_delete">
+							<a href="javascript:;" class="red small button">DELETE</a>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="hidden">
+						<span class="id">{{ bullet.id }}</span>
+					</div>
+				</div>
+			</div>
+			{% endif %}
+			{% empty %}
+			{% endfor %}
+		</div>
 	</div>
+	<div class="clear"></div>
 </div>
 
 {% endblock %}
