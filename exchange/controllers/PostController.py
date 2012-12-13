@@ -167,9 +167,9 @@ def claim(request):
 					post.save()
 					message.save()
 					if post.owner.notification == 'T':
-						NotificationManager.text('Bazaarboy Swap- Someone responded to your post! Check it back on Bazaarboy Swap dashboard', [post.owner.phone])
+						NotificationManager.text('Someone responded to your post on Bazaarboy Swap! Check your Swap dashboard for details.', [post.owner.phone])
 					elif post.owner.notification == 'M':
-						NotificationManager.email('Notification', 'Bazaarboy - Someone responds to your post! Check it back on Bazaarboy Swap dashboard', [post.owner.email])
+						NotificationManager.email('Bazaarboy Swap Notification', 'Someone in your community responded to your post on Bazaarboy Swap. Check your Swap dashboard (swap.bazaarboy.com) for details! ', [post.owner.email])
 					response = {
 						'status':'OK'
 					}

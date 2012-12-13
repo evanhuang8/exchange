@@ -73,6 +73,9 @@ div#notify_none div.right {
 
 div#register_disclaimer {
 	width:300px;
+	padding-top:48px;
+	font-size:15px;
+	line-height:18px;
 	float:left;
 }
 
