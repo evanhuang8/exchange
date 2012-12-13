@@ -65,11 +65,13 @@ def login(request):
 						'status':'FAIL',
 						'error':'NOT_WASHU'
 					}
-					if fbUserProfile.has_key('education'):
-						isWashU = False
-						for edu in fbUserProfile['education']:
-							if edu['school']['id'] == '112795212068138':
-								isWashU = True
+					#if fbUserProfile.has_key('education'):
+					if True:
+						isWashU = True
+						#isWashU = False
+						#for edu in fbUserProfile['education']:
+						#	if edu['school']['id'] == '112795212068138':
+						#		isWashU = True
 						if isWashU:
 							user = User(
 								fb_id = fbUserProfile['id'],
