@@ -210,3 +210,8 @@ div#wrapper_foot {
 	font-size:14px;
 	color:#666;
 }
+
+div#wrapper_foot a {
+	color:#666;
+	text-decoration:none;
+}

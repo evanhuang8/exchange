@@ -109,6 +109,29 @@ div#wrapper_intro {
 	float:left;
 }
 
+div#intro_title {
+	width:540px;
+	height:40px;
+	padding:30px 0;
+	padding-bottom:15px;
+	margin:0 30px;
+	border-bottom:1px solid #666;
+	font-size:35px;
+	font-weight:bold;
+	color:#FFF;
+	text-shadow:1px 1px 0px #666;
+	text-align:center;
+	text-transform:uppercase;
+}
+
+div#intro_swap {
+	width:540px;
+	padding:15px 30px;
+	color:#2A8074;
+	text-shadow:1px 1px 0px #FFF;
+	font-size:16px;
+}
+
 div#wrapper_search {
 	width:920px;
 	height:46px;

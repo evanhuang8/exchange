@@ -4,8 +4,8 @@ import os.path
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'evanhuang8@gmail.com'
-EMAIL_HOST_PASSWORD = '00265e1bc618'
+EMAIL_HOST_USER = 'build@bazaarboy.com'
+EMAIL_HOST_PASSWORD = 'hamblett1991'
 EMAIL_PORT = 587
 
 DEBUG = True

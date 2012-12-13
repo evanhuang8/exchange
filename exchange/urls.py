@@ -8,6 +8,7 @@ import os.path
 urlpatterns = patterns('',
 
 	# Static Files
+	url(r'^favicon\.ico$', 'django.views.generic.simple.redirect_to', {'url': '/static/images/favicon.ico'}),
 	url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root':os.path.join(os.path.dirname(__file__), '../static'),}),
 	
 	# Front End
