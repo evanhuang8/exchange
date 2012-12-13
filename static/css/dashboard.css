@@ -189,6 +189,11 @@ div.bullet_control a {
 	height:26px;
 }
 
+div.bullet_control a img {
+	width:10px;
+	height:10px;
+}
+
 div.bullet_content {
 	width:568px;
 	margin:10px 0;
