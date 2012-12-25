@@ -6,70 +6,20 @@
 	
 <script type="text/javascript">
 	var pageNumber = {{ page }};
-	{% if user %}
 	var userFbID = '{{ user.fb_id }}';
-	{% endif %}
 </script>	
-<script type="text/javascript" src="{{ STATIC_URL }}js/index.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/search.js"></script>
 
 {% endblock %}
 
 {% block page_css %}
 	
-<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/index.css" />
+<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/search.css" />
 
 {% endblock %}
 
 {% block frame %}
 
-<div id="wrapper_top">
-	{% if not user %}
-	<div id="wrapper_login" class="tile">
-		<a href="javascript:;" class="blue_border"></a>
-	</div>
-	{% else %}
-	<div id="wrapper_control" class="tile">
-		<div id="control_top">POST A SWAP</div>
-		<div id="control_want">
-			<div id="want_label">I WANT...</div>
-			<div id="want_input">
-				<input type="text" name="want" maxlength="50" value="a ride to the airport" />
-			</div>
-		</div>
-		<div id="control_offer">
-			<div id="offer_label">I CAN OFFER...</div>
-			<div id="offer_input_money">
-				<div>$</div>
-				<input type="text" name="offer_money" maxlength="10" value="5.00" />
-			</div>
-			<div id="offer_or">OR</div>
-			<div id="offer_input_other">
-				<input type="text" name="offer_other" maxlength="50" value="a vintage necklace" />
-			</div>
-			<div id="control_radios" class="hidden">
-				<input type="radio" name="offer" value="money" checked />
-				<input type="radio" name="offer" value="other" />
-			</div>
-		</div>
-		<div id="control_submit">
-			<a href="javascript:;" class="blue button">Post</a>
-		</div>
-	</div>
-	{% endif %}
-	<div id="wrapper_intro">
-		<div id="intro_title">
-			What is Bazaarboy Swap?
-		</div>
-		<div id="intro_swap">
-			Swap is an exclusive marketplace for Washington University!<br /><br />It is a trading platform that allows you to swap anything with community members. It all boils down to the basic question: what do you want right now? Enter a good, service or random demand. Someone in your community will help, only if the offer is fair and square.<br /><br />We're still in beta testing, so if you have any questions or comments, hit us up at: <a href="mailto:build@bazaarboy.com">build@bazaarboy.com</a>
-		</div>
-		<div id="intro_bottom">
-			<img src="{{ STATIC_URL }}images/tent.png" />
-			<div class="clear"></div>
-		</div>
-	</div>
-	<div class="clear"></div>
-</div>
 <div id="wrapper_search" {% if not user %}class="hidden"{% endif %}>
 	<div id="search_option" class="blue_border blue_bg">
 		I WANT...
@@ -84,8 +34,11 @@
 	</div>
 	<div class="clear"></div>
 </div>
+<div id="search_title">
+	Showing Results For <b><i>{{ query }}</i></b>
+</div>
 <div id="wrapper_listing">
-	{% for post in posts %}
+	{% for post in results %}
 	<div class="post tile {% if user %}{% if user|isPostOwner:post %}owner{% endif %}{% endif %}">
 		<div class="post_info hidden">
 			<span class="id">{{ post.id }}</span><span class="type">{% if post|isMoneyPost %}money{% else %}other{% endif %}</span>
@@ -123,6 +76,7 @@
 	</div>
 	{% empty %}
 	<div id="listing_blank">
+	No results returned
 	</div>
 	{% endfor %}
 	<div class="clear"></div>
@@ -201,32 +155,6 @@
 		<div class="post_action">
 			<a href="javascript:;" class="button"></a>
 		</div>
-	</div>
-</div>
-<div id="wrapper_paging">
-	<div id="paging_top" class="tile">
-		<div id="paging_prev" {% if page == prevPage %}class="hidden"{% endif %}>
-			<a href="{% url exchange-home %}{{ prevPage }}"><span class="small"><<&nbsp;</span>PREV</a>
-		</div>
-		<div id="paging_next" {% if page == nextPage %}class="hidden"{% endif %}>
-			<a href="{% url exchange-home %}{{ nextPage }}">NEXT&nbsp;<span class="small">>></span></a>
-		</div>
-		<div class="clear"></div>
-	</div>
-	<div id="paging_bottom">
-		<div id="paging_view"><b>VIEW</b></div>
-		<div id="paging_list">
-			<ul>
-				{% for p in paging %}
-				<li {% if p == page %}class="on"{% endif %}>{% if p != page %}<a href="{% url exchange-home %}{{ p }}">{% endif %}{{ p }}{% if p != page %}</a>{% endif %}</li>
-				{% empty %}
-				<li class="on">1</li>
-				{% endfor %}
-				<li class="clear"></li>
-			</ul>
-		</div>
-		<div id="paging_label"><b>PAGE</b></div>
-		<div class="clear"></div>
 	</div>
 </div>
 

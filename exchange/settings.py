@@ -1,5 +1,18 @@
 # Django settings for exchange project.
 
+BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis'
+CELERY_REDIS_HOST = 'localhost'
+CELERY_REDIS_PORT = 6379
+CELERY_REDIS_DB = 0
+CELERY_IMPORTS = (
+	'main.exchange.libraries.notification',
+)
+CELERY_SEND_TASK_ERROR_EMAILS = True
+
+import djcelery
+djcelery.setup_loader()
+
 import os.path
 
 EMAIL_USE_TLS = True
@@ -129,6 +142,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'main',
+    'djcelery',
 )
 
 # A sample logging configuration. The only tangible logging

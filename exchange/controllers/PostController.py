@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from exchange.libraries.helpers.url import UrlHelper
 from exchange.libraries.post import PostManager
-from exchange.libraries.notification import NotificationManager
+from exchange.libraries.notification import *
 from main.models import *
 from datetime import datetime
 import facebook
@@ -123,9 +123,9 @@ def claim(request):
 		'error':'ACCESS_FORBIDDEN'
 	}
 	userFbID = request.session.get('userFbID', False)
-	if request.POST and userFbID:
+	if request.REQUEST and userFbID:
 		urlHelper = UrlHelper()
-		params = urlHelper.validate(request.POST, {'id', 'phone', 'email', 'note'})
+		params = urlHelper.validate(request.REQUEST, {'id', 'phone', 'email', 'note'})
 		if params == False:
 			response = {
 				'status':'FAIL',
@@ -167,9 +167,9 @@ def claim(request):
 					post.save()
 					message.save()
 					if post.owner.notification == 'T':
-						NotificationManager.text('Someone responded to your post on Bazaarboy Swap! Check your Swap dashboard for details.', [post.owner.phone])
+						asyncText('Someone responded to your post on Bazaarboy Swap! Check your Swap dashboard for details.', [post.owner.phone])
 					elif post.owner.notification == 'M':
-						NotificationManager.email('Bazaarboy Swap Notification', 'Someone in your community responded to your post on Bazaarboy Swap. Check your Swap dashboard (swap.bazaarboy.com) for details! ', [post.owner.email])
+						asyncHtmlEmail('Bazaarboy Swap Notification', 'Someone in your community responded to your post on Bazaarboy Swap. Check your Swap dashboard (swap.bazaarboy.com) for details! ', [post.owner.email])
 					response = {
 						'status':'OK'
 					}

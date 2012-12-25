@@ -18,6 +18,10 @@ html {
 	clear:both !important;
 }
 
+.disable {
+	opacity:0.8;
+}
+
 .button {
 	display:block;
 	padding:6px 10px;

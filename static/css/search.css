@@ -1,172 +1,3 @@
-/* Index */
-
-div#wrapper_top {
-	width:920px;
-	height:388px;
-}
-
-div#wrapper_login, div#wrapper_control {
-	width:258px;
-	height:346px;
-	margin-right:20px;
-	padding:20px;
-	border:1px solid #DDBD9A;
-	box-shadow:0px 0px 3px #DDBD9A;
-	float:left;
-}
-
-div#wrapper_login a {
-	display:block;
-	width:256px;
-	height:50px;
-	margin-top:147px;
-	background-image:url(../images/fb-login.png);
-	background-size:250px 50px;
-}
-
-div#wrapper_control input {
-	width:244px;
-}
-
-div#wrapper_control input.on {
-	font-style:normal;
-	color:#000;
-}
-
-div#wrapper_control input.invalid {
-	box-shadow:0px 0px 2px #F00;
-}
-
-div#control_top {
-	width:258px;
-	height:20px;
-	padding-bottom:15px;
-	border-bottom:1px solid #D0BFAC;
-	font-size:25px;
-	color:#54310A;
-	text-align:center;
-}
-
-div#control_want {
-	width:258px;
-	height:80px;
-	padding-bottom:15px;
-	border-bottom:1px solid #D0BFAC;
-}
-
-div#want_label, div#offer_label, div#offer_or {
-	color:#54310A;
-}
-
-div#want_label {
-	width:258px;
-	height:16px;
-	padding:14px 0;
-	font-size:16px;
-}
-
-div#want_input {
-	width:258px;
-	height:36px;
-}
-
-div#control_offer {
-	width:258px;
-	height:142px;
-	padding:10px 0;
-}
-
-div#offer_label {
-	width:258px;
-	height:16px;
-	padding-top:5px;
-	padding-bottom:15px;
-}
-
-div#offer_input_money {
-	position:relative;
-}
-
-div#offer_input_money div {
-	position:absolute;
-	height:20px;
-	top:7px;
-	left:5px;
-	font-size:18px;
-	color:#A5917B;
-}
-
-div#offer_input_money input {
-	width:230px;
-	padding-left:20px;
-}
-
-div#offer_or {
-	width:258px;
-	padding:5px 0;
-	text-align:center;
-}
-
-div#control_submit {
-	width:258px;
-	height:36px;
-	padding-top:20px;
-	border-top:1px solid #D0BFAC;
-}
-
-div#control_submit a {
-	width:236px;
-}
-
-div#wrapper_intro {
-	width:600px;
-	height:426px;
-	margin-top:-38px;
-	background-image:url(../images/intro-bg.png);
-	background-size:600px 426px;
-	float:left;
-}
-
-div#intro_title {
-	width:540px;
-	height:40px;
-	padding:30px 0;
-	padding-bottom:15px;
-	margin:0 30px;
-	border-bottom:1px solid #666;
-	font-size:35px;
-	font-weight:bold;
-	color:#FFF;
-	text-shadow:1px 1px 0px #666;
-	text-align:center;
-	text-transform:uppercase;
-}
-
-div#intro_swap {
-	width:540px;
-	padding:15px 30px;
-	color:#FFF;
-	text-shadow:1px 1px 0px #999;
-	line-spacing:2em;
-	font-size:18px;
-}
-
-div#intro_swap a {
-	color:#FFF;
-}
-
-div#intro_bottom {
-	width:600px;
-}
-
-div#intro_bottom img {
-	display:block;
-	width:80px;
-	height:80px;
-	padding-right:20px;
-	float:right;
-}
-
 div#wrapper_search {
 	width:920px;
 	height:46px;
@@ -221,9 +52,20 @@ div#search_submit {
 	float:left;
 }
 
+div#search_title {
+	width:920px;
+	margin-top:20px;
+	color:#804603;	
+}
+
 div#wrapper_listing {
 	width:942px;
 	margin:10px -11px;
+}
+
+div#listing_blank {
+	width:920px;
+	margin:0 11px;
 }
 
 div.post {

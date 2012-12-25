@@ -14,6 +14,7 @@ urlpatterns = patterns('',
 	# Front End
 	url(r'^$', 'exchange.controllers.IndexController.index', name = 'exchange-home'),
 	url(r'^(?P<page>\d+)$', 'exchange.controllers.IndexController.index', name = 'exchange-home-paging'),
+	url(r'^search$', 'exchange.controllers.IndexController.search', name = 'exchange-search'),
 	url(r'^registration$', 'exchange.controllers.IndexController.registration', name = 'exchange-registration'),
 	url(r'^dashboard$', 'exchange.controllers.IndexController.dashboard', name = 'exchange-dashboard'),
 

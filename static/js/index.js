@@ -2,6 +2,7 @@ $(document).ready(function() {
 	fbLoginDispatch();
 	initButtons();
 	initPostForm();
+	initSearch();
 });
 
 function fbLoginDispatch() {
@@ -391,4 +392,33 @@ function initPaging(paging, prevPage, nextPage) {
 		$('div#paging_list ul').append(p);
 	}
 	$('div#paging_list ul').append('<li class="clear"></li>');
+}
+
+function initSearch() {
+	var searchBlank = true;
+	var searchDefault = 'a ride to the airport';
+	$('div#search_input input').focus(function() {
+		if (searchBlank) {
+			$(this).val('');
+		}
+	}).blur(function() {
+		if ($(this).val() == '') {
+			searchBlank = true;
+			$(this).removeClass('on');
+			$(this).val(searchDefault);
+		} else {
+			searchBlank = false;
+			$(this).addClass('on');
+		}
+	}).keypress(function(e) {
+		if (e.which == 13) {
+			$('div#search_input form').submit();
+			e.preventDefault();
+		}
+	});
+	$('div#search_submit').click(function() {
+		if (!searchBlank && $('div#search_input input').val() != '') {
+			$('div#search_input form').submit();
+		}
+	});
 }

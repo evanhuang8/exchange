@@ -54,3 +54,8 @@ class Message_other(Message):
 
 	about = models.ForeignKey('Post_other')
 	
+class Keyword(models.Model):
+
+	name = models.CharField(max_length = 100)
+	siblings = models.ManyToManyField('self', null = True)
+	weight = models.IntegerField(max_length = 4, default = 0)

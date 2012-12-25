@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from exchange.libraries.helpers.url import UrlHelper
 from exchange.libraries.post import PostManager
+from exchange.libraries.search import SearchManager
 from main.models import *
 import facebook
 import json
@@ -124,4 +125,21 @@ def dashboard(request):
 	return render(request, 'dashboard.html', locals())
 
 def search(request):
-	pass
+	userFbID = request.session.get('userFbID', False)
+	if userFbID:
+		user = User.objects.get(fb_id = userFbID)
+		if user.notification == '':
+			return redirect('exchange-registration')
+		else:
+			msgCount = PostManager.uncheckMessageCount(user)
+		if request.GET:
+			urlHelper = UrlHelper()
+			params = urlHelper.validate(request.GET, {'q'}, {'p'})
+			if params and params['q'] != '':
+				page = 0
+				if params['p']:
+					page = int(params['p'])
+				query = params['q']
+				results = SearchManager.offerResults(query, user)
+				return render(request, 'search.html', locals())
+	return redirect('exchange-home')
