@@ -67,7 +67,7 @@ function fbLoginDispatch() {
 			if (response.authResponse) {
 				var fbAccessToken = response.authResponse.accessToken;
 				console.log(fbAccessToken);
-				csrfToken = '{% csrf_token %}';
+				csrfToken = '{{ csrf_token }}';
 				$.post('{{ STATIC_URL }}../login', {accessToken:fbAccessToken, csrfmiddlewaretoken:csrfToken}, function(fbAuthResponse) {
 					console.log(fbAuthResponse);
 					fbAuthResponse = jQuery.parseJSON(fbAuthResponse);
