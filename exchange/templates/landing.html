@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Bazaarboy</title>
+
+	<script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.min.js'></script>
+
+	<style type='text/css'>
+	body{
+		margin: 0;
+		padding: 0;
+		background-color: #f8f5f0;
+	}
+
+	#container{
+		width: 1020px;
+		margin: 100px auto;
+	}
+	#container_left{
+		float: left;
+		padding-right: 50px;
+		border-right:#c69c6d 2px solid;
+	}
+	#container_right{
+		width: 410px;
+		float: right;
+	}
+	#right_logo{
+		margin: 0 auto;
+		margin-top: 100px;
+	}
+	#right_login{
+		margin: 60px auto;
+		position: relative;
+		left: 10px;
+		cursor: pointer;
+	}
+	#right_links{
+		position: relative;
+		left: 45px;
+		color: #c69c6d;
+		margin: 0 auto;
+		font-family: helvetica;
+	}
+	#right_links a{
+		color: #c69c6d;
+		text-decoration: none;
+	}
+	#right_links a:hover{
+		color: #2a8074;
+	}
+	</style>
+</head>
+
+<script type='text/javascript'>
+$(document).ready(function() {
+	fbLoginDispatch();
+});
+
+function fbLoginDispatch() {
+	$('#right_login').click(function() {
+		var fbPermissions = '';
+		FB.login(function(response) {
+			if (response.authResponse) {
+				var fbAccessToken = response.authResponse.accessToken;
+				console.log(fbAccessToken);
+				csrfToken = 'mR7UN2yLS56hEZsMDjlGzLMNIMhH7qhQ';
+				$.post('{{ STATIC_URL }}../login', {accessToken:fbAccessToken, csrfmiddlewaretoken:csrfToken}, function(fbAuthResponse) {
+					console.log(fbAuthResponse);
+					fbAuthResponse = jQuery.parseJSON(fbAuthResponse);
+					if (fbAuthResponse.status == 'OK') {
+						document.location.reload(true);
+					} else {
+						alert('FAIL: ' + fbAuthResponse.error);
+					}
+				});
+			}
+		}, {scope:fbPermissions});
+	});
+}
+</script>
+
+<body>
+
+<div id="fb-root"></div>
+<script>
+// Initialization
+window.fbAsyncInit = function() {
+	FB.init({
+		appId      : '426421187424790', // App ID
+		channelUrl : '{{ STATIC_URL }}../channel.html', // Channel File
+		status     : true, // check login status
+		cookie     : true, // enable cookies to allow the server to access the session
+		xfbml      : true  // parse XFBML
+	});
+	if (typeof window.fbSDKReady == 'function') {
+		fbSDKReady();
+	}
+};
+// Load the SDK Asynchronously
+(function(d){
+	var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+	if (d.getElementById(id)) {return;}
+	js = d.createElement('script'); js.id = id; js.async = true;
+	js.src = "//connect.facebook.net/en_US/all.js";
+	ref.parentNode.insertBefore(js, ref);
+}(document));
+</script>
+
+	<div id='container'>
+		<div id='container_left'>
+			<img src='illustartion.png' />
+		</div>
+		<div id='container_right'>
+			<img id='right_logo' src='logo.png' />
+			<img id='right_login' src='Facbeooklogin.png' />
+			<div id='right_links'>
+				<a href='javascript:void(0)'>ABOUT</a> | <a href='javascript:void(0)'>BLOG</a> | <a href='javascript:void(0)'>CONTACT</a>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

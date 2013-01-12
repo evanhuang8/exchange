@@ -29,7 +29,9 @@ def index(request, page = 1):
 			return redirect('exchange-registration')
 		else:
 			msgCount = PostManager.uncheckMessageCount(user)
-	return render(request, 'index.html', locals())
+		return render(request, 'index.html', locals())
+	else:
+		return render(request, 'landing.html', locals())
 
 def login(request):
 	response = {
