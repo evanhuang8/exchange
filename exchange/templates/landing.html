@@ -67,8 +67,8 @@ function fbLoginDispatch() {
 			if (response.authResponse) {
 				var fbAccessToken = response.authResponse.accessToken;
 				console.log(fbAccessToken);
-				csrfToken = '{% csrf_token %}';
-				$.post('{{ STATIC_URL }}../login', {accessToken:fbAccessToken, csrfmiddlewaretoken:csrfToken}, function(fbAuthResponse) {
+				csrfToken = '{{ csrf_token }}';
+				$.post('{{ STATIC_URL }}../fbAuth', {accessToken:fbAccessToken, csrfmiddlewaretoken:csrfToken}, function(fbAuthResponse) {
 					console.log(fbAuthResponse);
 					fbAuthResponse = jQuery.parseJSON(fbAuthResponse);
 					if (fbAuthResponse.status == 'OK') {
@@ -90,7 +90,7 @@ function fbLoginDispatch() {
 // Initialization
 window.fbAsyncInit = function() {
 	FB.init({
-		appId      : '426421187424790', // App ID
+		appId      : '368676003227090', // App ID
 		channelUrl : '{{ STATIC_URL }}../channel.html', // Channel File
 		status     : true, // check login status
 		cookie     : true, // enable cookies to allow the server to access the session

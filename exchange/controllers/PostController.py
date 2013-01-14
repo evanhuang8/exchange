@@ -41,8 +41,8 @@ def post(request):
 		'status':'FAIL',
 		'error':'ACCESS_FORBIDDEN'
 	}
-	userFbID = request.session.get('userFbID', False)
-	if request.POST and userFbID:
+	userID = request.session.get('id', False)
+	if request.POST and userID:
 		urlHelper = UrlHelper()
 		params = urlHelper.validate(request.POST, {'want', 'offer', 'type'})
 		if params == False:
@@ -56,7 +56,7 @@ def post(request):
 				'error':'FORMAT_INCORRECT'
 			}
 		else:
-			user = User.objects.get(fb_id = userFbID)
+			user = User.objects.get(id = userID)
 			post = None
 			if params['type'] == 'money':
 				post = Post_money(
@@ -78,8 +78,8 @@ def post(request):
 					'id':post.id,
 					'type':params['type'],
 					'owner':{
-						'fb_id':post.owner.fb_id,
-						'name':post.owner.name
+						'id':post.owner.id,
+						'name':post.owner.profile.display_name
 					},
 					'want':post.want,
 					'offer':params['offer'],

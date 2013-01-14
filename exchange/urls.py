@@ -20,6 +20,7 @@ urlpatterns = patterns('',
 
 	# Back End
 	url(r'^login$', 'exchange.controllers.IndexController.login', name = 'exchange-login'),
+	url(r'^fbAuth$', 'exchange.controllers.IndexController.fbAuth', name = 'exchange-fblogin'),
 	url(r'^logout$', 'exchange.controllers.IndexController.logout', name = 'exchange-logout'),
 	url(r'^page/(?P<page>\d+)$', 'exchange.controllers.PostController.page', name = 'exchange-page'),
 	url(r'^post$', 'exchange.controllers.PostController.post', name = 'exchange-post'),

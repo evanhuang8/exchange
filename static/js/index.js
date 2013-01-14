@@ -12,7 +12,7 @@ function fbLoginDispatch() {
 			if (response.authResponse) {
 				var fbAccessToken = response.authResponse.accessToken;
 				console.log(fbAccessToken);
-				$.post(rootUrl + 'login', {accessToken:fbAccessToken, csrfmiddlewaretoken:csrfToken}, function(fbAuthResponse) {
+				$.post(rootUrl + 'fbAuth', {accessToken:fbAccessToken, csrfmiddlewaretoken:csrfToken}, function(fbAuthResponse) {
 					console.log(fbAuthResponse);
 					fbAuthResponse = jQuery.parseJSON(fbAuthResponse);
 					if (fbAuthResponse.status == 'OK') {

@@ -28,7 +28,7 @@ def isMoneyPost(post):
 
 @register.filter
 def isPostOwner(user, post):
-	return post.owner.fb_id == user.fb_id and user
+	return post.owner.id == user.id and user
 
 @register.filter
 def shortenName(name):
