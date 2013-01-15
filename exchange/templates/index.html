@@ -7,7 +7,7 @@
 <script type="text/javascript">
 	var pageNumber = {{ page }};
 	{% if user %}
-	var userFbID = '{{ user.fb_id }}';
+	var userID = '{{ user.id }}';
 	{% endif %}
 </script>	
 <script type="text/javascript" src="{{ STATIC_URL }}js/index.js"></script>
@@ -93,7 +93,7 @@
 		<div class="post_top">
 			<div class="post_icon {% if post|isMoneyPost %}money{% else %}other{% endif %}"></div>
 			<div class="post_owner">
-				<div class="post_owner_name">{{ post.owner.name|shortenName }}</div>
+				<div class="post_owner_name">{{ post.owner.profile.display_name|shortenName }}</div>
 				<div class="post_owner_profile">
 					<img src="https://graph.facebook.com/{{ post.owner.fb_id }}/picture" />
 				</div>

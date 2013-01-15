@@ -34,8 +34,8 @@ class PostManager:
 						'id':p.id,
 						'type':postType,
 						'owner':{
-							'fb_id':p.owner.fb_id,
-							'name':p.owner.name
+							'id':p.owner.id,
+							'name':p.owner.profile.display_name
 						},
 						'want':p.want,
 						'offer':offer,

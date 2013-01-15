@@ -21,12 +21,14 @@
 	}
 	#container_left{
 		float: left;
+		width:460px;
 		padding-right: 50px;
 		border-right:#c69c6d 2px solid;
 	}
 	#container_right{
-		width: 410px;
-		float: right;
+		width: 460px;
+		float: left;
+		text-align:center;
 	}
 	#right_logo{
 		margin: 0 auto;
@@ -34,13 +36,9 @@
 	}
 	#right_login{
 		margin: 60px auto;
-		position: relative;
-		left: 10px;
 		cursor: pointer;
 	}
 	#right_links{
-		position: relative;
-		left: 45px;
 		color: #c69c6d;
 		margin: 0 auto;
 		font-family: helvetica;
@@ -51,6 +49,9 @@
 	}
 	#right_links a:hover{
 		color: #2a8074;
+	}
+	.clear{
+		clear:both;
 	}
 	</style>
 </head>
@@ -121,6 +122,7 @@ window.fbAsyncInit = function() {
 				<a href='javascript:void(0)'>ABOUT</a> | <a href='javascript:void(0)'>BLOG</a> | <a href='javascript:void(0)'>CONTACT</a>
 			</div>
 		</div>
+		<div class="clear">&nbsp;</div>
 	</div>
 </body>
 

@@ -93,11 +93,11 @@ def delete(request):
 		'status':'FAIL',
 		'error':'ACCESS_FORBIDDEN'
 	}
-	userFbID = request.session.get('userFbID', False)
-	if request.POST and userFbID:
+	userID = request.session.get('id', False)
+	if request.POST and userID:
 		urlHelper = UrlHelper()
 		params = urlHelper.validate(request.POST, {'id'})
-		user = User.objects.get(fb_id = userFbID)
+		user = User.objects.get(id = userID)
 		if params == False:
 			response = {
 				'status':'FAIL',
@@ -122,8 +122,8 @@ def claim(request):
 		'status':'FAIL',
 		'error':'ACCESS_FORBIDDEN'
 	}
-	userFbID = request.session.get('userFbID', False)
-	if request.REQUEST and userFbID:
+	userID = request.session.get('id', False)
+	if request.REQUEST and userID:
 		urlHelper = UrlHelper()
 		params = urlHelper.validate(request.REQUEST, {'id', 'phone', 'email', 'note'})
 		if params == False:
@@ -132,9 +132,9 @@ def claim(request):
 				'error':'BAD_REQUEST'
 			}
 		else:
-			user = User.objects.get(fb_id = userFbID)
+			user = User.objects.get(id = userID)
 			post = Post.objects.filter(id = params['id'], claimer = None)
-			if post.count() > 0 and post[0].owner.fb_id != user.fb_id:
+			if post.count() > 0 and post[0].owner.id != user.id:
 				post = post[0]
 				postType = PostManager.postType(post)
 				message = None
@@ -190,8 +190,8 @@ def check(request):
 		'status':'FAIL',
 		'error':'ACCESS_FORBIDDEN'
 	}
-	userFbID = request.session.get('userFbID', False)
-	if request.POST and userFbID:
+	userID = request.session.get('id', False)
+	if request.POST and userID:
 		urlHelper = UrlHelper()
 		params = urlHelper.validate(request.POST, {'id', 'type'})
 		if params == False or (params['type'] != 'money' and params['type'] != 'other'):
@@ -200,7 +200,7 @@ def check(request):
 				'error':'BAD_REQUEST'
 			}
 		else:
-			user = User.objects.get(fb_id = userFbID)
+			user = User.objects.get(id = userID)
 			message = None
 			if params['type'] == 'money':
 				message = Message_money.objects.get(id = params['id'])
@@ -215,8 +215,8 @@ def respond(request):
 		'status':'FAIL',
 		'error':'ACCESS_FORBIDDEN'
 	}
-	userFbID = request.session.get('userFbID', False)
-	if request.POST and userFbID:
+	userID = request.session.get('id', False)
+	if request.POST and userID:
 		urlHelper = UrlHelper()
 		params = urlHelper.validate(request.POST, {'id', 'type', 'action'})
 		if params == False or (params['action'] != 'accept' and params['action'] != 'decline') or (params['type'] != 'money' and params['type'] != 'other'):
@@ -225,7 +225,7 @@ def respond(request):
 				'error':'BAD_REQUEST'
 			}
 		else:
-			user = User.objects.get(fb_id = userFbID)
+			user = User.objects.get(id = userID)
 			message = None
 			if params['type'] == 'money':
 				message = Message_money.objects.get(id = params['id'])

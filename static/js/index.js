@@ -12,7 +12,7 @@ function fbLoginDispatch() {
 			if (response.authResponse) {
 				var fbAccessToken = response.authResponse.accessToken;
 				console.log(fbAccessToken);
-				$.post(rootUrl + 'fbAuth', {accessToken:fbAccessToken, csrfmiddlewaretoken:csrfToken}, function(fbAuthResponse) {
+				$.post(rootUrl + 'login', {accessToken:fbAccessToken, csrfmiddlewaretoken:csrfToken}, function(fbAuthResponse) {
 					console.log(fbAuthResponse);
 					fbAuthResponse = jQuery.parseJSON(fbAuthResponse);
 					if (fbAuthResponse.status == 'OK') {
@@ -40,7 +40,7 @@ function initButtons() {
 			onEnd:function() {
 				if (shouldReloadPage) {
 					shouldReloadPage = false;
-					loadPage(pageNumber, userFbID, true);
+					loadPage(pageNumber, userID, true);
 					return true;
 				}
 				$(post).removeAttr('style').addClass('blue_border');
@@ -99,7 +99,7 @@ function initButtons() {
 					$.post(rootUrl + 'delete', {csrfmiddlewaretoken:csrfToken, id:postID}, function(response) {
 						response = jQuery.parseJSON(response);
 						if (response.status == 'OK') {
-							loadPage(pageNumber, userFbID, true);
+							loadPage(pageNumber, userID, true);
 						} else {
 							alert(response.error);
 						}
@@ -287,7 +287,7 @@ function initPostForm() {
 				response = jQuery.parseJSON(response);
 				if (response.status == 'OK') {
 					clearPostForm();
-					loadPage(1, userFbID, true);
+					loadPage(1, userID, true);
 				} else {
 					alert(response.error);
 				}
