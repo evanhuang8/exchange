@@ -4,7 +4,7 @@
 		<a href="{% url exchange-logout %}">Log Out</a>
 	</div>
 	<div id="account_name">
-		<a href="{% url exchange-dashboard %}">{{ user.name }}</a>
+		<a href="{% url exchange-dashboard %}">{{ user.profile.display_name }}</a>
 	</div>
 	<div id="account_profile">
 		<img src="{% if user.facebook %}https://graph.facebook.com/{{ user.facebook.fbid }}/picture{% endif %}" />
