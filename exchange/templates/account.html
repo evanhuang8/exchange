@@ -7,7 +7,7 @@
 		<a href="{% url exchange-dashboard %}">{{ user.name }}</a>
 	</div>
 	<div id="account_profile">
-		<img src="https://graph.facebook.com/{{ user.fb_id }}/picture" />
+		<img src="{% if user.facebook %}https://graph.facebook.com/{{ user.facebook.fbid }}/picture{% endif %}" />
 	</div>
 	<div id="account_notification">
 		<a href="{% url exchange-dashboard %}">{% if msgCount %}{{ msgCount }}{% else %}0{% endif %}</a>

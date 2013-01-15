@@ -314,7 +314,9 @@ function insertPost(post, owner, user) {
 	$(target).find('span.type').html(post.type);
 	$(target).find('div.post_icon').addClass(post.type);
 	$(target).find('div.post_owner_name').html(shortenName(post.owner.name));
-	$(target).find('div.post_owner_profile img').attr('src', 'https://graph.facebook.com/' + post.owner.fb_id + '/picture');
+	if (post.owner.fbid != undefined) {
+		$(target).find('div.post_owner_profile img').attr('src', 'https://graph.facebook.com/' + post.owner.fbid + '/picture');
+	}
 	$(target).find('span.want').html(post.want);
 	$(target).find('span.offer').html(post.offer);
 	if (post.type == 'money') {
@@ -334,7 +336,7 @@ function insertPost(post, owner, user) {
 	$(target).prependTo($('div#wrapper_listing'));
 } 
 
-function loadPage(page, owner_fb_id, user) {
+function loadPage(page, owner_id, user) {
 	if (page > 0) {
 		$.get(rootUrl + 'page/' + page, function(response) {
 			response = jQuery.parseJSON(response);
@@ -343,7 +345,7 @@ function loadPage(page, owner_fb_id, user) {
 					$(this).children().remove();
 					for (var i = response.posts.length - 1;i >= 0;i--) {
 						var p = response.posts[i];
-						insertPost(p, p.owner.fb_id == owner_fb_id, user);
+						insertPost(p, p.owner.id == owner_id, user);
 					}
 					$(this).append($('<div class="clear"></div>'));
 					$(this).animate({opacity:1}, 300, function() {
@@ -363,7 +365,7 @@ function loadPage(page, owner_fb_id, user) {
 					});
 				} else {
 					pageNumber--;
-					loadPage(pageNumber, owner_fb_id, user);
+					loadPage(pageNumber, owner_id, user);
 				}
 			}
 		});

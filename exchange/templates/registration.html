@@ -19,44 +19,80 @@
 <div id="wrapper_register" class="tile">
 	<div id="register_title">REGISTRATION &middot; We're almost there!</div>
 	<div id="register_content">
-		<div id="register_notify">
-			<div id="notify_title">
-				NOTIFICATION SETTINGS
+		<div id="register_community">
+			<div class="title">Choose Your Community</div>
+			<div id="community_options">
+				<div class="option">
+					<div class="left">
+						<input type="radio" name="community" value="1" checked />
+					</div>
+					<div class="middle">
+						Washington University in Saint Louis
+					</div>
+					<div class="right">
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="option">
+					<div class="left">
+						<input type="radio" name="community" value="3" />
+					</div>
+					<div class="middle">
+						Saint Louis University
+					</div>
+					<div class="right">
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="option">
+					<div class="left">
+						<input type="radio" name="community" value="3" />
+					</div>
+					<div class="middle">
+						Ohio State University
+					</div>
+					<div class="right">
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="option">
+					<div class="left">
+						<input type="radio" name="community" value="4" />
+					</div>
+					<div class="middle">
+						University of Missouri - St. Louis
+					</div>
+					<div class="right">
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="option">
+					<div class="left">
+						<input type="radio" name="community" value="5" />
+					</div>
+					<div class="middle">
+						Lindenwood University
+					</div>
+					<div class="right">
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="option">
+					<div class="left">
+						<input type="radio" name="community" value="6" />
+					</div>
+					<div class="middle">
+						Webster University
+					</div>
+					<div class="right">
+					</div>
+					<div class="clear"></div>
+				</div>
 			</div>
-			<div id="notify_phone">
-				<div class="left">
-					<input type="radio" name="notify" value="T" checked />
-				</div>
-				<div class="right">
-					<input type="text" name="phone" value="Phone Number" />
-				</div>
-				<div class="clear"></div>
-			</div>
-			<div id="notify_email">
-				<div class="left">
-					<input type="radio" name="notify" value="M" />
-				</div>
-				<div class="right">
-					<input type="text" name="email" value="Email" />
-				</div>
-				<div class="clear"></div>
-			</div>
-			<div id="notify_none">
-				<div class="left">
-					<input type="radio" name="notify" value="N" />
-				</div>
-				<div class="right">
-					I do not want to receive notifications (not recommended)
-				</div>
-				<div class="clear"></div>
+			<div id="community_more">
+				If you can't find your community, please wait - Bazaarboy will be open to all communities in early February!
 			</div>
 		</div>
-		<div id="register_disclaimer">
-			<p>Bazaarboy Swap is meant to catalyze fast-paced community transactions. If someone wants to follow up with your offer, we want this communication to happen instantly.</p>
-			<br />
-			<p>You will <b>ONLY</b> be notified when someone responds to your offers. In other words, you are not subscribing to anything that will annoy you!</p>
-		</div>
-		<div class="clear"></div>
 	</div>
 	<div id="register_submit">
 		<div class="left">
@@ -76,6 +112,7 @@
 	<div class="hidden">
 		<form id="form_register" action="{% url exchange-registration %}" method="POST">
 			{% csrf_token %}
+			<input type="hidden" name="community" />
 			<input type="hidden" name="notify_type" />
 			<input type="hidden" name="notify_value" />
 		</form>

@@ -25,58 +25,42 @@ div#register_content {
 	border-bottom:1px solid #DDBD9A;
 }
 
-div#register_notify {
-	width:300px;
-	margin-left:125px;
-	margin-right:28px;
+div#register_community {
+	width:450px;
+	margin:0 auto;
+}
+
+div#register_community div.title {
+	width:450px;
+	height:50px;
+	font-size:26px;
+	font-weight:bold;
+	text-align:center;
+}
+
+div.option {
+	width:450px;
+	height:50px;
+}
+
+div.option > div {
 	float:left;
 }
 
-div#register_notify div.left {
-	width:26px;
-	height:16px;
-	padding-top:20px;
-	float:left;
+div.option div.left {
+	margin-left:50px;
+	padding-top:4px;
 }
 
-div#register_notify div.right {
-	width:254px;
-	height:36px;
-	padding:10px 0;
-	color:#68421A;
-	float:left;
+div.option div.middle {
+	margin-left:10px;
+	font-size:20px;
 }
 
-div#register_notify div.right input[type=text] {
-	width:242px;
-}
-
-div#register_notify div.right input[type=text].invalid {
-	box-shadow:0px 0px 2px #F00;
-}
-
-div#register_notify div.right input[type=text].on {
-	color:#000;
-	font-style:normal;
-}
-
-div#notify_title {
-	width:300px;
-	height:22px;
-	padding:10px 0;
-	font-size:22px;
-}
-
-div#notify_none div.right {
-	cursor:pointer;
-}
-
-div#register_disclaimer {
-	width:300px;
-	padding-top:48px;
-	font-size:15px;
-	line-height:18px;
-	float:left;
+div#community_more {
+	width:450px;
+	text-align:center;
+	font-weight:bold;
 }
 
 div#register_submit {

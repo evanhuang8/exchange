@@ -12,28 +12,36 @@ import re
 import pdb
 
 def page(request, page = 1):
+	response = {
+		'status':'FAIL',
+		'error':'ACCESS_FORBIDDEN'
+	}
+	userID = request.session.get('id', False)
+	user = None
 	posts = []
 	paging = []
-	page = int(page)
-	pageCount = PostManager.countPage()
-	prevPage = max(1, page - 1)
-	nextPage = min(pageCount, page + 1)
-	paging = PostManager.paging(page)
-	posts = PostManager.fetch(page = page, serialized = True)
-	if posts == None or len(posts) == 0:
-		response = {
-			'status':'FAIL',
-			'error':'NO_RECORD'
-		}
-	else:
-		response = {
-			'status':'OK',
-			'posts':posts,
-			'page_count':pageCount,
-			'paging':paging,
-			'previous_page':prevPage,
-			'next_page':nextPage
-		}
+	if userID:
+		user = User.objects.get(id = userID)
+		page = int(page)
+		pageCount = PostManager.countPage(user.parent_community)
+		prevPage = max(1, page - 1)
+		nextPage = min(pageCount, page + 1)
+		paging = PostManager.paging(page, user.parent_community)
+		posts = PostManager.fetch(page, user.parent_community, serialized = True)
+		if posts == None or len(posts) == 0:
+			response = {
+				'status':'FAIL',
+				'error':'NO_RECORD'
+			}
+		else:
+			response = {
+				'status':'OK',
+				'posts':posts,
+				'page_count':pageCount,
+				'paging':paging,
+				'previous_page':prevPage,
+				'next_page':nextPage
+			}
 	return HttpResponse(json.dumps(response))
 
 def post(request):
@@ -62,14 +70,16 @@ def post(request):
 				post = Post_money(
 					owner = user,
 					want = params['want'],
-					offer = float(params['offer'])
+					offer = float(params['offer']),
+					community = user.parent_community
 				)
 				post.save()
 			elif params['type'] == 'other':
 				post = Post_other(
 					owner = user,
 					want = params['want'],
-					offer = params['offer']
+					offer = params['offer'],
+					community = user.parent_community
 				)
 				post.save()
 			response = {
@@ -133,7 +143,7 @@ def claim(request):
 			}
 		else:
 			user = User.objects.get(id = userID)
-			post = Post.objects.filter(id = params['id'], claimer = None)
+			post = Post.objects.filter(id = params['id'], claimer = None, community = user.parent_community)
 			if post.count() > 0 and post[0].owner.id != user.id:
 				post = post[0]
 				postType = PostManager.postType(post)

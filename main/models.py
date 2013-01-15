@@ -7,7 +7,7 @@ class User(models.Model):
 	active = models.BooleanField(default = True)
 	last_login = models.DateTimeField()
 	created_time = models.DateTimeField(auto_now_add = True)
-	primary_community = models.ForeignKey('Community', null = True, default = None)
+	parent_community = models.ForeignKey('Community', null = True, default = None)
 	profile = models.OneToOneField('User_profile')
 	facebook = models.OneToOneField('User_facebook', null = True)
 
@@ -80,6 +80,7 @@ class Post(models.Model):
 	approved = models.BooleanField(default = False)
 	created_time = models.DateTimeField(auto_now_add = True)
 	claimed_time = models.DateTimeField(null = True, blank = True)
+	community = models.ForeignKey('Community')
 
 class Post_money(Post):
 

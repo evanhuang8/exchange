@@ -5,6 +5,7 @@ from exchange.libraries.helpers.url import UrlHelper
 from exchange.libraries.helpers.hash import HashHelper
 from exchange.libraries.post import PostManager
 from exchange.libraries.search import SearchManager
+from django.db.models import Q
 from main.models import *
 import facebook
 import json
@@ -17,20 +18,20 @@ def index(request, page = 1):
 	user = None
 	posts = []
 	paging = []
-	page = int(page)
-	pageCount = PostManager.countPage()
-	prevPage = max(1, page - 1)
-	nextPage = min(max(pageCount, 1), page + 1)
-	posts = PostManager.fetch(page)
-	paging = PostManager.paging(page)
-	if posts == None:
-		return redirect('exchange-home')
 	if userID:
 		user = User.objects.get(id = userID)
-		if user.profile.notification == '':
+		if user.profile.notification == '' or not user.parent_community:
 			return redirect('exchange-registration')
 		else:
 			msgCount = PostManager.uncheckMessageCount(user)
+		page = int(page)
+		pageCount = PostManager.countPage(user.parent_community)
+		prevPage = max(1, page - 1)
+		nextPage = min(max(pageCount, 1), page + 1)
+		posts = PostManager.fetch(page, user.parent_community)
+		paging = PostManager.paging(page, user.parent_community)
+		if posts == None:
+			return redirect('exchange-home')
 		return render(request, 'index.html', locals())
 	else:
 		return render(request, 'landing.html', locals())
@@ -179,8 +180,10 @@ def registration(request):
 		if user.profile.notification == '':
 			if request.POST:
 				urlHelper = UrlHelper()
-				params = urlHelper.validate(request.POST, {'notify_type', 'notify_value'})
-				if params != False and (params['notify_type'] != 'text' or re.search(r'^[0-9]{10}$', params['notify_value'])) and (params['notify_type'] != 'email' or re.search(r'^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(([0-9]{1,3})|([a-zA-Z]{2,3})|(aero|coop|info|museum|name))$', params['notify_value'])):					
+				params = urlHelper.validate(request.POST, {'notify_type', 'notify_value', 'community'})
+				if params != False and (params['notify_type'] != 'text' or re.search(r'^[0-9]{10}$', params['notify_value'])) and (params['notify_type'] != 'email' or re.search(r'^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(([0-9]{1,3})|([a-zA-Z]{2,3})|(aero|coop|info|museum|name))$', params['notify_value'])) and params['community'] != '' and any(a == params['community'] for a in ['1', '2', '3', '4', '5', '6']):
+					community = Community.objects.get(id = int(params['community']))
+					user.parent_community = community
 					if params['notify_type'] == 'T':
 						user.profile.notification = 'T'
 						user.profile.phone = params['notify_value']
@@ -224,3 +227,62 @@ def search(request):
 				results = SearchManager.offerResults(query, user)
 				return render(request, 'search.html', locals())
 	return redirect('exchange-home')
+
+def searchCommunity(request):
+	response = {
+		'status':'FAIL',
+		'error':'ACCESS_FORBIDDEN'
+	}
+	if request.method == 'GET' and request.GET is not None:
+		urlHelper = UrlHelper()
+		params = urlHelper.validate(request.GET, {'keyword'})
+		if params == False:
+			response = {
+				'status':'FAIL',
+				'error':'BAD_REQUEST'
+			}
+		else:
+			communities = Community.objects.filter(Q(active = True), Q(name__icontains = params['keyword']) | Q(alias__icontains = params['keyword']))
+			response = {
+				'status':'OK',
+				'results':serialize(communities)
+			}
+	return HttpResponse(json.dumps(response))
+
+def serialize(querySet):
+	qs = list(querySet)
+	output = []
+	for data in qs:
+		community = {
+			'id':data.id,
+			'type':'top',
+			'name':data.name,
+			'description':data.description,
+			'latitude':data.latitude,
+			'longitude':data.longitude,
+			'alias':data.alias,
+			'active':data.active,
+			'verified':data.verified,
+			'created_time':data.created_time.strftime('%Y-%m-%d %X'),
+			'parent':data.parent.name if data.parent else None
+		}
+		if isinstance(data, Community_normal):
+			community['type'] = 'normal'
+		else:
+			try:
+				cType = community.Community_normal
+			except:
+				pass
+			else:
+				community['type'] = 'normal'
+		if isinstance(data, Community_school):
+			community['type'] = 'school'
+		else:
+			try:
+				cType = community.Community_school
+			except:
+				pass
+			else:
+				community['type'] = 'school'
+		output.append(community)
+	return output

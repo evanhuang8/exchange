@@ -12,11 +12,11 @@ class PostManager:
 			return Post_other
 	
 	@staticmethod
-	def fetch(page = 1, serialized = False):
+	def fetch(page, community, serialized = False):
 		startIndex = (int(page) - 1) * 12
 		posts = []
 		if startIndex >= 0:		
-			posts = Post.objects.filter(claimer = None).order_by('created_time').reverse()[startIndex:startIndex + 12]
+			posts = Post.objects.filter(claimer = None, community = community).order_by('created_time').reverse()[startIndex:startIndex + 12]
 			if posts.count() == 0 and page != 1:
 				posts = None
 			if posts and serialized:
@@ -35,7 +35,8 @@ class PostManager:
 						'type':postType,
 						'owner':{
 							'id':p.owner.id,
-							'name':p.owner.profile.display_name
+							'name':p.owner.profile.display_name,
+							'fbid':p.owner.facebook.fbid if p.owner.facebook else None
 						},
 						'want':p.want,
 						'offer':offer,
@@ -46,20 +47,20 @@ class PostManager:
 		return posts
 
 	@staticmethod
-	def countActive():
-		return Post.objects.filter(claimer = None).count()
+	def countActive(community):
+		return Post.objects.filter(claimer = None, community = community).count()
 
 	@staticmethod
-	def countPage():
-		postCount = PostManager.countActive()
+	def countPage(community):
+		postCount = PostManager.countActive(community)
 		pageCount = postCount / 12
 		if postCount % 12 != 0:
 			pageCount = pageCount + 1
 		return pageCount 
 
 	@staticmethod
-	def paging(page = 1):
-		pageCount = PostManager.countPage()
+	def paging(page, community):
+		pageCount = PostManager.countPage(community)
 		paging = []
 		page = int(page)
 		if page > 0 and pageCount != 0:

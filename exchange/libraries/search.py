@@ -15,7 +15,7 @@ class SearchManager:
 			dbwords = Keyword.objects.filter(siblings__name = keyword).order_by('siblings__weight')
 			for value in dbwords:
 				wordList.append(value.name)
-		results = Post.objects.filter(reduce(operator.or_, (Q(want__icontains = x) for x in wordList))).filter(claimer = None).exclude(owner = user)
+		results = Post.objects.filter(reduce(operator.or_, (Q(want__icontains = x) for x in wordList))).filter(claimer = None, community = user.parent_community).exclude(owner = user)
 		return list(results)
 
 	@staticmethod
@@ -29,6 +29,6 @@ class SearchManager:
 			dbwords = Keyword.objects.filter(siblings__name = keyword).order_by('siblings__weight')
 			for value in dbwords:
 				wordList.append(value.name)
-		moneyResults = Post_money.objects.filter(reduce(operator.or_, (Q(offer__icontains = x) for x in wordList))).filter(claimer = None).exclude(owner = user)
-		otherResults = Post_other.objects.filter(reduce(operator.or_, (Q(offer__icontains = x) for x in wordList))).filter(claimer = None).exclude(owner = user)
+		moneyResults = Post_money.objects.filter(reduce(operator.or_, (Q(offer__icontains = x) for x in wordList))).filter(claimer = None, community = user.parent_community).exclude(owner = user)
+		otherResults = Post_other.objects.filter(reduce(operator.or_, (Q(offer__icontains = x) for x in wordList))).filter(claimer = None, community = user.parent_community).exclude(owner = user)
 		return list(moneyResults) + list(otherResults)

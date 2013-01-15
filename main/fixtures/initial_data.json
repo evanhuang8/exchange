@@ -1,0 +1,128 @@
+[
+	{
+		"model":"main.community",
+		"pk":1,
+		"fields":{
+			"name":"Washington University in St. Louis",
+			"description":"World-renowned university in the city of Saint Louis",
+			"latitude":38.650299,
+			"longitude":-90.3134,
+			"alias":"washu",
+			"active":1,
+			"verified":1,
+			"created_time":"2012-12-12 12:12:12Z"
+		}
+	},
+	{
+		"model":"main.community_school",
+		"pk":1,
+		"fields":{
+			"email_subfix":"wustl.edu"
+		}
+	},
+	{
+		"model":"main.community",
+		"pk":2,
+		"fields":{
+			"name":"Saint Louis Univeristy",
+			"description":"Top-notch Catholic, Jesuit university in St. Louis",
+			"latitude":38.635201,
+			"longitude":-90.2314,
+			"alias":"slu",
+			"active":1,
+			"verified":1,
+			"created_time":"2012-12-12 12:12:12Z"
+		}
+	},
+	{
+		"model":"main.community_school",
+		"pk":2,
+		"fields":{
+			"email_subfix":"slu.edu"
+		}
+	},
+	{
+		"model":"main.community",
+		"pk":3,
+		"fields":{
+			"name":"Ohio State University",
+			"description":"A public research university in Columbus, Ohio",
+			"latitude":40.013401,
+			"longitude":-83.041,
+			"alias":"osu",
+			"active":1,
+			"verified":1,
+			"created_time":"2012-12-12 12:12:12Z"
+		}
+	},
+	{
+		"model":"main.community_school",
+		"pk":3,
+		"fields":{
+			"email_subfix":"osu.edu"
+		}
+	},
+	{
+		"model":"main.community",
+		"pk":4,
+		"fields":{
+			"name":"University of Missouri - St. Louis",
+			"description":"UMSO",
+			"latitude":40.013401,
+			"longitude":-83.041,
+			"alias":"umso",
+			"active":1,
+			"verified":1,
+			"created_time":"2012-12-12 12:12:12Z"
+		}
+	},
+	{
+		"model":"main.community_school",
+		"pk":4,
+		"fields":{
+			"email_subfix":"umso.edu"
+		}
+	},
+	{
+		"model":"main.community",
+		"pk":5,
+		"fields":{
+			"name":"Lindenwood University",
+			"description":"Lindenwood",
+			"latitude":40.013401,
+			"longitude":-83.041,
+			"alias":"lu",
+			"active":1,
+			"verified":1,
+			"created_time":"2012-12-12 12:12:12Z"
+		}
+	},
+	{
+		"model":"main.community_school",
+		"pk":5,
+		"fields":{
+			"email_subfix":"lu.edu"
+		}
+	},
+	{
+		"model":"main.community",
+		"pk":6,
+		"fields":{
+			"name":"Webster University",
+			"description":"Webster",
+			"latitude":40.013401,
+			"longitude":-83.041,
+			"alias":"webster",
+			"active":1,
+			"verified":1,
+			"created_time":"2012-12-12 12:12:12Z"
+		}
+	},
+	{
+		"model":"main.community_school",
+		"pk":6,
+		"fields":{
+			"email_subfix":"webster.edu"
+		}
+	}
+]
