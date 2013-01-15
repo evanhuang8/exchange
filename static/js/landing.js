@@ -23,20 +23,16 @@ $(document).ready(function() {
 		});
 		return false;
 	});
-	$('a#right_switch').click(function(){
-		if(!register){
-			$('form#right_login').fadeOut('fast',function(){
+	$('a#register_switch').click(function(){
+		$('form#right_login').fadeOut('fast',function(){
 				register = true;
-				$('form#right_register').show();
-				$('a#right_switch').html('Log In')			
-			});
-		}
-		else{
-			$('form#right_register').fadeOut('fast',function(){
+				$('form#right_register').show();			
+		});	
+	});
+	$('a#login_switch').click(function() {
+		$('form#right_register').fadeOut('fast',function(){
 				register = false;
-				$('form#right_login').show();
-				$('a#right_switch').html('Register')			
-			});
-		}	
+				$('form#right_login').show();			
+		});
 	});
 });

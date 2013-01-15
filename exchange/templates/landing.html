@@ -47,37 +47,73 @@
 	}
 	#right_logo{
 		margin: 0 auto;
-		margin-top: 50px;
 	}
 	#right_fblogin{
-		margin: 60px auto;
+		margin: 30px auto;
 		cursor: pointer;
-		margin-bottom:30px;
+		margin-bottom:10px;
+	}
+	#switch {
+		margin-top:10px;
+	}
+	#switch a {
+		text-decoration:none;
 	}
 	#right_login{
 		margin: 0 auto;
 		width: 260px;
+		height: 270px;
+		padding:0;
+	}
+	#right_login div.left {
+		float:left;
+		width:80px;
+		padding-top:20px;
+		text-align:left;
+	}
+	#right_login div.right {
+		float:left;
+		width:180px;
+		padding-top:10px;
+	}
+	#right_login div.full {
+		padding-top:10px;
 	}
 	#right_login input{
 		margin: 5px auto;
 		padding: 5px;
-		width: 250px;
+		width: 170px;
 		border: #C69C6D thin solid;
 	}
 	#right_login input[type=submit]{
 		width:262px;
 		cursor: pointer;
 	}
-
 	#right_register{
 		display:none;
 		margin: 0 auto;
 		width: 260px;
+		height: 270px;
+		padding:0;
+	}
+	#right_register div.left {
+		float:left;
+		width:80px;
+		padding-top:20px;
+		text-align:left;
+	}
+	#right_register div.right {
+		float:left;
+		width:180px;
+		padding-top:10px;
+	}
+	#right_register div.full {
+		padding-top:10px;
 	}
 	#right_register input{
 		margin: 5px auto;
 		padding: 5px;
-		width: 250px;
+		width: 170px;
 		border: #C69C6D thin solid;
 	}
 	#right_register input[type=submit]{
@@ -87,7 +123,7 @@
 	
 	#right_links{
 		color: #c69c6d;
-		margin: 50px auto;
+		margin: 10px auto;
 		font-family: helvetica;
 	}
 	#right_links a{
@@ -163,22 +199,73 @@ window.fbAsyncInit = function() {
 			<img src="{{ STATIC_URL }}images/illustartion.png" />
 		</div>
 		<div id="container_right">
+			<div>
 			<img id="right_logo" src="{{ STATIC_URL }}images/logo.png" />
+			</div>
+			<div>
 			<img id="right_fblogin" src="{{ STATIC_URL }}images/Facbeooklogin.png" />
-			<form id="right_login" name="login">
-				<input type="text" name="email" value="Email" />
-				<input type="password" name="password" value="Password" />
-				<input type="submit" name="login" value="Log In" />
-			</form>
-			<form id="right_register" name="register">
-				{% csrf_token %}
-				<input type="text" name="email" value="Email" />
-				<input type="text" name="display_name" value="Name" />
-				<input type="password" name="password" value="Password" />
-				<input type="password" name="confirm" value="Confim Password" />
-				<input type="submit" name="register" value="Register" />
-			</form>
-			<a href="javascript:;" id="right_switch">Register</a>
+			</div>
+			<div id="or">
+			Or
+			</div>
+			<div>
+				<form id="right_login">
+					<div class="left">
+						Email:
+					</div>
+					<div class="right">
+						<input type="text" name="email" />
+					</div>
+					<div class="left">
+						Password:
+					</div>
+					<div class="right">
+						<input type="password" name="password" />
+					</div>
+					<div class="clear"></div>
+					<div class="full">
+						<input type="submit" name="login" value="Log In" />
+					</div>
+					<div id="switch">
+						<a href="javascript:;" id="register_switch">Register</a>
+					</div>
+				</form>
+			</div>
+			<div>
+				<form id="right_register">
+					<div class="left">
+						Email:
+					</div>
+					<div class="right">
+						<input type="text" name="email" />
+					</div>
+					<div class="left">
+						Name:
+					</div>
+					<div class="right">
+						<input type="text" name="display_name" />
+					</div>
+					<div class="left">
+						Password:
+					</div>
+					<div class="right">
+						<input type="password" name="password" />
+					</div>
+					<div class="left">
+						Confirm:
+					</div>
+					<div class="right">
+						<input type="password" name="confirm" />
+					</div>
+					<div class="clear"></div>
+					<div class="full">
+						<input type="submit" value="Register" />
+					</div>
+					<div id="switch">
+						<a href="javascript:;" id="login_switch">Login</a>
+					</div>
+				</form>
+			</div>
 			<div id="right_links">
 				<a href="http://bazaarboy.tumblr.com/about">ABOUT</a> | <a href="http://bazaarboy.tumblr.com/">BLOG</a> | <a href="mailto:build@bazaarboy.com">CONTACT</a>
 			</div>
