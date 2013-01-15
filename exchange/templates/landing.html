@@ -5,6 +5,21 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Bazaarboy</title>
+	<script type="text/javascript">
+		var rootUrl = '{% url exchange-home %}';
+		var csrfToken = '{{ csrf_token }}';
+		function isNumber(n) {
+			return !isNaN(parseFloat(n)) && isFinite(n);
+		}
+		function shortenName(name) {
+			var sName = name;
+			var parts = name.split(' ');
+			if (parts.length > 1) {
+				sName = parts[0] + ' ' + parts[parts.length - 1].substring(0, 1) + '.';
+			}
+			return sName;
+		}
+	</script>
 
 	<script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.min.js'></script>
 
@@ -32,15 +47,47 @@
 	}
 	#right_logo{
 		margin: 0 auto;
-		margin-top: 100px;
+		margin-top: 50px;
 	}
-	#right_login{
+	#right_fblogin{
 		margin: 60px auto;
 		cursor: pointer;
+		margin-bottom:30px;
 	}
+	#right_login{
+		margin: 0 auto;
+		width: 260px;
+	}
+	#right_login input{
+		margin: 5px auto;
+		padding: 5px;
+		width: 250px;
+		border: #C69C6D thin solid;
+	}
+	#right_login input[type=submit]{
+		width:262px;
+		cursor: pointer;
+	}
+
+	#right_register{
+		display:none;
+		margin: 0 auto;
+		width: 260px;
+	}
+	#right_register input{
+		margin: 5px auto;
+		padding: 5px;
+		width: 250px;
+		border: #C69C6D thin solid;
+	}
+	#right_register input[type=submit]{
+		width:262px;
+		cursor: pointer;
+	}
+	
 	#right_links{
 		color: #c69c6d;
-		margin: 0 auto;
+		margin: 50px auto;
 		font-family: helvetica;
 	}
 	#right_links a{
@@ -55,14 +102,14 @@
 	}
 	</style>
 </head>
-
+<script type="text/javascript" src="{{ STATIC_URL }}js/landing.js"></script>
 <script type='text/javascript'>
 $(document).ready(function() {
 	fbLoginDispatch();
 });
 
 function fbLoginDispatch() {
-	$('#right_login').click(function() {
+	$('#right_fblogin').click(function() {
 		var fbPermissions = '';
 		FB.login(function(response) {
 			if (response.authResponse) {
@@ -117,9 +164,22 @@ window.fbAsyncInit = function() {
 		</div>
 		<div id='container_right'>
 			<img id='right_logo' src='{{ STATIC_URL }}images/logo.png' />
-			<img id='right_login' src='{{ STATIC_URL }}images/Facbeooklogin.png' />
+			<img id='right_fblogin' src='{{ STATIC_URL }}images/Facbeooklogin.png' />
+			<form id='right_login' name='login'>
+				<input type='text' name='email' value='' />
+				<input type='password' name='password' value='' />
+				<input type='submit' name='login' value='Log In' />
+			</form>
+			<form id='right_register' name='register'>
+				{% csrf_token %}
+				<input type='text' name='email' value='' />
+				<input type='password' name='password' value='' />
+				<input type='password' name='confirm' value='' />
+				<input type='submit' name='register' value='Register' />
+			</form>
+			<a href="javascript:;" id="right_switch">Register</a>
 			<div id='right_links'>
-				<a href='javascript:void(0)'>ABOUT</a> | <a href='javascript:void(0)'>BLOG</a> | <a href='javascript:void(0)'>CONTACT</a>
+				<a href='http://bazaarboy.tumblr.com/about'>ABOUT</a> | <a href='http://bazaarboy.tumblr.com/'>BLOG</a> | <a href='mailto:build@bazaarboy.com'>CONTACT</a>
 			</div>
 		</div>
 		<div class="clear">&nbsp;</div>

@@ -41,7 +41,7 @@ def login(request):
 		'status':'FAIL',
 		'error':'ACCESS_FORBIDDEN',
 	}
-	if request.method == 'GET' and request.GET is not None and not request.session.has_key('id'):
+	if request.method == 'GET' and request.GET is not None and not request.session.has_key('id'):		
 		urlHelper = UrlHelper()
 		params = urlHelper.validate(request.GET, {'email', 'password'})
 		if params == False:
@@ -71,9 +71,9 @@ def individualRegister(request):
 		'status':'FAIL',
 		'error':'ACCESS_FORBIDDEN',
 	}
-	if request.method == 'GET' and request.GET is not None and not request.session.has_key('id'):
+	if request.method == 'POST' and request.POST is not None and not request.session.has_key('id'):
 		urlHelper = UrlHelper()
-		params = urlHelper.validate(request.GET, {'email', 'password', 'confirm'})
+		params = urlHelper.validate(request.POST, {'email', 'password', 'confirm'})
 		if params == False:
 			response = {
 				'status':'FAIL',
