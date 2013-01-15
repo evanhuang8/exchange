@@ -33,18 +33,18 @@
 		<div id="control_want">
 			<div id="want_label">I WANT...</div>
 			<div id="want_input">
-				<input type="text" name="want" maxlength="50" value="a ride to the airport" />
+				<input type="text" name="want" maxlength="50" value="an intro to psych textbook" />
 			</div>
 		</div>
 		<div id="control_offer">
 			<div id="offer_label">I CAN OFFER...</div>
 			<div id="offer_input_money">
 				<div>$</div>
-				<input type="text" name="offer_money" maxlength="10" value="5.00" />
+				<input type="text" name="offer_money" maxlength="10" value="40.00" />
 			</div>
 			<div id="offer_or">OR</div>
 			<div id="offer_input_other">
-				<input type="text" name="offer_other" maxlength="50" value="a vintage necklace" />
+				<input type="text" name="offer_other" maxlength="50" value="a ride to schnucks" />
 			</div>
 			<div id="control_radios" class="hidden">
 				<input type="radio" name="offer" value="money" checked />
@@ -61,7 +61,7 @@
 			What is Bazaarboy Swap?
 		</div>
 		<div id="intro_swap">
-			Swap is an exclusive marketplace for Washington University!<br /><br />It is a trading platform that allows you to swap anything with community members. It all boils down to the basic question: what do you want right now? Enter a good, service or random demand. Someone in your community will help, only if the offer is fair and square.<br /><br />We're still in beta testing, so if you have any questions or comments, hit us up at: <a href="mailto:build@bazaarboy.com">build@bazaarboy.com</a>
+			Swap is an exclusive marketplace for your local community!<br /><br />It is a trading platform that allows you to swap anything with community members. It all boils down to the basic question: what do you want right now? Enter a good, service or random demand. Someone in your community will help, only if the offer is fair and square.<br /><br />We're still in beta testing, so if you have any questions or comments, hit us up at: <a href="mailto:build@bazaarboy.com">build@bazaarboy.com</a>
 		</div>
 		<div id="intro_bottom">
 			<img src="{{ STATIC_URL }}images/tent.png" />
@@ -95,7 +95,7 @@
 			<div class="post_owner">
 				<div class="post_owner_name">{{ post.owner.profile.display_name|shortenName }}</div>
 				<div class="post_owner_profile">
-					<img src="{% if post.owner.facebook %}https://graph.facebook.com/{{ post.owner.facebook.fbid }}/picture{% endif %}" />
+					<img src="{% if post.owner.facebook %}https://graph.facebook.com/{{ post.owner.facebook.fbid }}/picture{% else %}{{ STATIC_URL }}images/default.jpg{% endif %}" />
 				</div>
 				<div class="clear"></div>
 			</div>

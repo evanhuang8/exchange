@@ -196,11 +196,11 @@ function initPostContact(post) {
 
 function initPostForm() {
 	var wantBlank = true;
-	var wantDefault = 'a ride to the airport';
+	var wantDefault = 'an intro to psych textbook';
 	var moneyBlank = true;
-	var moneyDefault = '5.00';
+	var moneyDefault = '40.00';
 	var otherBlank = true;
-	var otherDefault = 'a vintage necklace';
+	var otherDefault = 'a ride to schnucks';
 	$('div#want_input input').focus(function() {
 		if (wantBlank) {
 			$(this).val('');
@@ -316,6 +316,8 @@ function insertPost(post, owner, user) {
 	$(target).find('div.post_owner_name').html(shortenName(post.owner.name));
 	if (post.owner.fbid != undefined) {
 		$(target).find('div.post_owner_profile img').attr('src', 'https://graph.facebook.com/' + post.owner.fbid + '/picture');
+	} else {
+		$(target).find('div.post_owner_profile img').attr('src', rootUrl + 'static/images/default.jpg');
 	}
 	$(target).find('span.want').html(post.want);
 	$(target).find('span.offer').html(post.offer);
