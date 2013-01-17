@@ -42,20 +42,22 @@
 		padding-right: 50px;
 		border-right:#c69c6d 2px solid;
 	}
-	#container_right{
-		width: 460px;
+	#container_right {
+		width: 300px;
 		float: left;
-		text-align:center;
+		text-align: center;
+		padding-left: 70px;
 	}
 	#right_logo{
 		margin: 0 auto;
 	}
 	#right_fblogin{
-		margin: 20px auto;
+		margin: 25px auto;
+		margin-bottom: 10px;
 		cursor: pointer;
 	}
 	#switch {
-		margin-top:2px;
+		margin-top:1px;
 		text-align:right;
 	}
 	#switch a {
@@ -132,7 +134,8 @@
 	
 	#right_links{
 		color: #c69c6d;
-		margin: 15px auto;
+		margin: 0 auto;
+		margin-top:4px;
 		font-family: helvetica;
 	}
 	#right_links a{
@@ -209,13 +212,13 @@ window.fbAsyncInit = function() {
 		</div>
 		<div id="container_right">
 			<div>
-			<img id="right_logo" src="{{ STATIC_URL }}images/logo.png" />
+			<img id="right_logo" src="{{ STATIC_URL }}images/logo_tagline.png" />
 			</div>
 			<div>
 			<img id="right_fblogin" src="{{ STATIC_URL }}images/Facbeooklogin.png" />
 			</div>
 			<div id="or">
-			Or
+			or
 			</div>
 			<div>
 				<form id="right_login">
@@ -271,7 +274,7 @@ window.fbAsyncInit = function() {
 						<input type="submit" value="" />
 					</div>
 					<div id="switch">
-						<a href="javascript:;" id="login_switch">Login</a>
+						<a href="javascript:;" id="login_switch">Return To Login</a>
 					</div>
 				</form>
 			</div>
