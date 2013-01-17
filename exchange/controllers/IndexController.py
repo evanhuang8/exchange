@@ -73,8 +73,8 @@ def individualRegister(request):
 	}
 	if request.method == 'POST' and request.POST is not None and not request.session.has_key('id'):
 		urlHelper = UrlHelper()
-		params = urlHelper.validate(request.POST, {'email', 'password', 'confirm'})
-		if params == False:
+		params = urlHelper.validate(request.POST, {'email', 'password', 'confirm', 'display_name'})
+		if params == False or params['display_name'] == '':
 			response = {
 				'status':'FAIL',
 				'error':'BAD_REQUEST'
@@ -96,7 +96,7 @@ def individualRegister(request):
 			}
 		else:
 			userProfile = User_profile(
-				display_name = 'New BBoy'
+				display_name = params['display_name']
 			)
 			userProfile.save()
 			user = User(
