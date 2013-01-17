@@ -48,7 +48,7 @@
 			<div class="post_owner">
 				<div class="post_owner_name">{{ post.owner.name|shortenName }}</div>
 				<div class="post_owner_profile">
-					<img src="https://graph.facebook.com/{{ post.owner.fb_id }}/picture" />
+					<img src="{% if post.owner.facebook %}https://graph.facebook.com/{{ post.owner.facebook.fbid }}/picture{% else %}{{ STATIC_URL }}images/default.jpg{% endif %}" />
 				</div>
 				<div class="clear"></div>
 			</div>
