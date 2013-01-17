@@ -200,7 +200,7 @@ function initPostForm() {
 	var moneyBlank = true;
 	var moneyDefault = '40.00';
 	var otherBlank = true;
-	var otherDefault = 'a ride to schnucks';
+	var otherDefault = 'a ride to the airport';
 	$('div#want_input input').focus(function() {
 		if (wantBlank) {
 			$(this).val('');
