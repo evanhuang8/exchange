@@ -25,9 +25,11 @@
 
 	<style type='text/css'>
 	body{
+		color: #333;
 		margin: 0;
 		padding: 0;
-		background-color: #f8f5f0;
+		background:url({{ STATIC_URL }}images/BckgrndTile.png) repeat;
+		font-family: helvetica;
 	}
 
 	#container{
@@ -49,15 +51,15 @@
 		margin: 0 auto;
 	}
 	#right_fblogin{
-		margin: 30px auto;
+		margin: 20px auto;
 		cursor: pointer;
-		margin-bottom:10px;
 	}
 	#switch {
-		margin-top:10px;
+		text-align:right;
 	}
 	#switch a {
-		text-decoration:none;
+		color: #333;
+		font-size:.9em;
 	}
 	#right_login{
 		margin: 0 auto;
@@ -86,8 +88,11 @@
 		border: #C69C6D thin solid;
 	}
 	#right_login input[type=submit]{
-		width:262px;
+		width:261px;
+		height: 42px;
+		background: url({{ STATIC_URL }}images/BBoyLoginButton.png);
 		cursor: pointer;
+		border:none;
 	}
 	#right_register{
 		display:none;
@@ -117,13 +122,16 @@
 		border: #C69C6D thin solid;
 	}
 	#right_register input[type=submit]{
-		width:262px;
+		width:261px;
+		height: 42px;
+		background: url({{ STATIC_URL }}images/BBoyRegisterButton.png);
+		border:none;
 		cursor: pointer;
 	}
 	
 	#right_links{
 		color: #c69c6d;
-		margin: 10px auto;
+		margin: 15px auto;
 		font-family: helvetica;
 	}
 	#right_links a{
@@ -196,7 +204,7 @@ window.fbAsyncInit = function() {
 
 	<div id="container">
 		<div id="container_left">
-			<img src="{{ STATIC_URL }}images/illustartion.png" />
+			<img src="{{ STATIC_URL }}images/Swapillo_forweb.png" />
 		</div>
 		<div id="container_right">
 			<div>
@@ -224,10 +232,10 @@ window.fbAsyncInit = function() {
 					</div>
 					<div class="clear"></div>
 					<div class="full">
-						<input type="submit" name="login" value="Log In" />
+						<input type="submit" name="login" value="" />
 					</div>
 					<div id="switch">
-						<a href="javascript:;" id="register_switch">Register</a>
+						<a href="javascript:;" id="register_switch">Create an Account</a>
 					</div>
 				</form>
 			</div>
@@ -259,7 +267,7 @@ window.fbAsyncInit = function() {
 					</div>
 					<div class="clear"></div>
 					<div class="full">
-						<input type="submit" value="Register" />
+						<input type="submit" value="" />
 					</div>
 					<div id="switch">
 						<a href="javascript:;" id="login_switch">Login</a>
