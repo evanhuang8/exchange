@@ -222,6 +222,7 @@ window.fbAsyncInit = function() {
 			</div>
 			<div>
 				<form id="right_login">
+				{% csrf_token %}
 					<div class="left">
 						Email:
 					</div>
@@ -245,6 +246,7 @@ window.fbAsyncInit = function() {
 			</div>
 			<div>
 				<form id="right_register">
+				{% csrf_token %}
 					<div class="left">
 						Email:
 					</div>
