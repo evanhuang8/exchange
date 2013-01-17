@@ -181,7 +181,7 @@ def registration(request):
 			if request.POST:
 				urlHelper = UrlHelper()
 				params = urlHelper.validate(request.POST, {'notify_type', 'notify_value', 'community'})
-				if params != False and (params['notify_type'] != 'text' or re.search(r'^[0-9]{10}$', params['notify_value'])) and (params['notify_type'] != 'email' or re.search(r'^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(([0-9]{1,3})|([a-zA-Z]{2,3})|(aero|coop|info|museum|name))$', params['notify_value'])) and params['community'] != '' and any(a == params['community'] for a in ['1', '2', '3', '4', '5', '6']):
+				if params != False and (params['notify_type'] != 'text' or re.search(r'^[0-9]{10}$', params['notify_value'])) and (params['notify_type'] != 'email' or re.search(r'^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(([0-9]{1,3})|([a-zA-Z]{2,3})|(aero|coop|info|museum|name))$', params['notify_value'])) and params['community'] != '' and any(a == params['community'] for a in ['1', '2', '3', '4', '5', '6', '7']):
 					community = Community.objects.get(id = int(params['community']))
 					user.parent_community = community
 					if params['notify_type'] == 'T':
