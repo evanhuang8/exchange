@@ -176,10 +176,6 @@ def claim(request):
 					post.claimed_time = datetime.now() 
 					post.save()
 					message.save()
-					if post.owner.notification == 'T':
-						asyncText('Someone responded to your post on Bazaarboy Swap! Check your Swap dashboard for details.', [post.owner.phone])
-					elif post.owner.notification == 'M':
-						asyncHtmlEmail('Bazaarboy Swap Notification', 'Someone in your community responded to your post on Bazaarboy Swap. Check your Swap dashboard (swap.bazaarboy.com) for details! ', [post.owner.email])
 					response = {
 						'status':'OK'
 					}

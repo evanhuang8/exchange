@@ -47,7 +47,7 @@
 					<div class="bullet_top">
 						<div class="bullet_icon swap {% if bullet.about|isMoneyPost %}money{% else %}other{% endif %}"></div>
 						<div class="bullet_profile">
-							<img src="https://graph.facebook.com/{{ bullet.about.claimer.fb_id }}/picture" />
+							<img src="{% if bullet.about.claimer.facebook.fbid %}https://graph.facebook.com/{{ bullet.about.claimer.facebook.fbid }}/picture{% else %}{{ STATIC_URL }}images/default.jpg{% endif %}" />
 						</div>
 						<div class="bullet_name">{{ bullet.about.claimer.name|shortenName }}&nbsp;</div>
 						<div class="bullet_behavior">{{ bullet|actionText }}</div>
